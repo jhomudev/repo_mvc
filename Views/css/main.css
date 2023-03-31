@@ -1,0 +1,56 @@
+@import url('https://fonts.googleapis.com/css2?family=Advent+Pro:wght@100;200;300;400;500;600;700;800&family=Montserrat:wght@100;200;300;400;500&display=swap');
+* {
+  padding: 0px;
+  margin: 0px;
+  box-sizing: border-box;
+  font-family: "Montserrat", sans-serif;
+}
+:root {
+  --c_main: #1890ff;
+  --c_darkBlue: #023047;
+  --c_blue: #0A39E4;
+  --c_gold: #ffc107;
+  --c_red: #ff0000;
+  --c_gray: #757373;
+  --c_slate: #e2e8f0;
+
+  --f-montserrat:"Montserrat", sans-serif;
+  --f-advent: 'Advent Pro', sans-serif;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  appearance: none;
+  font-weight: normal;
+  font-size: medium;
+}
+.container_main {
+  width: 100%;
+}
+.container {
+  margin: auto;
+  padding: 0 1rem;
+}
+@media screen and (min-width: 768px) {
+  .container {
+    padding: 0 2rem;
+  }
+}
+@media screen and (min-width: 1024px) {
+  .container {
+    padding: 0 4rem;
+  }
+}
+@media screen and (min-width: 1280px) {
+  .container {
+    padding: 0 5rem;
+  }
+}
+@media screen and (min-width: 1536px) {
+  .container {
+    padding: 0 6rem;
+  }
+}

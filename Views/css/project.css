@@ -1,0 +1,175 @@
+@import url(http://localhost/repo_poo/src/main.css);
+body {
+  background-color: var(--c_slate);
+}
+.header {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 1rem;
+  background-color: #fff;
+}
+.header__proyect {
+  font-size: small;
+}
+.header__titleproyect {
+  font-size: x-large;
+  font-family: var(--f-advent);
+}
+.fullname {
+  display: grid;
+  place-items: center;
+  padding: 1rem;
+  background-color: #fff;
+  margin: 1px 0 2px;
+}
+.header__nameStudent {
+  font-size: x-large;
+  font-weight: light;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+.main {
+  padding: 1rem;
+  background-color: #fff;
+}
+.detailsResult {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+.detailsresult__datestate {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 1rem;
+}
+.detailsresult__datestate strong {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 5px 10px;
+  font-size: medium;
+  background-color: var(--c_gold);
+  border-radius: 4px;
+  font-weight: 400;
+}
+.detailsresult__datestate strong i {
+  font-size: x-large;
+}
+.detailsresult__datestate p {
+  font-size: small;
+}
+.detailsresult__qualification {
+  height: min-content;
+  font-size: small;
+  padding: 5px 10px;
+  background-color: var(--c_slate);
+  border-radius: 20px;
+}
+.proyect__allContent {
+  display: flex;
+}
+.proyect {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 1em 1em 0 0;
+}
+.details{
+  transition: all .5s;
+}
+/* .proyect__info{
+  
+} */
+.proyect__btnShowContent {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border: none;
+  background: transparent;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--c_slate);
+}
+.proyect__subtitles {
+  font-size: large;
+  font-weight: 600;
+  font-family: var(--f-advent);
+}
+.proyect__btnShowContent i {
+  font-size: large;
+  transform: rotateZ(180deg);
+  transition: transform 0.3s;
+}
+.proyect__btnShowContent i.open {
+  transform: rotateZ(0);
+}
+.proyect__content {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  padding-left: 5px;
+}
+.proyect__part {
+  font-size: small;
+  font-weight: 600;
+  margin-top: 1em;
+}
+.proyect__description {
+  font-size: small;
+  font-weight: light;
+  color: var(--c_gray);
+}
+.proyect__authors {
+  margin-left: 1rem;
+}
+.proyect__author {
+  font-size: small;
+  font-weight: 500;
+  color: var(--c_gray);
+}
+.proyect__file{
+  position: relative;
+  min-height: 100vh;
+}
+.proyect__file :is(object,embed, iframe){
+  width: 100%;
+  height: 100vh;
+  box-sizing: border-box;
+  margin: 1rem 0;
+}
+.observations {
+  width: min(100%,40rem);
+  border-left: 1px solid var(--c_slate);
+}
+.observations__subtitle{
+  display:flex;
+  align-items: center;
+  gap:6px;
+  padding: 1rem;
+  font-size: large;
+  font-weight: 600;
+  font-family: var(--f-advent);
+  border-bottom: 1px solid var(--c_slate);
+}
+.observations i{
+  font-size: x-large;
+}
+.observations__content{
+  padding: 1rem;
+}
+.observations__content b{
+  display: block;
+  margin: 1rem 0;
+}
+.observations__content i{
+  display: block;
+  font-size: small;
+}
+@media screen and (max-width:960px){
+  .proyect__allContent {
+    flex-wrap: wrap;
+  }
+}

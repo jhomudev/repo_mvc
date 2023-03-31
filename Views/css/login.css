@@ -1,0 +1,78 @@
+@import url(http://localhost/repo_poo/src/main.css);
+.container_general {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+}
+.bg {
+  width: 80%;
+  background-image: url(https://sinfo.senati.edu.pe/_wfm/files/cdn/sinfo/auth/senati-login-background.jpg);
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+.section {
+  width: clamp(400px, 100%, 500px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 0 3rem;
+  margin: auto;
+}
+.section__welcome {
+  font-size: x-large;
+  font-weight: 600;
+  color:var(--c_blue);
+}
+.form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  text-align: center;
+}
+.form__title {
+  font-size: medium;
+  color:var(--c_gray)
+}
+.form__group {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  flex-wrap: nowrap;
+  border: 1px solid var(--c_gray);
+  border-radius: 4px;
+  padding: 4px 6px;
+}
+.form__group i{
+  font-size: medium;
+  color: var(--c_gray);
+}
+.form__input {
+  width: 100%;
+  font-size: small;
+  outline: none;
+  border: none;
+  padding: 8px;
+}
+.form__button {
+  width: 100%;
+  color: white;
+  background: var(--c_main);
+  border: none;
+  border-radius: 5px;
+  padding: 11px;
+  font-size: medium;
+}
+.form__button:hover{
+  filter: brightness(90%);
+}
+@media screen and (max-width: 768px) {
+  .bg {
+    display: none;
+  }
+  .section{
+    padding: 0 1em;
+  }
+}
