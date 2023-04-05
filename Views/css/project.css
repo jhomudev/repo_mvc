@@ -1,4 +1,4 @@
-@import url(http://localhost/repo_poo/src/main.css);
+@import url(http://localhost/repo_mvc/Views/css/main.css);
 body {
   background-color: var(--c_slate);
 }
@@ -141,7 +141,10 @@ body {
   margin: 1rem 0;
 }
 .observations {
+  position: sticky;
+  top: 0;
   width: min(100%,40rem);
+  height: min-content;
   border-left: 1px solid var(--c_slate);
 }
 .observations__subtitle{
