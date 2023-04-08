@@ -27,7 +27,6 @@ function sendFormFetch(e) {
         const req = await fetch(action, config);
         const res = await req.json();
         alertFetch(res);
-        // console.log(res)
       }
     } catch (error) {
       console.log(error);
@@ -55,8 +54,7 @@ function alertFetch(alert = {}) {
       confirmButtonText: "Aceptar",
     });
     toggleForm();
-  }
-  else if (alert.Alert === "reload") {
+  } else if (alert.Alert === "reload") {
     window.location.reload();
   }
 }
