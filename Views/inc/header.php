@@ -86,6 +86,7 @@
     text-decoration: none;
     font-size: 14px;
     padding: 8px 10px;
+    cursor: pointer;
   }
 
   .nav__link i {
@@ -109,7 +110,7 @@
             <a class="nav__link" href=""><i class="ph-books"></i>Todos los proyectos</a>
           </li>
           <li class="nav__item">
-            <a class="nav__link" href=""><i class="ph-sign-out"></i> Cerrar Sesión</a>
+            <a class="nav__link" id="btnLogout"><i class="ph-sign-out"></i> Cerrar Sesión</a>
           </li>
         </ul>
       </div>
