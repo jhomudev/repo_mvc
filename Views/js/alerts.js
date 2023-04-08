@@ -56,4 +56,7 @@ function alertFetch(alert = {}) {
     });
     toggleForm();
   }
+  else if (alert.Alert === "reload") {
+    window.location.reload();
+  }
 }
