@@ -6,7 +6,7 @@ class mainModel
 {
 
   // Funcion para conectar a la BD
-  protected static function connect()
+  public static function connect()
   {
     $connection = new PDO(SGBD, USER, PASS);
     $connection->exec("SET CHARACTER SET utf8");
