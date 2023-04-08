@@ -172,6 +172,7 @@
   background: var(--cl);
   color: white;
   align-self: flex-end;
+  margin-top: 10px;
 }
 .project__upload {
   display: flex;
