@@ -77,9 +77,11 @@ class loginController extends loginModel
   {
     session_name(NAMESESSION);
     session_start();
-    if ($_SESSION['tipo'] == 1) header("Location: " . SERVER_URL . "/admin");
-    if ($_SESSION['tipo'] == 2) header("Location: " . SERVER_URL . "/instructor");
-    if ($_SESSION['tipo'] == 3) header("Location: " . SERVER_URL . "/student");
+    if (isset($_SESSION['token'])) {
+      if ($_SESSION['tipo'] == 1) header("Location: " . SERVER_URL . "/admin");
+      if ($_SESSION['tipo'] == 2) header("Location: " . SERVER_URL . "/instructor");
+      if ($_SESSION['tipo'] == 3) header("Location: " . SERVER_URL . "/student");
+    }
   }
 
   // Funcion controlador para cerrar sesión
