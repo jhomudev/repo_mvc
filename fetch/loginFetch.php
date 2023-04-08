@@ -4,6 +4,7 @@ $requestFetch = true;
 
 require_once "../config/APP.php";
 
+session_name(NAMESESSION);
 session_start();
 
 if (isset($_POST['token'])) {

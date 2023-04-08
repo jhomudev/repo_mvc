@@ -15,7 +15,7 @@ $vista = $IV->getViewController();
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <link rel="shortcut icon" href="<?php echo SERVER_URL ?>/Views/assets/iconLogo.png" type="image/x-icon">
   <link href="<?php echo SERVER_URL; ?>/Views/css/<?php echo $vista; ?>.css" rel="stylesheet" />
-  <title><?php echo COMPANY ?></title>
+  <title><?php echo NAMESESSION ?></title>
 </head>
 
 <body>
@@ -23,6 +23,7 @@ $vista = $IV->getViewController();
   if ($vista == "login" || $vista == "404") {
     require_once "./Views/contents/$vista-view.php";
   } else {
+    session_name(NAMESESSION);
     session_start();
 
     require_once "Controllers/logincontroller.php";

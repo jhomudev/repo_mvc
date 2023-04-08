@@ -41,6 +41,7 @@ class loginController extends loginModel
       $data_user = $data_user->fetch();
       $data_user['token'] = md5(uniqid(mt_rand(), true));
 
+      session_name(NAMESESSION);
       session_start();
       $_SESSION = $data_user;
       if ($_SESSION['tipo'] == 1) header("Location: " . SERVER_URL . "/admin");
@@ -63,6 +64,7 @@ class loginController extends loginModel
   // Funcion controlador para forzar cierre de sesión si no esta logeado
   public function forceLogoutController()
   {
+    session_name(NAMESESSION);
     session_unset();
     session_destroy();
 
@@ -73,6 +75,7 @@ class loginController extends loginModel
   // Funcion controlador para forzar inicio de sesión si ya esta logeado
   public function forceLogin()
   {
+    session_name(NAMESESSION);
     session_start();
     if ($_SESSION['tipo'] == 1) header("Location: " . SERVER_URL . "/admin");
     if ($_SESSION['tipo'] == 2) header("Location: " . SERVER_URL . "/instructor");
