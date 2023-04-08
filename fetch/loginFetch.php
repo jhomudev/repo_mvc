@@ -6,8 +6,12 @@ require_once "../config/APP.php";
 
 session_start();
 
-if (5==5) {
-  
+if (isset($_POST['token'])) {
+  require_once "../Controllers/loginController.php";
+  $login=new loginController();
+
+  echo $login->logoutController();
+
 } else {
   session_unset();
   session_destroy();

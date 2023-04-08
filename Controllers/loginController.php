@@ -43,8 +43,9 @@ class loginController extends loginModel
 
       session_start();
       $_SESSION = $data_user;
-
-      header("Location: " . SERVER_URL . "/student");
+      if ($_SESSION['tipo'] == 1) header("Location: " . SERVER_URL . "/admin");
+      if ($_SESSION['tipo'] == 2) header("Location: " . SERVER_URL . "/instructor");
+      if ($_SESSION['tipo'] == 3) header("Location: " . SERVER_URL . "/student");
     } else {
       echo '
       <script>
@@ -69,9 +70,25 @@ class loginController extends loginModel
     else header("Location: " . SERVER_URL . "/login");
   }
 
-  // Funcion controlador para cerrar sesión
-  public function logoutController(){
-
+  // Funcion controlador para forzar inicio de sesión si ya esta logeado
+  public function forceLogin()
+  {
+    session_start();
+    if ($_SESSION['tipo'] == 1) header("Location: " . SERVER_URL . "/admin");
+    if ($_SESSION['tipo'] == 2) header("Location: " . SERVER_URL . "/instructor");
+    if ($_SESSION['tipo'] == 3) header("Location: " . SERVER_URL . "/student");
   }
 
+  // Funcion controlador para cerrar sesión
+  public static function logoutController()
+  {
+    session_unset();
+    session_destroy();
+
+    $alert = [
+      "Alert" => "reload"
+    ];
+
+    echo json_encode($alert);
+  }
 }

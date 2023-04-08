@@ -20,7 +20,7 @@
     <form action="" method="POST" class="form">
       <h2 class="form__title">Ingresa a tu cuenta</h2>
       <div class="form__group">
-        <i class="ph-user"></i><input class="form__input" type="text" name="tx_correo" value="<?php echo isset($_POST['tx_correo']) ? $_POST['tx_correo'] : ""; ?>" placeholder="Correo institucional" required />
+        <i class="ph-user"></i><input class="form__input" type="email" name="tx_correo" value="<?php echo isset($_POST['tx_correo']) ? $_POST['tx_correo'] : ""; ?>" placeholder="Correo institucional" required />
       </div>
       <div class="form__group">
         <i class="ph-lock"></i><input class="form__input" type="password" name="tx_password" value="<?php echo isset($_POST['tx_password']) ? $_POST['tx_password'] : ""; ?>" placeholder="Password" required />
@@ -30,11 +30,12 @@
   </div>
 </div>
 <?php
-if (isset($_POST['tx_correo']) && isset($_POST['tx_password'])) {
-  require_once "./Controllers/loginController.php";
 
-  $login = new loginController();
+require_once "./Controllers/loginController.php";
 
-  echo $login->loginController();
-}
+$login = new loginController();
+
+if (isset($_POST['tx_correo']) && isset($_POST['tx_password'])) echo $login->loginController();
+else echo $login->forceLogin();
+
 ?>

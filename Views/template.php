@@ -14,7 +14,6 @@ $vista = $IV->getViewController();
   <script src="https://unpkg.com/phosphor-icons"></script>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <link rel="shortcut icon" href="<?php echo SERVER_URL ?>/Views/assets/iconLogo.png" type="image/x-icon">
-  <link rel="stylesheet" href="<?php echo SERVER_URL; ?>/Views/css/main.css">
   <link href="<?php echo SERVER_URL; ?>/Views/css/<?php echo $vista; ?>.css" rel="stylesheet" />
   <title><?php echo COMPANY ?></title>
 </head>
@@ -42,5 +41,7 @@ $vista = $IV->getViewController();
 
     </div>
     <script src="<?php echo SERVER_URL; ?>/Views/js/main.js"></script>
-  <?php } ?>
+  <?php
+    include "./Views/inc/logout.php";
+  } ?>
 </body>
