@@ -41,6 +41,7 @@ $vista = $IV->getViewController();
 
     </div>
     <script src="<?php echo SERVER_URL; ?>/Views/js/main.js"></script>
+    <script src="<?php echo SERVER_URL; ?>/Views/js/alerts.js"></script>
   <?php
     include "./Views/inc/logout.php";
   } ?>

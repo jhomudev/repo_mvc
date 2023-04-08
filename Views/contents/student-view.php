@@ -1,8 +1,8 @@
 <section class="section__main">
   <main class="main container">
     <div class="top">
-      <h1>Mis proyectos</h1>
-      <a href="">Otros proyectos</a>
+      <h1>Mis trámites</h1>
+      <a href="">Ver proyectos publicados</a>
     </div>
     <hr />
     <div id="projectsBox" class="projectsBox">
@@ -50,4 +50,3 @@
   </form>
 </div>
 <script src="<?php echo SERVER_URL; ?>/Views/js/student.js"></script>
-<script src="<?php echo SERVER_URL; ?>/Views/js/alerts.js"></script>
