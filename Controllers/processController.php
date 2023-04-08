@@ -35,7 +35,7 @@ class processController extends processModel
     $hasProcess = false;
     foreach ($arrayAuthors as $author) {
       $sql_verify = "SELECT t.estudiante_id FROM tramites t
-      INNER JOIN detalle_tramite dt ON t.tramite_id=dt.tramite_id WHERE t.estudiante_id=$author AND dt.estado<>0";
+      INNER JOIN detalle_tramite dt ON t.tramite_id=dt.tramite_id WHERE t.estudiante_id=$author AND dt.estado<>8";
       $chek_process = mainModel::executeQuerySimple($sql_verify);
       if ($chek_process->rowCount() > 0) $hasProcess = true;
     }
