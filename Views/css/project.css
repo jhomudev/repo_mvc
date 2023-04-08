@@ -1,4 +1,6 @@
 @import url(http://localhost/repo_mvc/Views/css/main.css);
+@import url(http://localhost/repo_mvc/Views/css/header.css);
+
 body {
   background-color: var(--c_slate);
 }
