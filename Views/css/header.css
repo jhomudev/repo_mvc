@@ -38,7 +38,7 @@
   top: 100%;
   right: 10%;
   width: 17em;
-  height: 0;
+  max-height: 0;
   padding: 10px 0 0 0;
   background-color: var(--c_darkBlue);
   border-radius: 5px;
@@ -50,7 +50,7 @@
 .nav__bar.show {
   pointer-events: all;
   opacity: 1;
-  height: 140px;
+  max-height: 140px;
 }
 
 .nav__username {

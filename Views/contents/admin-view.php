@@ -2,7 +2,7 @@
   <main class="main container">
     <div class="top">
       <h1>Proyectos</h1>
-      <a href="">Ver proyectos publicados</a>
+      <a target="_blank" href="<?php echo SERVER_URL; ?>/repository">Ver proyectos publicados</a>
     </div>
     <hr />
     <div class="flex">

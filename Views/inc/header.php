@@ -9,10 +9,7 @@
         <span class="nav__username"><?php echo $_SESSION['nombres'] . " " . $_SESSION['apellidos'] ?></span>
         <ul class="nav__ul">
           <li class="nav__item">
-            <a class="nav__link" href=""><i class="ph-student"></i>Proyectos de mi carrera</a>
-          </li>
-          <li class="nav__item">
-            <a class="nav__link" href=""><i class="ph-books"></i>Todos los proyectos</a>
+            <a class="nav__link" target="_blank" href="<?php echo SERVER_URL; ?>/repository"><i class="ph-books"></i>Repositorio institucional</a>
           </li>
           <li class="nav__item">
             <a class="nav__link" id="btnLogout"><i class="ph-sign-out"></i> Cerrar Sesión</a>
@@ -27,10 +24,7 @@
         <span class="nav__res__username"><?php echo $_SESSION['nombres'] . " " . $_SESSION['apellidos'] ?></span>
         <ul class="nav__res__ul">
           <li class="nav__res__item">
-            <a class="nav__res__link" href="">Proyectos de mi carrera</a>
-          </li>
-          <li class="nav__res__item">
-            <a class="nav__res__link" href="<?php echo SERVER_URL; ?>/repository">Ir al repositorio</a>
+            <a class="nav__res__link" target="_blank" href="<?php echo SERVER_URL; ?>/repository">Repositorio institucional</a>
           </li>
           <li class="nav__res__item">
             <a class="nav__res__link" id="btnLogout">Cerrar Sesión</a>
