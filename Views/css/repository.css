@@ -1,5 +1,4 @@
 @import url(http://localhost/repo_mvc/Views/css/main.css);
-@import url(http://localhost/repo_mvc/Views/css/header.css);
 .headerBox {
   position: sticky;
   top: 0;
@@ -170,6 +169,7 @@
 }
 .results {
   flex: 1;
+  padding-bottom: 10px;
 }
 .results__title {
   color: var(--c_darkBlue);
@@ -247,5 +247,108 @@
   }
   .project {
     flex-direction: column;
+  }
+}
+
+/* otro */
+
+.flex {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  margin-top: 2rem;
+  color: var(--c_gray);
+}
+.projectBox {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.project__title {
+  font-size: large;
+  font-family: var(--f-advent);
+  font-weight: 600;
+  text-transform: uppercase;
+  color: var(--c_main);
+}
+.enc {
+  width: max-content;
+  padding: 7px 20px;
+  background: var(--c_darkBlue);
+  color: white;
+  border-radius: 20px;
+  font-size: small;
+  text-align: center;
+}
+.project__descri {
+  font-size: small;
+  padding: 1rem;
+  background-color: #f1f1f1;
+  border-radius: 3px;
+}
+.project__tableBox {
+  width: 100%;
+  overflow: auto;
+  padding: 10px;
+}
+.project__table {
+  display: inline-table;
+  text-align: left;
+  font-size: small;
+}
+.table__th {
+  color: var(--c_darkBlue);
+  padding: 5px 10px;
+}
+.table__link {
+  color: var(--c_main);
+  text-decoration: none;
+}
+.table__link:hover {
+  text-decoration: underline;
+}
+.others {
+  width: min(100%, 15em);
+  padding-bottom: 10px;
+}
+.others__text{
+  width: 100%;
+}
+.othersBox {
+  display: flex;
+  flex-direction: column;
+  margin-top: 10px;
+}
+.others__article {
+  display: flex;
+  flex-direction: column;
+  gap:2px;
+  padding: 1em;
+  border: 1px solid var(--c_slate);
+  border-bottom: none;
+  font-size: small;
+}
+.others__article:last-child {
+  border-bottom: 1px solid var(--c_slate);
+}
+.other__title {
+  color: var(--c_main);
+  text-decoration: none;
+  font-weight: 600;
+}
+.other__title:hover {
+  text-decoration: underline;
+}
+.others__date{
+  color: var(--c_gold);
+}
+
+@media screen and (max-width: 858px) {
+  .others{
+    width: 100%;
+  }
+  .enc{
+    width: 100%;
   }
 }
