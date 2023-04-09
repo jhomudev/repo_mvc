@@ -1,0 +1,251 @@
+@import url(http://localhost/repo_mvc/Views/css/main.css);
+@import url(http://localhost/repo_mvc/Views/css/header.css);
+.headerBox {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  width: 100%;
+  background: white;
+  box-shadow: 0 5px 15px var(--c_gray);
+  padding: 10px 0;
+}
+.header {
+  min-height: 85px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1em;
+}
+.header__logo {
+  width: 20em;
+}
+.header__imgLogo {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+.header__btnRedirect {
+  padding: 10px;
+  background-color: var(--c_gold);
+  color: white;
+  border-radius: 3px;
+  text-decoration: none;
+  text-align: center;
+  font-size: small;
+  font-weight: 600;
+}
+.presentation {
+  position: relative;
+  width: 100%;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1em;
+  background-image: linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, 0.7),
+      rgba(0, 0, 0, 0.7)
+    ),
+    url(https://www.senati.edu.pe/sites/default/files/sedes-senati-chimbote_0.jpg);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  backdrop-filter: brightness(50%);
+  text-align: center;
+  color: white;
+}
+.pres__text {
+  font-size: x-large;
+  font-family: var(--f-advent);
+}
+.pres__text span {
+  color: var(--c_main);
+  font-size: larger;
+  font-weight: 800;
+}
+.pres__paragraph {
+  width: min(100%, 60em);
+  font-size: small;
+}
+.browser {
+  position: relative;
+  width: min(100%, 40em);
+  padding: 1rem;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 1em;
+  background-color: rgba(226, 232, 240, 0.2);
+}
+.browser__inputBox {
+  flex: 1 1 20em;
+  display: flex;
+  align-items: center;
+  flex-wrap: nowrap;
+  padding: 10px 20px;
+  background: white;
+  border-radius: 20px;
+}
+.browser__input {
+  width: 100%;
+  outline: none;
+  border: none;
+}
+.browser__submit {
+  flex: 1 1 10px;
+  padding: 10px 15px;
+  background: var(--c_darkBlue);
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.flex {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  margin-top: 2rem;
+}
+.filter {
+  width: min(100%, 300px);
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+}
+.filter__group {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.filter__btnShow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 15px;
+  background: var(--c_slate);
+  border-radius: 4px;
+  font-size: small;
+  font-weight: 800;
+  border: none;
+  cursor: pointer;
+}
+.filter__nav {
+  width: 100%;
+  border: 1px solid var(--c_slate);
+  overflow: hidden;
+  transition: all 0.5s;
+}
+.filter__btnShow + .filter__nav {
+  max-height: 0;
+}
+.filter__btnShow.show + .filter__nav {
+  max-height: 80em;
+}
+.filter__nav ul {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  list-style: none;
+}
+.nav__item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px;
+  font-size: 12px;
+  text-decoration: none;
+  color: var(--c_darkBlue);
+  border: 1px solid var(--c_slate);
+}
+.nav__item:hover {
+  background-color: var(--c_slate);
+}
+.nav__item__count {
+  padding: 3px 10px;
+  background: var(--c_slate);
+  border-radius: 10px;
+  font-weight: bolder;
+}
+.results {
+  flex: 1;
+}
+.results__title {
+  color: var(--c_darkBlue);
+  font-size: medium;
+  font-weight: 800;
+}
+.results__message {
+  padding: 15px;
+  margin: 1em 0;
+  background: var(--c_darkBlue);
+  color: white;
+  font-size: small;
+  border-radius: 20px;
+}
+.projects {
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+}
+.project {
+  display: flex;
+  gap: 1em;
+  padding: 1em;
+  background-color: var(--c_slate);
+  border-radius: 10px;
+}
+.project__details {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.projetc__type {
+  font-size: medium;
+  text-transform: uppercase;
+  font-weight: 600;
+  font-family: var(--f-advent);
+}
+.project__title {
+  font-size: small;
+  font-weight: 600;
+  color: var(--c_main);
+  text-decoration: none;
+}
+.project__title:hover {
+  text-decoration: underline;
+}
+.project__authors {
+  font-size: small;
+  color: var(--c_gray);
+}
+.project__authors b{
+  color: var(--c_gold);
+}
+.project__date {
+  font-size: small;
+  font-weight: 800;
+}
+.project__description {
+  flex: 1;
+  font-size: small;
+}
+
+@media screen and (max-width: 890px) {
+  .filter {
+    width: 100%;
+  }
+}
+@media screen and (max-width: 530px) {
+  .header {
+    flex-direction: column;
+  }
+  .header__btnRedirect {
+    width: 100%;
+  }
+  .project {
+    flex-direction: column;
+  }
+}
