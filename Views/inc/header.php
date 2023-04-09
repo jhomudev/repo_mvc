@@ -30,7 +30,7 @@
             <a class="nav__res__link" href="">Proyectos de mi carrera</a>
           </li>
           <li class="nav__res__item">
-            <a class="nav__res__link" href="">Todos los proyectos</a>
+            <a class="nav__res__link" href="<?php echo SERVER_URL; ?>/repository">Ir al repositorio</a>
           </li>
           <li class="nav__res__item">
             <a class="nav__res__link" id="btnLogout">Cerrar Sesión</a>

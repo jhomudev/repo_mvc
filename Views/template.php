@@ -15,12 +15,12 @@ $vista = $IV->getViewController();
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <link rel="shortcut icon" href="<?php echo SERVER_URL ?>/Views/assets/iconLogo.png" type="image/x-icon">
   <link href="<?php echo SERVER_URL; ?>/Views/css/<?php echo $vista; ?>.css" rel="stylesheet" />
-  <title><?php echo NAMESESSION ?></title>
+  <title><?php echo COMPANY ?></title>
 </head>
 
 <body>
   <?php
-  if ($vista == "login" || $vista == "404") {
+  if ($vista == "login" || $vista == "404" || $vista == "repository") {
     require_once "./Views/contents/$vista-view.php";
   } else {
     session_name(NAMESESSION);

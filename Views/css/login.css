@@ -68,6 +68,15 @@
 .form__button:hover{
   filter: brightness(90%);
 }
+.link__repo{
+  margin-top: 1em;
+  font-size: small;
+  color: var(--c_main);
+  text-decoration: none;
+}
+.link__repo:hover{
+  text-decoration: underline;
+}
 @media screen and (max-width: 768px) {
   .bg {
     display: none;

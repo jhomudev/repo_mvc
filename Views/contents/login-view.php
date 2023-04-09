@@ -27,6 +27,7 @@
       </div>
       <input class="form__button" type="submit" value="Ingresar" />
     </form>
+    <a class="link__repo" href="<?php echo SERVER_URL; ?>/repository">Ir al repositorio institucional</a>
   </div>
 </div>
 <?php
