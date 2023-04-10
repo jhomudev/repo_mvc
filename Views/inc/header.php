@@ -12,7 +12,7 @@
             <a class="nav__link" target="_blank" href="<?php echo SERVER_URL; ?>/repository"><i class="ph-books"></i>Repositorio institucional</a>
           </li>
           <li class="nav__item">
-            <a class="nav__link" id="btnLogout"><i class="ph-sign-out"></i> Cerrar Sesión</a>
+            <a class="nav__link btnLogout"><i class="ph-sign-out"></i> Cerrar Sesión</a>
           </li>
         </ul>
       </div>
@@ -27,7 +27,7 @@
             <a class="nav__res__link" target="_blank" href="<?php echo SERVER_URL; ?>/repository">Repositorio institucional</a>
           </li>
           <li class="nav__res__item">
-            <a class="nav__res__link" id="btnLogout">Cerrar Sesión</a>
+            <a class="nav__res__link btnLogout">Cerrar Sesión</a>
           </li>
         </ul>
       </div>
