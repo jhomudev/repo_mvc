@@ -2,8 +2,45 @@
 
 require_once "mainModel.php";
 
+// Modelo trámite
 class processModel extends mainModel
 {
+  // Funcion general para obetener tramites
+  protected static function getProcessModel(array $params)
+  {
+    // $params = [
+    //   "user_type" => 1,
+    //   "user_id" => 1231,
+    //   "user_sede" => 13234,
+    //   "filter_state" => 1,
+    // ];
+    $user_type = $params['user_type'];
+    $user_id = $params['user_id'];
+    $user_sede = $params['user_sede'];
+    $filter_state = $params['filter_state'];
+
+    if ($user_type == 3) $query = "SELECT p.proyecto_id,p.titulo,p.tipo,p.descripcion,dt.estado_id FROM proyectos p INNER JOIN tramites t ON t.proyecto_id=p.proyecto_id INNER JOIN detalle_tramite dt ON dt.tramite_id=t.tramite_id WHERE t.estudiante_id=$user_id";
+
+    if ($user_type == 2) $query = "SELECT p.proyecto_id,p.titulo,p.tipo,p.descripcion,dt.estado_id FROM proyectos p INNER JOIN tramites t ON t.proyecto_id=p.proyecto_id INNER JOIN detalle_tramite dt ON dt.tramite_id=t.tramite_id WHERE dt.instructor_id=$user_id";
+
+    if ($user_type == 1) $query = "SELECT p.proyecto_id,p.titulo,p.tipo,p.descripcion,dt.estado_id FROM proyectos p INNER JOIN tramites t ON t.proyecto_id=p.proyecto_id INNER JOIN detalle_tramite dt ON dt.tramite_id=t.tramite_id INNER JOIN usuarios u ON u.sede_id=$user_sede";
+
+    if ($user_type == "all") $query = "SELECT p.proyecto_id,p.titulo,p.tipo,p.descripcion,dt.estado_id FROM proyectos p INNER JOIN tramites t ON t.proyecto_id=p.proyecto_id INNER JOIN detalle_tramite dt ON dt.tramite_id=t.tramite_id";
+
+    $process = mainModel::executeQuerySimple($query);
+
+    return $process->fetchAll();
+  }
+
+  // Funcion para obtener datos de un tramite u proyecto
+  protected static function getprocessing($project_id)
+  {
+    $query = "SELECT (SELECT nombres,apellidos FROM usuarios u INNER JOIN tramites t ON u.usuario_id=t.esrtudiante_id INNER JOIN proyectos p ON p.proyecto=t.proyecto_id WHERE p.proyecto_id=$project_id) as authors,p.proyecto_id,p.titulo,p.tipo,p.escripcion,dt.estado_id,e.nombre AS estado FROM proyectos p INNER JOIN tramites t ON t.proyecto_id=p.proyecto_id INNER JOIN dt detalle_tramite ON dt.tramite_id=t.tramite_id INNER JOIN e estados ON e.estado_id=dt.estado_id WHERE p.proyecto_id=$project_id";
+
+    $processing = mainModel::executeQuerySimple($query);
+
+    return $processing;
+  }
 
   // Función generar tramite o proceso
   protected static function generateProcessModel(array $data)
@@ -52,7 +89,7 @@ class processModel extends mainModel
 
       // Inserción de registro en la tabla detalle_tramites, detalle_tramite x estudiante
       $sql_dt = mainModel::connect()->prepare("INSERT INTO 
-      detalle_tramite(tramite_id,estado) 
+      detalle_tramite(tramite_id,estado_id) 
       VALUES(:process_id,:state)");
 
       $sql_dt->bindParam(":process_id", $procces_id, PDO::PARAM_STR);

@@ -35,7 +35,7 @@ class processController extends processModel
     $hasProcess = false;
     foreach ($arrayAuthors as $author) {
       $sql_verify = "SELECT t.estudiante_id FROM tramites t
-      INNER JOIN detalle_tramite dt ON t.tramite_id=dt.tramite_id WHERE t.estudiante_id=$author AND dt.estado<>8";
+      INNER JOIN detalle_tramite dt ON t.tramite_id=dt.tramite_id WHERE t.estudiante_id=$author AND dt.estado_id<>8 AND dt.estado_id<>5";
       $chek_process = mainModel::executeQuerySimple($sql_verify);
       if ($chek_process->rowCount() > 0) $hasProcess = true;
     }
@@ -93,5 +93,29 @@ class processController extends processModel
       ];
     }
     echo json_encode($alert);
+  }
+
+  // funcion controlador obtener usuarios
+  public function getProcessController()
+  {
+    $params = [
+      "user_type" => 3,
+      "user_id" => $_SESSION['usuario_id'],
+      "user_sede" => $_SESSION['sede_id'],
+      "filter_state" => "",
+    ];
+    $projects = processModel::getProcessModel($params);
+
+    $typePro = ["", "INNOVACIÓN", "MEJORA", "CREATIVIDAD"];
+    $stateColor = ["", "black", "orange", "purple", "blue", "red", "green", "cyan", "gray"];
+    $state = ["", "ENVIADO", "EN REVISIÓN", "PASADO", "EN SUSTENTACIÓN", "DESAPROBADO", "APROBADO", "PUBLICADO", "CANCELADO"];
+
+    foreach ($projects as $key => $proj) {
+      $projects[$key]["tipo"] = $typePro[$projects[$key]["tipo"]];
+      $projects[$key]["clr"] = $stateColor[$projects[$key]["estado_id"]];
+      $projects[$key]["estado"] = $state[$projects[$key]["estado_id"]];
+    }
+
+    return $projects;
   }
 }
