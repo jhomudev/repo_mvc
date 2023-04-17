@@ -17,12 +17,16 @@ btnCloseUserBar.addEventListener("click", (e) => {
 });
 
 // Limitar palabras de la descripción de los trámites/proyectos
-const allDescrips = document.querySelectorAll(".project__descri");
+function limitDescription() {
+  const allDescrips = document.querySelectorAll(".project__descri");
 
-allDescrips.forEach((descri) => {
-  let words = descri.textContent.split(" ");
+  allDescrips.forEach((descri) => {
+    let words = descri.textContent.split(" ");
 
-  if (words.length > 20) {
-    descri.textContent = words.slice(0, 20).join(" ") + "...";
-  }
-});
+    if (words.length > 20) {
+      descri.textContent = words.slice(0, 20).join(" ") + "...";
+    }
+  });
+}
+
+limitDescription();
