@@ -1,4 +1,19 @@
 <script>
+  // togle de barra de usuario opciones
+  const userBar = document.querySelector(".nav__bar");
+  const userBarRes = document.querySelector(".nav__res__bar");
+  const iconUser = document.getElementById("iconUser");
+  const btnCloseUserBar = document.querySelector(".nav__res__iconClose");
+
+  iconUser.addEventListener("click", (e) => {
+    toggleShowElement(userBar);
+    toggleShowElement(userBarRes);
+  });
+  btnCloseUserBar.addEventListener("click", (e) => {
+    toggleShowElement(userBar);
+    toggleShowElement(userBarRes);
+  });
+
   const buttonslogout = document.querySelectorAll('.btnLogout');
 
   buttonslogout.forEach(button => {
@@ -28,5 +43,4 @@
       });
     })
   });
-
 </script>

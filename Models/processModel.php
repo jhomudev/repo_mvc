@@ -33,13 +33,39 @@ class processModel extends mainModel
   }
 
   // Funcion para obtener datos de un tramite u proyecto
-  protected static function getprocessing($project_id)
+  protected static function getInfoProcessingModel($project_id)
   {
-    $query = "SELECT (SELECT nombres,apellidos FROM usuarios u INNER JOIN tramites t ON u.usuario_id=t.esrtudiante_id INNER JOIN proyectos p ON p.proyecto=t.proyecto_id WHERE p.proyecto_id=$project_id) as authors,p.proyecto_id,p.titulo,p.tipo,p.escripcion,dt.estado_id,e.nombre AS estado FROM proyectos p INNER JOIN tramites t ON t.proyecto_id=p.proyecto_id INNER JOIN dt detalle_tramite ON dt.tramite_id=t.tramite_id INNER JOIN e estados ON e.estado_id=dt.estado_id WHERE p.proyecto_id=$project_id";
+    // obtencion de datos de proyecto
+    $query_project = "SELECT p.proyecto_id, p.nombre_archivo, p.titulo, p.tipo, p.descripcion,t.fecha_gen, dt.estado_id, dt.nota, e.nombre AS estado 
+    FROM proyectos p 
+    INNER JOIN tramites t ON t.proyecto_id = p.proyecto_id 
+    INNER JOIN detalle_tramite dt ON dt.tramite_id = t.tramite_id 
+    INNER JOIN estados e ON e.estado_id = dt.estado_id 
+    WHERE p.proyecto_id = '$project_id' 
+    GROUP BY p.proyecto_id, p.titulo, p.tipo, p.descripcion, t.fecha_gen, dt.estado_id, dt.nota, e.nombre";
+    $processing = mainModel::executeQuerySimple($query_project);
 
-    $processing = mainModel::executeQuerySimple($query);
+    // obtención de los datos de los autores
+    $queryAuthors = "SELECT u.nombres,u.apellidos 
+    FROM usuarios u 
+    INNER JOIN tramites t ON u.usuario_id=t.estudiante_id 
+    INNER JOIN proyectos p ON p.proyecto_id=t.proyecto_id WHERE p.proyecto_id='$project_id'";
+    $authors = mainModel::executeQuerySimple($queryAuthors);
 
-    return $processing;
+    // obtención de las observaciones del proyecto
+    $queryObs = "SELECT o.descripcion,o.estado,o.fecha_gen,u.nombres,u.apellidos 
+    FROM observaciones o
+    INNER JOIN usuarios u ON u.usuario_id=o.autor_id
+    WHERE o.proyecto_id='$project_id'";
+    $obs = mainModel::executeQuerySimple($queryObs);
+
+    $data = [
+      "authors" => $authors->fetchAll(),
+      "project" => $processing->fetch(),
+      "observations" => $obs->fetchAll(),
+    ];
+
+    return $data;
   }
 
   // Función generar tramite o proceso
@@ -99,5 +125,12 @@ class processModel extends mainModel
     }
 
     return $sql_project;
+  }
+
+  // Funcion  parab editar proyecto---mejorar
+  protected static function editProjectModel(array $new_data){
+    $sql = mainModel::connect()->prepare("UPDATE proyectos SET jksjsj WHERE proyecto_id=");
+    $sql->execute();
+    return $sql;
   }
 }

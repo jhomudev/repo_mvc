@@ -26,6 +26,4 @@
       else include_once "./views/inc/projects.php";
     }
   ?>
-  <!-- aqui -->
 </div>
-<script src="<?php echo SERVER_URL; ?>/Views/js/repository.js"></script>

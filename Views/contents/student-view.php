@@ -49,4 +49,3 @@
     </button>
   </form>
 </div>
-<script src="<?php echo SERVER_URL; ?>/Views/js/student.js"></script>

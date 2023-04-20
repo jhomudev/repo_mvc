@@ -86,4 +86,3 @@
     </div>
   </main>
 </section>
-<!-- <script src="<?php echo SERVER_URL; ?>/Views/js/alerts.js"></script> -->

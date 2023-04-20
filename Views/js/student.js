@@ -4,7 +4,8 @@ const box = document.querySelector(".formBackground");
 //PETICIONES FECTH
 async function getProjects() {
   try {
-    const req = await fetch("http://localhost/repo_mvc/fetch/getProcess.php");
+    // peticion
+    const req = await fetch(`${serverURL}/fetch/getProcess.php`);
     if (req.ok) {
       const res = await req.json();
       console.log(res);
@@ -12,7 +13,8 @@ async function getProjects() {
       boxProject.innerHTML = "";
       res.forEach((project) => {
         boxProject.innerHTML += `
-        <article class="project" style="--cl:${project.clr}">   
+        <article class="project" style="--cl:${project.clr}">  
+          <a href="${serverURL}/project?id=${project.proyecto_id}" class="project__link"></a>
           <h1 class="project__title">${project.titulo}</h1>
           <h2 class="project__type">PROYECTO DE ${project.tipo}</h2>
           <p class="project__descri">${project.descripcion}</p>
@@ -26,14 +28,25 @@ async function getProjects() {
         <span>Subir proyecto</span>
       </article>
       `;
+
+      const btnUpload = document.getElementById("upload");
+      const closeForm = document.getElementById("closeForm");
+
+      btnUpload.addEventListener("click", () => toggleShowElement(box));
+      closeForm.addEventListener("click", () => toggleShowElement(box));
+
+      formsFetch.forEach((form) => {
+        form.addEventListener("submit", (e) => {
+          sendFormFetch(e, () => {
+            getProjects();
+            toggleShowElement(box);
+          });
+        });
+      });
     }
   } catch (error) {
     console.log("Ocurrio un error: " + error.message);
   }
-  const btnUpload = document.getElementById("upload");
-  btnUpload.addEventListener("click", () => toggleShowElement(box));
-  closeForm.addEventListener("click", () => toggleShowElement(box));
-  limitDescription();
 }
 
 getProjects();

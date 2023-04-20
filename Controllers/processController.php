@@ -8,7 +8,7 @@ if ($requestFetch) {
 
 class processController extends processModel
 {
-  // Función controlador generar tramite o proceso
+  // Función controlador generar tramite o proyecto
   public function generateProcessController()
   {
     $title = mainModel::clearString($_POST["tx_title"]);
@@ -95,7 +95,7 @@ class processController extends processModel
     echo json_encode($alert);
   }
 
-  // funcion controlador obtener usuarios
+  // funcion controlador obtener proyectos o tramites
   public function getProcessController()
   {
     $params = [
@@ -117,5 +117,30 @@ class processController extends processModel
     }
 
     return $projects;
+  }
+
+  // Funcion controlador obtener datos del proyecto
+  public function getInfoProcessingController()
+  {
+    // $projetc_id=$_GET['id']; no funciona el GET xq nosotros asi lo definimos, analizar bien
+    $url_actual = "http://" . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+
+    // Descomponemos la URL
+    $componentes_url = parse_url($url_actual);
+
+    // Obtenemos los valores de los parámetros
+    parse_str($componentes_url['query'], $parametros);
+
+    $project_id = $parametros['id'];
+
+    $data = processModel::getInfoProcessingModel($project_id);
+
+    $typePro = ["", "INNOVACIÓN", "MEJORA", "CREATIVIDAD"];
+    $stateColor = ["", "black", "orange", "purple", "blue", "red", "green", "cyan", "gray"];
+
+    $data['project']["tipo"] = $typePro[$data['project']["tipo"]];
+    $data['project']["clr"] = $stateColor[$data['project']["estado_id"]];
+
+    return $data;
   }
 }

@@ -1,17 +1,29 @@
+<?php
+require_once "Controllers/processController.php";
+
+$PI = new ProcessController();
+
+$data = $PI->getInfoProcessingController();
+$project = $data['project'];
+$authors = $data['authors'];
+$obs = $data['observations'];
+
+// print_r($obs);
+?>
 <header class="header">
-  <h3 class="header__proyect">PROYECTO DE INNOVACIÓN</h3>
-  <strong class="header__titleproyect">SISTEMA DE FACTURACIÓN GENÉRICO</strong>
+  <a href="<?php echo SERVER_URL; ?>/login" class="header__btnBack"><i class="ph ph-arrow-left"></i></a>
+  <h3 class="header__proyect">PROYECTO DE
+    <?php echo ($project['tipo'] == 1) ? 'INNOVACIÓN' : (($project['tipo'] == 2) ? 'MEJORA' : (($project['tipo'] == 3) ? 'CREATIVIDAD' : ''));
+    ?></h3>
+  <strong class="header__titleproyect"><?php echo $project['titulo'] ?></strong>
 </header>
-<div class="fullname">
-  <h1 class="header__nameStudent">JHONAN CALEB MUÑOZ CARRILLO</h1>
-</div>
 <main class="main">
   <div class="detailsResult">
-    <div class="detailsresult__datestate">
-      <strong><i class="ph ph-file"></i> En revisión</strong>
-      <p>Enviado 7/3/2023</p>
+    <div class="detailsResult__flex" style="--cl:<?php echo $project['clr']; ?>;">
+      <strong class="detailsResult__state"><i class="ph ph-file"></i> <?php echo $project['estado'] ?></strong>
+      <p>Enviado <?php echo $project['fecha_gen'] ?></p>
     </div>
-    <i class="detailsresult__qualification">Sin calificar</i>
+    <i class="detailsResult__qualification"><?php echo isset($project['nota']) ? $project['nota'] : 'Sin calificar' ?></i>
   </div>
   <div class="proyect__allContent">
     <section class="proyect">
@@ -23,19 +35,15 @@
         <div class="proyect__content">
           <h4 class="proyect__part">Descripción del proyecto</h4>
           <p class="proyect__description">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit.
-            Repellat quidem nulla doloremque consequuntur natus veniam,
-            eum ullam fugit corrupti ut sit voluptate sunt unde doloribus
-            blanditiis assumenda debitis magni cumque cupiditate explicabo
-            amet neque nihil consequatur iste? Doloremque corporis
-            voluptas placeat expedita delectus, esse, obcaecati laborum
-            veniam cupiditate soluta ipsum.
+            <?php echo $project['descripcion'] ?>
           </p>
           <h4 class="proyect__part">Autores</h4>
           <ul class="proyect__authors">
-            <li class="proyect__author">Jhonan Caleb Muñoz Carrillo</li>
-            <li class="proyect__author">Raquel Lapa Quispe</li>
-            <li class="proyect__author">Hinostroza Luhi</li>
+            <?php
+            foreach ($authors as $key => $author) {
+              echo '<li class="proyect__author">' . $author['nombres'] . ' ' . $author['apellidos'] . '</li>';
+            }
+            ?>
           </ul>
         </div>
       </details>
@@ -45,7 +53,7 @@
           <i class="ph ph-caret-down"></i>
         </summary>
         <div class="proyect__content">
-          <iframe src="http://localhost/repo_poo/src\uploads\files_projects\1679349789_PROYECTO DE INNOVACION.pdf" frameborder="0"></iframe>
+          <iframe src="<?php echo SERVER_URL . '/uploads/' . $project['nombre_archivo'] ?>" frameborder="0"></iframe>
           <!-- <embed src="http://localhost/repo_poo/src\uploads\files_projects\1679349789_PROYECTO DE INNOVACION.pdf" type="application/pdf"/> -->
           <!-- <object data="http://localhost/repo_poo/src\uploads\files_projects\1679349789_PROYECTO DE INNOVACION.pdf" type="application/pdf">
                   <p>Este navegador no puede mostrar el archivo PDF. <a href="ruta/archivo.pdf">Haz clic aquí para descargarlo.</a></p>
@@ -57,9 +65,25 @@
       <span class="observations__subtitle"><i class="ph ph-eye"></i> Observaciones</span>
       <div class="observations__content">
         <b>Observaciones del proyecto</b>
-        <i>Su asesor no a realizado observaciones</i>
+        <div class="observations__box">
+          <?php 
+            if(count($obs) >0){
+              foreach ($obs as $key => $ob) {
+                echo'
+                <article class="observation">
+                  <div class="observation__flex">
+                    <h3 class="observation__author">'.$ob['nombres'].' '.$ob['apellidos'].'</h3>
+                    <span class="observation__date">'.$ob['fecha_gen'].'</span>
+                  </div>
+                  <p class="observation__descri">'.$ob['descripcion'].'</p>
+                </article>
+                ';
+              }
+            }else echo '<i>EL proyecto no tiene observaciones</i>';
+          ?>
+
+        </div>
       </div>
     </aside>
   </div>
 </main>
-<script src="<?php echo SERVER_URL; ?>/Views/js/project.js"></script>

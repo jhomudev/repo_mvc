@@ -22,6 +22,11 @@ $vista = $IV->getViewController();
   <?php
   if ($vista == "login" || $vista == "404" || $vista == "repository") {
     require_once "./Views/contents/$vista-view.php";
+
+    if ($vista == "student" || $vista == "project" || $vista == "repository") {
+      echo '<script src="' . SERVER_URL . '/Views/js/main.js"></script>';
+      echo '<script src="' . SERVER_URL . '/Views/js/' . $vista . '.js"></script>';
+    }
   } else {
     session_name(NAMESESSION);
     session_start();
@@ -42,8 +47,12 @@ $vista = $IV->getViewController();
 
     </div>
     <script src="<?php echo SERVER_URL; ?>/Views/js/main.js"></script>
-    <script src="<?php echo SERVER_URL; ?>/Views/js/alerts.js"></script>
   <?php
-    include "./Views/inc/logout.php";
-  } ?>
+    if ($vista == "student" || $vista == "project") {
+      echo '<script src="' . SERVER_URL . '/Views/js/' . $vista . '.js"></script>';
+    }
+
+    include "./Views/inc/scriptHeader.php";
+  }
+  ?>
 </body>
