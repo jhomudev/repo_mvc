@@ -99,7 +99,7 @@ class processController extends processModel
   public function getProcessController()
   {
     $params = [
-      "user_type" => 3,
+      "user_type" => $_SESSION['tipo'],
       "user_id" => $_SESSION['usuario_id'],
       "user_sede" => $_SESSION['sede_id'],
       "filter_state" => "",
@@ -143,4 +143,36 @@ class processController extends processModel
 
     return $data;
   }
+
+  // Funcion controlador para cambiar estado de un tramite
+  public function changeStateProcessController(){
+    $project_id = mainModel::clearString($_POST["tx_project_id"]);
+    $new_state = mainModel::clearString($_POST["tx_new_state"]);
+
+    $change_state=processModel::changeStateProcessModel($project_id,$new_state);
+    if($new_state==2) $message="Proyecto asignado a instructor";
+    else if($new_state==3) $message="Proyecto derivado al área académica";
+    else if($new_state==4) $message="Sustentación agendada exitosamente";
+    else if($new_state==7) $message="Proyecto publicado en el repositorio";
+    else if($new_state==8) $message="Tramite cancelado. Puedes iniciar un nuevo trámite si deseas.";
+
+    /* con el rowCount() se verifica si la operación se realizó correctamente*/
+    if ($change_state->rowCount() > 0) {
+      $alert = [
+        "Alert" => "simple",
+        "title" => "Acción realizada",
+        "text" => $message,
+        "icon" => "success"
+      ];
+    } else {
+      $alert = [
+        "Alert" => "simple",
+        "title" => "Ocurrio un error inesperado...",
+        "text" => "No pudimos completar la acción",
+        "icon" => "error"
+      ];
+    }
+    echo json_encode($alert);
+  }
+
 }
