@@ -1,7 +1,7 @@
 <?php 
 // MODELO PROCESSMODEL
 
-// ....Crear un metodo estatico protegido, llamado "editProcessModel" que edite un proyecto. Recibira un array como parametro:
+// ....Crear un metodo estatico protegido, llamado "editProjectModel" que edite un proyecto. Recibira un array como parametro:
 /* $array = [
   "project_id" => "id del poryecto a editar",
   "datetime_gen" => date('Y-m-d H:i:s'),
@@ -12,11 +12,23 @@
 ]; */
 
 
-/* ....Crear un metodo estatico protegido, llamado "changeStateProcesstModel" que cambie el estado de un tramite. El metodo recibira dos parametros:
+/* ....Crear un metodo estatico protegido, llamado "changeStateProcessModel" que cambie el estado de un tramite. El metodo recibira dos parametros:
 	-proccess_id :  id del tramite a modificar
 	-new_state   :  nuevo estado a actualizar
 Este metodo editará el campo estado de la base de datos.
 */
+
+/* Crear un metodo estatico protegido, llamado "assignInstructorModel", que asigne el instructor_id en la tabla detalle_tramite. Recibirá como parámetro: 
+  -proccess_id :  id del tramite a modificar en la tabla detalle_tramite
+	-instructor_id   :  id del instructor a asignar
+*/
+
+/* Crear un metodo estatico protegido, llamado "assignProjectGradeModel" , que complete la nota en la tabla detalle_tramite despúes de la sustentación. Recibira como parametros:
+  -proccess_id    :  id del tramite a poner la nota
+	-nota  :  nota a asignar
+Recordar que los tramites pueden tener notas diferentes aunque tengan el mismo proyecto. La nota es individual x alumno/tramite 
+*/
+
 
 // MODELO OBSMODEL
 
@@ -36,5 +48,9 @@ Este metodo editará el campo estado de la base de datos.
 
 
 
-// CONTROLADORES TRAMITE PROCESO
-?>
+// CONTROLADORES 
+// Controlador proccesController
+/*  Crear metodo publico llamado "changeStateProcessController", el cual hara uso del metodo changeStateProcessModel del modelo proccessModel
+
+*/ 
+
