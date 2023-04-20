@@ -41,7 +41,7 @@ function alertFetch(alert = {}) {
 
 const formsFetch = document.querySelectorAll(".formFetch");
 
-async function sendFormFetch(e, functionToExec=(e)) {
+function sendFormFetch(e, functionToExec=(e)) {
   e.preventDefault();
 
   const data = new FormData(e.target);

@@ -1,5 +1,8 @@
 // toggle de formulario
 const box = document.querySelector(".formBackground");
+const closeForm = document.getElementById("closeForm");
+
+closeForm.addEventListener("click", () => toggleShowElement(box));
 
 //PETICIONES FECTH
 async function getProjects() {
@@ -30,16 +33,15 @@ async function getProjects() {
       `;
 
       const btnUpload = document.getElementById("upload");
-      const closeForm = document.getElementById("closeForm");
 
       btnUpload.addEventListener("click", () => toggleShowElement(box));
-      closeForm.addEventListener("click", () => toggleShowElement(box));
 
       formsFetch.forEach((form) => {
         form.addEventListener("submit", (e) => {
           sendFormFetch(e, () => {
-            getProjects();
             toggleShowElement(box);
+            form.reset();
+            getProjects();
           });
         });
       });
