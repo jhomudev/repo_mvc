@@ -48,7 +48,7 @@ $vista = $IV->getViewController();
     </div>
     <script src="<?php echo SERVER_URL; ?>/Views/js/main.js"></script>
   <?php
-    if ($vista == "student" || $vista == "project") {
+    if ($vista == "student" || $vista == "project" || $vista == "instructor") {
       echo '<script src="' . SERVER_URL . '/Views/js/' . $vista . '.js"></script>';
     }
 

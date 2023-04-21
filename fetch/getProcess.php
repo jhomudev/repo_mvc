@@ -12,7 +12,6 @@ if (isset($_SESSION["token"])) {
   $PI = new processController();
 
   $projects = $PI->getProcessController();
-  
 
   echo json_encode($projects);
 } else {

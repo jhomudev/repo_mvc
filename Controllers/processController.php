@@ -99,7 +99,7 @@ class processController extends processModel
   public function getProcessController()
   {
     $params = [
-      "user_type" => 3,
+      "user_type" => $_SESSION['tipo'],
       "user_id" => $_SESSION['usuario_id'],
       "user_sede" => $_SESSION['sede_id'],
       "filter_state" => "",
