@@ -54,10 +54,6 @@ $obs = $data['observations'];
         </summary>
         <div class="proyect__content">
           <iframe src="<?php echo SERVER_URL . '/uploads/' . $project['nombre_archivo'] ?>" frameborder="0"></iframe>
-          <!-- <embed src="http://localhost/repo_poo/src\uploads\files_projects\1679349789_PROYECTO DE INNOVACION.pdf" type="application/pdf"/> -->
-          <!-- <object data="http://localhost/repo_poo/src\uploads\files_projects\1679349789_PROYECTO DE INNOVACION.pdf" type="application/pdf">
-                  <p>Este navegador no puede mostrar el archivo PDF. <a href="ruta/archivo.pdf">Haz clic aquí para descargarlo.</a></p>
-                </object> -->
         </div>
       </details>
     </section>
@@ -66,22 +62,33 @@ $obs = $data['observations'];
       <div class="observations__content">
         <b>Observaciones del proyecto</b>
         <div class="observations__box">
-          <?php 
-            if(count($obs) >0){
-              foreach ($obs as $key => $ob) {
-                echo'
+          <?php
+          if (count($obs) > 0) {
+            foreach ($obs as $key => $ob) {
+              echo '
                 <article class="observation">
                   <div class="observation__flex">
-                    <h3 class="observation__author">'.$ob['nombres'].' '.$ob['apellidos'].'</h3>
-                    <span class="observation__date">'.$ob['fecha_gen'].'</span>
+                    <h3 class="observation__author">' . $ob['nombres'] . ' ' . $ob['apellidos'] . '</h3>
+                    <span class="observation__date">' . $ob['fecha_gen'] . '</span>
                   </div>
-                  <p class="observation__descri">'.$ob['descripcion'].'</p>
+                  <p class="observation__descri">' . $ob['descripcion'] . '</p>
                 </article>
                 ';
-              }
-            }else echo '<i>EL proyecto no tiene observaciones</i>';
-          ?>
+            }
+          } else echo '<i>EL proyecto no tiene observaciones</i>';
 
+          if ($_SESSION['tipo'] !== 3) {
+            echo '
+              <div class="newObs">
+                <button class="newObs__btnNewObs">Nueva observación</button>
+                <form action="" class="newObs__form">
+                  <textarea name="tx_newObs" class="newObs__form__textarea" id="obs" placeholder="Detalle su observación aquí"></textarea>
+                  <input type="submit" value="Enviar" class="newObs__form__submit">
+                </form>
+              </div>
+              ';
+          }
+          ?>
         </div>
       </div>
     </aside>
