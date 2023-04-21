@@ -4,7 +4,6 @@
 // ....Crear un metodo estatico protegido, llamado "editProjectModel" que edite un proyecto. Recibira un array como parametro:
 /* $array = [
   "project_id" => "id del poryecto a editar",
-  "datetime_gen" => date('Y-m-d H:i:s'),
   "title" => "nuevo titulo del proyecto",
   "type" => "nuevo tiipo de proyecto",
   "description" => "nueva descripcion del proyecto",

@@ -131,11 +131,11 @@ class processModel extends mainModel
   protected static function editProjectModel(array $new_data)
   {
     $sql = mainModel::connect()->prepare("UPDATE proyectos SET titulo = :title, tipo = :type, descripcion  = :description, nombre_archivo = :filename WHERE proyecto_id = :project_id");
-    $sql->bindParam(':title', $new_data[''], PDO::PARAM_STR);
-    $sql->bindParam(':type', $new_data[''], PDO::PARAM_INT);
-    $sql->bindParam(':description', $new_data[''], PDO::PARAM_STR);
-    $sql->bindParam(':filename', $new_data[''], PDO::PARAM_STR);
-    $sql->bindParam(':project_id', $new_data[''], PDO::PARAM_INT);
+    $sql->bindParam(':title', $new_data['title'], PDO::PARAM_STR);
+    $sql->bindParam(':type', $new_data['type'], PDO::PARAM_INT);
+    $sql->bindParam(':description', $new_data['description'], PDO::PARAM_STR);
+    $sql->bindParam(':filename', $new_data['filename'], PDO::PARAM_STR);
+    $sql->bindParam(':project_id', $new_data['project_id'], PDO::PARAM_INT);
     $sql->execute();
     return $sql;
   }
@@ -143,31 +143,30 @@ class processModel extends mainModel
   // Funcion para editar el campo estado -- yober
   protected static function changeStateProcesstModel($process_id, $new_state)
   {
-    $sql_project = mainModel::connect()->prepare("UPDATE detalle_tramite SET estado_id = :new_state WHERE project_id = :process_id"); 
+    $sql_project = mainModel::connect()->prepare("UPDATE detalle_tramite SET estado_id = :new_state WHERE tramite_id= :process_id");
     $sql_project->bindParam(":new_state", $new_state, PDO::PARAM_INT);
-    $sql_project->bindParam(":process_id", $process_id, PDO::PARAM_INT);
+    $sql_project->bindParam(":process_id", $process_id, PDO::PARAM_STR);
     $sql_project->execute();
     return $sql_project;
   }
 
   // Funcion para asignar un instructor al tramite
-  protected static function assignIstructorModel($instructor_id ) { //, $process_id) {
-    $stament = mainModel::connect()->prepare('UPDATE detalle_tramite SET instructor_id = :instructor_id ');// WHERE proccess_id = :process_id');
+  protected static function assignIstructorModel(int $instructor_id, string $process_id)
+  {
+    $stament = mainModel::connect()->prepare('UPDATE detalle_tramite SET instructor_id = :instructor_id WHERE process_id=:process_id');
     $stament->bindParam(':instructor_id', $instructor_id);
-    //$stament->binParam(':process_id', $process_id);
-    return ($stament->execute()) ? true : false;
+    $stament->bindParam(':process_id', $process_id);
+    $stament->execute();
+    return $stament;
   }
 
   // Funcion para asignar la nota
-  protected static function assignProjectGradeModel($nota ) { //, $process_id) {
-    $stament = mainModel::connect()->prepare('UPDATE detalle_tramite SET nota = :nota '); //WHERE proccess_id = :process_id');
-    //$stament = mainModel::connect()->prepare('INSERT INTO detalle_tramite (nota, proccess_id) VALUES (:nota, :proccess_id)); 
+  protected static function assignProjectGradeModel(int $nota, string $process_id)
+  {
+    $stament = mainModel::connect()->prepare('UPDATE detalle_tramite SET nota = :nota WHERE proccess_id = :process_id');
     $stament->bindParam(':nota', $nota);
-    //$stament->binParam(':process_id', $process_id);
-    return ($stament->execute()) ? true : false;
-
+    $stament->bindParam(':process_id', $process_id);
+    $stament->execute();
+    return $stament;
   }
-
-  
-
 }
