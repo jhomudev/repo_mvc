@@ -2,7 +2,7 @@
 async function getProjects() {
   try {
     // peticion
-    const req = await fetch(`${serverURL}/fetch/getProcessFetch.php`);
+    const req = await fetch(`${serverURL}/fetch/getProjectsFetch.php`);
     if (req.ok) {
       const res = await req.json();
       console.log(res);
