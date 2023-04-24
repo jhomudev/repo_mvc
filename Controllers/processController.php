@@ -76,8 +76,8 @@ class processController extends processModel
 
     $generateProcess = processModel::generateProcessModel($arrayProcess);
 
-    /* con el rowCount() se verifica si la operación se realizó correctamente*/
-    if ($generateProcess->rowCount() > 0) {
+    // $generateProcess obtiene un booleano 
+    if ($generateProcess) {
       $alert = [
         "Alert" => "clear",
         "title" => "Trámite generado",

@@ -86,8 +86,6 @@ class processModel extends mainModel
     $sql_project->bindParam(":description", $description, PDO::PARAM_STR);
     $sql_project->bindParam(":filename", $filename, PDO::PARAM_STR);
 
-    $sql_project->execute();
-
     foreach ($data["authors"] as $student) {
 
       $procces_id = $data['process_id'] . "_" . $student;
@@ -118,13 +116,14 @@ class processModel extends mainModel
       $sql_dt->execute();
     }
 
-    return $sql_project;
+    return $sql_project->execute();
   }
 
   // Funcion  parab editar proyecto---mejorar
-  protected static function editProjectModel(array $new_data){
+  protected static function editProjectModel(array $new_data)
+  {
     $sql = mainModel::connect()->prepare("UPDATE proyectos SET jksjsj WHERE proyecto_id=");
-    $sql->execute();
-    return $sql;
+
+    return $sql->execute();
   }
 }
