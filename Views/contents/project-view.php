@@ -1,14 +1,13 @@
 <?php
-require_once "Controllers/processController.php";
+require_once "Controllers/projectController.php";
 
-$PI = new ProcessController();
+$PI = new projectController();
 
-$data = $PI->getInfoProcessingController();
+$data = $PI->getInfoProjectController();
 $project = $data['project'];
 $authors = $data['authors'];
 $obs = $data['observations'];
 
-// print_r($obs);
 ?>
 <header class="header">
   <a href="<?php echo SERVER_URL; ?>/login" class="header__btnBack"><i class="ph ph-arrow-left"></i></a>
