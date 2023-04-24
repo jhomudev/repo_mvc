@@ -8,7 +8,7 @@ closeForm.addEventListener("click", () => toggleShowElement(box));
 async function getProjects() {
   try {
     // peticion
-    const req = await fetch(`${serverURL}/fetch/getProcess.php`);
+    const req = await fetch(`${serverURL}/fetch/getProcessFetch.php`);
     if (req.ok) {
       const res = await req.json();
       console.log(res);
