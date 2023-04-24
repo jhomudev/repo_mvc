@@ -6,7 +6,6 @@
   width: 100%;
   background: white;
   box-shadow: 0 5px 15px var(--c_gray);
-  padding: 10px 0;
 }
 .header {
   min-height: 85px;
@@ -244,6 +243,7 @@
   }
   .header__btnRedirect {
     width: 100%;
+    margin-bottom: 10px;
   }
   .project {
     flex-direction: column;

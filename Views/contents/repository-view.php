@@ -1,6 +1,6 @@
 <div class="container__all">
-  <div class="headerBox">
-    <header class="header container">
+  <div class="headerBox container">
+    <header class="header">
       <div class="header__logo"><img src="http://localhost/repo_mvc/Views/assets/logo.png" alt="" class="header__imgLogo"></div>
       <a class="header__btnRedirect" href="<?php echo SERVER_URL; ?>/login">¿Eres estudiante?</a>
     </header>
