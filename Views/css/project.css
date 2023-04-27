@@ -27,6 +27,9 @@ body {
   font-family: var(--f-advent);
 }
 .main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
   padding: 1rem;
   background-color: #fff;
   border-top: 1px solid var(--c_slate);
@@ -73,6 +76,7 @@ body {
 }
 .proyect__allContent {
   display: flex;
+  flex: 1;
 }
 .proyect {
   width: 100%;
@@ -112,6 +116,14 @@ body {
   flex-direction: column;
   gap: 5px;
   padding-left: 5px;
+}
+.proyect__stateInfo{
+  margin-top: 1em;
+  padding: 1em;
+  font-size: small;
+  border: 1px solid var(--cl);
+  border-radius: 5px;
+  color: var(--cl);
 }
 .proyect__part {
   font-size: small;
@@ -186,9 +198,27 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  flex-wrap: wrap;
   gap: 10px;
   margin-bottom: 5px;
+}
+.observation__data{
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.observation__form__submit{
+  color: var(--c_gray);
+  background-color: transparent;
+  cursor: pointer;
+  border: none;
+}
+.observation__form__submit:hover{
+  color: var(--c_red);
+} 
+.observation__form__submit i{
+  display:grid;
+  place-items: center;
+  font-size: large;
 }
 .observation__author{
   background-color:var(--c_gold) ;
@@ -237,9 +267,10 @@ body {
   display: flex;
 }
 .newObs__form__textarea{
+  width: 100%;
   height: 6em;
   padding: 7px;
-  resize: none;
+  resize: vertical;
   border: 1px solid var(--c_slate);
   border-radius: 5px;
   outline: none;
@@ -252,12 +283,5 @@ body {
   }
   .observations{
     width: 100%;
-  }
-}
-@media screen and (max-width:400px){
-  .observation__flex{
-    flex-direction: column;
-    align-items: start;
-    gap: 2px;
   }
 }

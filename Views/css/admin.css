@@ -23,6 +23,7 @@
   display: flex;
   gap: 1em;
   margin-top: 1rem;
+  height: max-content;
 }
 .careers {
   position: sticky;
@@ -55,16 +56,13 @@
   cursor: pointer;
 }
 .container__projects {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-}
-.filter{
   position: sticky;
   top: 10px;
   z-index: 20;
   height: max-content;
-  background-color: #fff;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
 }
 .filter ul {
   display: flex;
@@ -76,7 +74,6 @@
   position: relative;
   padding: 5px 10px;
   border: 1px solid var(--c_slate);
-  border-radius: 3px;
   text-decoration: none;
   font-size: small;
   text-transform: lowercase;
@@ -94,7 +91,7 @@
 }
 .projectsBox {
   width: 100%;
-  height: 50em;
+  height: max-content;
   overflow: auto;
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(22em, 1fr));
@@ -163,6 +160,12 @@
   font-size: small;
   margin-top: 5px;
   color: var(--c_gray);
+   /* estilos para limitar lineas de texto */
+   display: -webkit-box;
+   -webkit-box-orient: vertical;
+   overflow: hidden;
+   text-overflow: ellipsis;
+   -webkit-line-clamp: 3; /* aquí se especifica el número de líneas */
 }
 .project__state {
   padding: 7px;
@@ -204,6 +207,6 @@
   .projectsBox {
     display: flex;
     flex-direction: column;
-    padding: 10px 5px;
+    padding: 10px;
   }
 }

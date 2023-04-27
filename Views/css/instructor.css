@@ -39,7 +39,6 @@
 	position: relative;
   padding: 5px 10px;
   border: 1px solid var(--c_slate);
-  border-radius: 3px;
   text-decoration: none;
   font-size: small;
   text-transform: lowercase;
@@ -126,6 +125,12 @@
   font-size: small;
   margin-top: 5px;
   color: var(--c_gray);
+   /* estilos para limitar lineas de texto */
+   display: -webkit-box;
+   -webkit-box-orient: vertical;
+   overflow: hidden;
+   text-overflow: ellipsis;
+   -webkit-line-clamp: 3; /* aquí se especifica el número de líneas */
 }
 .project__state {
   padding: 7px;
