@@ -1,7 +1,7 @@
 <?php
 $requestFetch = false;
-require_once "./Controllers/viewController.php";
-$IV = new viewController();
+require_once "./Controllers/ViewController.php";
+$IV = new ViewController();
 $vista = $IV->getViewController();
 ?>
 <!DOCTYPE html>
@@ -31,8 +31,8 @@ $vista = $IV->getViewController();
     session_name(NAMESESSION);
     session_start();
 
-    require_once "Controllers/logincontroller.php";
-    $lc = new loginController();
+    require_once "Controllers/LoginController.php";
+    $lc = new LoginController();
 
     if (!isset($_SESSION["token"])) {
       $lc->forceLogoutController();
@@ -48,7 +48,7 @@ $vista = $IV->getViewController();
     </div>
     <script src="<?php echo SERVER_URL; ?>/Views/js/main.js"></script>
   <?php
-    if ($vista == "student" || $vista == "project" || $vista == "instructor") {
+    if ($vista == "student" || $vista == "project" || $vista == "instructor" || $vista == "admin") {
       echo '<script src="' . SERVER_URL . '/Views/js/' . $vista . '.js"></script>';
     }
 

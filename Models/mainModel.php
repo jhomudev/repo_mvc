@@ -2,7 +2,7 @@
 if ($requestFetch) require_once "../config/SERVER.php";
 else require_once "./config/SERVER.php";
 
-class mainModel
+class MainModel
 {
 
   // Funcion para conectar a la BD

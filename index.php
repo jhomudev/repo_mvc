@@ -1,6 +1,6 @@
 <?php
 require_once "./config/APP.php";
-require_once "./Controllers/viewController.php";
+require_once "./Controllers/ViewController.php";
 
-$template=new viewController();
+$template = new ViewController();
 $template->getTemplateController();

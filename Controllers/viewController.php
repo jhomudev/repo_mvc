@@ -1,7 +1,7 @@
 <?php
-require_once "./Models/viewModel.php";
+require_once "./Models/ViewModel.php";
 
-class viewController extends viewModel
+class ViewController extends ViewModel
 {
 
   // Controlador para obtener plantilla
@@ -15,7 +15,7 @@ class viewController extends viewModel
   {
     if (isset($_GET["view"])) {
       $route = explode("/", $_GET["view"]);
-      $response = viewModel::getViewModel($route[0]);
+      $response = ViewModel::getViewModel($route[0]);
     } else {
       $response = "login";
     }

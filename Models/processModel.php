@@ -1,12 +1,12 @@
 <?php
 
-require_once "projectModel.php";
+require_once "ProjectModel.php";
 
 // Modelo trámite
-class processModel extends projectModel
+class ProcessModel extends ProjectModel
 {
   // Función generar tramite o proceso
-  protected static function generateProcessModel(array $data):bool
+  protected static function generateProcessModel(array $data): bool
   {
     // Obteniendo datos del array
     $student_gen = &$data['student_gen'];
@@ -19,7 +19,7 @@ class processModel extends projectModel
     $filename = &$data['filename'];
 
     // Inserción de registro en la tabla proyectos
-    $sql_project = projectModel::createProjectModel($project_id,$title,$type,$description,$filename);
+    $sql_project = ProjectModel::createProjectModel($project_id, $title, $type, $description, $filename);
 
     foreach ($data["authors"] as $student) {
 
@@ -28,7 +28,7 @@ class processModel extends projectModel
       $student_id = &$student;
 
       // Inserción de registro en la tabla tramites, tramite x estudiante
-      $sql_process = mainModel::connect()->prepare("INSERT INTO 
+      $sql_process = MainModel::connect()->prepare("INSERT INTO 
       tramites(tramite_id,estudiante_id,estudiante_generador,proyecto_id,fecha_gen) 
       VALUES(:process_id,:student_id,:student_gen,:project_id,:datetime_gen)");
 
@@ -41,7 +41,7 @@ class processModel extends projectModel
       $sql_process->execute();
 
       // Inserción de registro en la tabla detalle_tramites, detalle_tramite x estudiante
-      $sql_dt = mainModel::connect()->prepare("INSERT INTO 
+      $sql_dt = MainModel::connect()->prepare("INSERT INTO 
       detalle_tramite(tramite_id,estado_id) 
       VALUES(:process_id,:state)");
 
@@ -54,33 +54,33 @@ class processModel extends projectModel
     return $sql_project;
   }
 
-  // Funcion para editar el campo estado
-  protected static function changeStateProcessModel($process_id, $new_state):bool
+  //! Funcion para editar el campo estado --ANALIZAR Y CORREGIR
+  protected static function changeStateProcessModel(string $project_id, int $new_state): bool
   {
-    $sql_project = mainModel::connect()->prepare("UPDATE detalle_tramite SET estado_id = :new_state WHERE tramite_id= :process_id");
+    $sql_project = MainModel::connect()->prepare("UPDATE detalle_tramite SET estado_id = :new_state WHERE tramite_id= :process_id");
     $sql_project->bindParam(":new_state", $new_state, PDO::PARAM_INT);
-    $sql_project->bindParam(":process_id", $process_id, PDO::PARAM_STR);
-    
+    $sql_project->bindParam(":process_id", $project_id, PDO::PARAM_STR);
+
     return $sql_project->execute();
   }
 
-  // Funcion para asignar un instructor al tramite
-  protected static function assignIstructorModel(int $instructor_id, string $process_id):bool
+  //! Funcion para asignar un instructor al tramite --ANALIZAR Y CORREGIR 
+  protected static function assignIstructorModel(int $instructor_id, string $project_id): bool
   {
-    $stament = mainModel::connect()->prepare('UPDATE detalle_tramite SET instructor_id = :instructor_id WHERE process_id=:process_id');
+    $stament = MainModel::connect()->prepare('UPDATE detalle_tramite SET instructor_id = :instructor_id WHERE process_id=:process_id');
     $stament->bindParam(':instructor_id', $instructor_id);
-    $stament->bindParam(':process_id', $process_id);
-    
+    $stament->bindParam(':process_id', $project_id);
+
     return $stament->execute();
   }
 
-  // Funcion para asignar la nota
-  protected static function assignProjectGradeModel(int $nota, string $process_id):bool
+  // Funcion para asignar la nota..nota distinta por alumno/tramite
+  protected static function assignProcessGradeModel(int $nota, string $process_id): bool
   {
-    $stament = mainModel::connect()->prepare('UPDATE detalle_tramite SET nota = :nota WHERE proccess_id = :process_id');
+    $stament = MainModel::connect()->prepare('UPDATE detalle_tramite SET nota = :nota WHERE proccess_id = :process_id');
     $stament->bindParam(':nota', $nota);
     $stament->bindParam(':process_id', $process_id);
-    
+
     return $stament->execute();
   }
 }

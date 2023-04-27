@@ -1,12 +1,12 @@
 <?php
 
 if ($requestFetch) {
-  require_once "./../Models/projectModel.php";
+  require_once "./../Models/ProjectModel.php";
 } else {
-  require_once "./Models/projectModel.php";
+  require_once "./Models/ProjectModel.php";
 }
 
-class projectController extends projectModel
+class ProjectController extends ProjectModel
 {
   // funcion controlador obtener proyectos o tramites
   public function getProjectsController()
@@ -15,18 +15,14 @@ class projectController extends projectModel
       "user_type" => $_SESSION['tipo'],
       "user_id" => $_SESSION['usuario_id'],
       "user_sede" => $_SESSION['sede_id'],
-      "filter_state" => "",
+      "filter_state" => (isset($_POST['filter'])?$_POST['filter']:''),
     ];
-    $projects = projectModel::getProjectsModel($params);
-
-    $typePro = ["", "INNOVACIÓN", "MEJORA", "CREATIVIDAD"];
-    $stateColor = ["", "black", "orange", "purple", "blue", "red", "green", "cyan", "gray"];
-    $state = ["", "ENVIADO", "EN REVISIÓN", "PASADO", "EN SUSTENTACIÓN", "DESAPROBADO", "APROBADO", "PUBLICADO", "CANCELADO"];
+    $projects = ProjectModel::getProjectsModel($params);
 
     foreach ($projects as $key => $proj) {
-      $projects[$key]["tipo"] = $typePro[$projects[$key]["tipo"]];
-      $projects[$key]["clr"] = $stateColor[$projects[$key]["estado_id"]];
-      $projects[$key]["estado"] = $state[$projects[$key]["estado_id"]];
+      foreach (PROJECT_TYPE as $type => $value) {
+        if ($projects[$key]['tipo'] == $value) $projects[$key]['tipo'] = $type;
+      }
     }
 
     return $projects;
@@ -46,13 +42,11 @@ class projectController extends projectModel
 
     $project_id = $parametros['id'];
 
-    $data = projectModel::getInfoProjectModel($project_id);
+    $data = ProjectModel::getInfoProjectModel($project_id);
 
-    $typePro = ["", "INNOVACIÓN", "MEJORA", "CREATIVIDAD"];
-    $stateColor = ["", "black", "orange", "purple", "blue", "red", "green", "cyan", "gray"];
-
-    $data['project']["tipo"] = $typePro[$data['project']["tipo"]];
-    $data['project']["clr"] = $stateColor[$data['project']["estado_id"]];
+    foreach (PROJECT_TYPE as $key => $value) {
+      if ($data['project']['tipo'] == $value) $data['project']['tipo'] = $key;
+    }
 
     return $data;
   }

@@ -8,11 +8,10 @@ session_name(NAMESESSION);
 session_start();
 
 if (isset($_POST['token'])) {
-  require_once "../Controllers/loginController.php";
-  $login=new loginController();
+  require_once "../Controllers/LoginController.php";
+  $login = new LoginController();
 
   echo $login->logoutController();
-
 } else {
   session_unset();
   session_destroy();

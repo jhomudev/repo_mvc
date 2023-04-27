@@ -32,11 +32,11 @@
 </div>
 <?php
 
-require_once "./Controllers/loginController.php";
+require_once "./Controllers/LoginController.php";
 
-$login = new loginController();
+$login = new LoginController();
 
-if (isset($_POST['tx_correo']) && isset($_POST['tx_password'])) echo $login->loginController();
+if (isset($_POST['tx_correo']) && isset($_POST['tx_password'])) echo $login->LoginController();
 else echo $login->forceLogin();
 
 ?>
