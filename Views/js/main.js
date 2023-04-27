@@ -36,12 +36,19 @@ function alertFetch(alert = {}) {
     });
   } else if (alert.Alert === "reload") {
     window.location.reload();
+  } else if (alert.Alert === "alert&reload") {
+    Swal.fire({
+      icon: alert.icon,
+      title: alert.title,
+      text: alert.text,
+      confirmButtonText: "Aceptar",
+    }).then((e) => window.location.reload());
   }
 }
 
 const formsFetch = document.querySelectorAll(".formFetch");
 
-function sendFormFetch(e, functionToExec=(e)) {
+function sendFormFetch(e, functionToExec = e) {
   e.preventDefault();
 
   const data = new FormData(e.target);
@@ -67,6 +74,7 @@ function sendFormFetch(e, functionToExec=(e)) {
       if (result.isConfirmed) {
         const req = await fetch(action, config);
         const res = await req.json();
+        console.log(res);
         alertFetch(res);
         if (functionToExec !== "undefined" || functionToExec !== null)
           functionToExec();
