@@ -31,7 +31,7 @@ async function getProjects() {
     boxProject.innerHTML = "";
     res.forEach((project) => {
       boxProject.innerHTML += `
-        <article class="project" style="--cl:${project.clr}">  
+        <article class="project" style="--cl:${project.color}">  
           <a href="${serverURL}/project?id=${project.proyecto_id}" class="project__link"></a>
           <h1 class="project__title">${project.titulo}</h1>
           <h2 class="project__type">PROYECTO DE ${project.tipo}</h2>
