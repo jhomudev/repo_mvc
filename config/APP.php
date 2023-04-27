@@ -6,3 +6,5 @@
   const NAMESESSION="Upload_Sen_session";
 
   date_default_timezone_set("America/Lima");
+
+  require_once "DEFINITIONS.php";
