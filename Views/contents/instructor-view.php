@@ -8,11 +8,11 @@
     <div class="container__projects">
       <nav class="filter">
         <ul>
-          <li><a class="filter__item" href="" data-state="">Todos</a></li>
-          <li><a class="filter__item" href="" data-state="">Por revisar</a></li>
-          <li><a class="filter__item" href="" data-state="">Observados</a></li>
-          <li><a class="filter__item" href="" data-state="">Aprobados</a></li>
-          <li><a class="filter__item" href="" data-state="">Desaprobados</a></li>
+          <li><button class="filter__item" data-state="">Todos</button></li>
+          <li><button class="filter__item" data-state="1">Por revisar</button></li>
+          <li><button class="filter__item" data-state="obs">Observados</button></li>
+          <li><button class="filter__item" data-state="6">Aprobados</button></li>
+          <li><button class="filter__item" data-state="5">Desaprobados</button></li>
         </ul>
       </nav>
       <div id="projectsBox" class="projectsBox">
