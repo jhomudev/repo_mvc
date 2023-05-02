@@ -400,7 +400,6 @@ class ProcessController extends ProcessModel
 
     $stm_schedule = ProcessModel::scheduleProjectPresentationModel($data);
 
-
     // Envio de correo a estudiantes autores
     foreach ($authors_mails as $key => $author_mail) {
       $message = "Buenos días. Su proyecto fue agendado para sustentación en la siguiente fecha: \n $fecha_sustentacion\n Por favor, llegar a la hora indicada o minutos antes.";
@@ -424,6 +423,47 @@ class ProcessController extends ProcessModel
         "Alert" => "simple",
         "title" => "Opps...Al parece ocurrió un error",
         "text" => "No se agendó la sustentación.",
+        "icon" => "error"
+      ];
+    }
+
+    echo json_encode($alert);
+    exit();
+  }
+
+  // Funcion controlador para subir proyecto a repo/ no tiene metodo model
+  public function uploadProjectController()
+  {
+    $project_id = MainModel::clearString($_POST['proyecto_id']);
+    $new_state = 6;
+
+    if (empty($project_id)) {
+      $alert = [
+        "Alert" => "simple",
+        "title" => "Projecto no definido",
+        "text" => "No se encontró el proyecto",
+        "icon" => "error"
+      ];
+
+      echo json_encode($alert);
+      exit();
+    }
+
+    // cambio de estado a publicado
+    $stm = ProcessModel::changeStateProcessModel($new_state,$project_id);
+
+    if ($stm) {
+      $alert = [
+        "Alert" => "alert&reload",
+        "title" => "Proyecto publicado",
+        "text" => "El proyecto se publicó en el repositorio.",
+        "icon" => "success"
+      ];
+    } else {
+      $alert = [
+        "Alert" => "simple",
+        "title" => "Opps...Al parece ocurrió un error",
+        "text" => "El proyecto no se logró publicar.",
         "icon" => "error"
       ];
     }
