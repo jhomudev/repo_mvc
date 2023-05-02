@@ -7,6 +7,7 @@ $data = $PI->getInfoProjectController();
 $project = $data['project'];
 $authors = $data['authors'];
 $obs = $data['observations'];
+$juries = $data['juries'];
 
 echo '
   <script>
@@ -49,7 +50,7 @@ else if ($_SESSION['tipo'] == USER_TYPE['student']) {
         <form action="<?php echo SERVER_URL; ?>/fetch/asignInsFetch.php" method="POST" class="da__form formFetch">
           <div class="da__form__group">
             <label for="instructor__name" class="da__form__label">Asesor de proyecto</label>
-            <input type="hidden" name="project_id" class="da__form__input" value="<?php echo $project['proyecto_id']; ?>" <?php echo ($project['estado_id'] > 2) ? 'disabled' : ''; ?>>
+            <input type="hidden" name="project_id" value="<?php echo $project['proyecto_id']; ?>">
             <input id="instructor__name" type="text" name="instructor_id" class="da__form__input" list="list__instructors" value="<?php echo (isset($project['instructor_id']) ? $project['instructor_id'] : ''); ?>" placeholder="Escriba el id o nombre del instructor" <?php echo ($project['estado_id'] > 2) ? 'disabled' : ''; ?>>
             <?php if ($project['estado_id'] > 2) echo '<div class="da__form__ins"><p>' . $project['instructor'] . '</p></div>'; ?>
             <datalist id="list__instructors">
@@ -66,10 +67,31 @@ else if ($_SESSION['tipo'] == USER_TYPE['student']) {
           if ($project['estado_id'] <= 2) echo '<input type="submit" value="Delegar asesor" class="da__form__submit">';
           ?>
         </form>
-        <br>
         <div class="da__form__group">
-          <label for="instructor__name" class="da__form__label">Calificaciones</label>
+          <form action="<?php echo SERVER_URL; ?>/fetch/schedulePresFetch.php" method="POST" class="da__form formFetch">
+            <label class="da__form__label">Detalles de sustentación</label>
+            <?php
+            if ($project['estado_id']>=3) {
+            ?>
+              <input type="hidden" name="carrera_id" value="<?php echo $project['carrera_id']; ?>">
+              <input type="hidden" name="proyecto_id" value="<?php echo $project['proyecto_id']; ?>">
+              <label class="da__form__label_sub">Jurados</label>
+              <input type="text" name="jurados" class="da__form__input" value="<?php echo (isset($juries)) ? implode(', ', $juries) : ''; ?>" decimal <?php echo ($project['estado_id'] > 3) ? 'disabled' : ''; ?>>
+              <label class="da__form__label_sub">Fecha</label>
+              <input type="date" name="fecha" class="da__form__input" value="<?php echo (isset($project['fecha_sustentacion'])) ? date('Y-m-d', strtotime($project['fecha_sustentacion'])) : ''; ?>" <?php echo ($project['estado_id'] > 3) ? 'disabled' : ''; ?>>
+              <label class="da__form__label_sub">Hora</label>
+              <input type="time" name="hora" class="da__form__input" value="<?php echo (isset($project['fecha_sustentacion'])) ? date('H:i', strtotime($project['fecha_sustentacion'])) : ''; ?>" <?php echo ($project['estado_id'] > 3) ? 'disabled' : ''; ?>>
+              <?php
+              if ($project['estado_id'] == 3) echo '<input type="submit" value="Agendar sustentación" class="da__form__submit">';
+              ?>
+            <?php
+            }else echo '<div class="da__form__ins"><p>No puede agendar la sustentación aún</p></div>';
+            ?>
+          </form>
+        </div>
+        <div class="da__form__group">
           <?php
+          echo '<label for="instructor__name" class="da__form__label">Calificaciones</label>';
           if ($project['estado_id'] < 4) {
             echo '<div class="da__form__ins"><p>No puede asignar las notas aún</p></div>';
           } else if ($project['estado_id'] >= 4) {

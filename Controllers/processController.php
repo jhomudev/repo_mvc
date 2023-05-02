@@ -313,13 +313,15 @@ class ProcessController extends ProcessModel
   }
 
   // Funcion controlador para agendar sustentación y asignar jurados
-  public function scheduleProjectPresentationController(string $toMail)
+  public function scheduleProjectPresentationController()
   {
     $project_id = MainModel::clearString($_POST['proyecto_id']);
+    $carrera_id = MainModel::clearString($_POST['carrera_id']);
     $jurados = MainModel::clearString($_POST['jurados']);
-    $fecha_sustentacion = MainModel::clearString($_POST['fecha_sustentacion']);
+    $fecha = MainModel::clearString($_POST['fecha']);
+    $hora = MainModel::clearString($_POST['hora']);
 
-    if (empty($project_id) || empty($fecha_sustentacion) || empty($jurados)) {
+    if (empty($project_id) || empty($fecha) || empty($hora)  || empty($jurados)) {
       $alert = [
         "Alert" => "simple",
         "title" => "Campos vacios",
@@ -331,23 +333,75 @@ class ProcessController extends ProcessModel
       exit();
     }
 
-    // obtención de archivo de proyecto
-    $file = MainModel::executeQuerySimple("SELECT nombre_archivo FROM proyectos WHERE proyecto_id=$project_id");
-    $file = SERVER_URL . "/uploads/" . $file->fetchColumn();
+    // obtención de archivo , instructor_id y carrera_id de proyecto 
+    $project = ProjectModel::getInfoProjectModel($project_id);
 
-    // obtenación de corres de estudiantes
+    $instructor_id = $project['project']['instructor_id'];
+    $file = SERVER_URL . "/uploads/" . $project['project']['nombre_archivo'];
+
+    if ($carrera_id != $project['project']['carrera_id']) {
+      $alert = [
+        "Alert" => "simple",
+        "title" => "Jurado de otra carrera",
+        "text" => "Los jurados deben pertenecer a la misma carrera del proyecto.",
+        "icon" => "error"
+      ];
+
+      echo json_encode($alert);
+      exit();
+    }
+
+    $f_actual = new DateTime();
+    $fecha_sustentacion =  new DateTime($fecha . ' ' . $hora);
+    $diff_dates = $f_actual->diff($fecha_sustentacion)->days;
+    if ($diff_dates < 4) {
+      $alert = [
+        "Alert" => "simple",
+        "title" => "Fecha inválida",
+        "text" => "La fecha de agenda no puede ser menor de 4 dias a la fecha actual",
+        "icon" => "error"
+      ];
+
+      echo json_encode($alert);
+      exit();
+    }
+
+    // obtenación de correos de estudiantes
     $authors_mails = MainModel::executeQuerySimple("SELECT correo FROM usuarios u 
     INNER JOIN tramites t ON u.usuario_id=t.estudiante_id
-    WHERE  t.proyecto_id=$project_id")->fetchAll();
+    WHERE  t.proyecto_id='$project_id'")->fetchAll();
 
     // Obtencion de correo de jurados
     $array_ids_juries = explode(",", $jurados);
 
     $juries_mails = [];
     foreach ($array_ids_juries as $key => $id_jury) {
+      if ($id_jury == $instructor_id) {
+        $alert = [
+          "Alert" => "simple",
+          "title" => "Asesor como jurado",
+          "text" => "El asesor del proyecto no puede ser un jurado. Por favor asigne a otro jurado.",
+          "icon" => "error"
+        ];
+
+        echo json_encode($alert);
+        exit();
+      }
+
       $mail = MainModel::executeQuerySimple("SELECT correo FROM usuarios WHERE usuario_id=$id_jury");
       array_push($juries_mails, $mail->fetchColumn());
     }
+
+    // data para agenda
+    $fecha_sustentacion = $fecha_sustentacion->format('Y-m-d H:i:s');
+    $data = [
+      "project_id" => $project_id,
+      "jurados" => $jurados,
+      "fecha_sustentacion" => $fecha_sustentacion,
+    ];
+
+    $stm_schedule = ProcessModel::scheduleProjectPresentationModel($data);
+
 
     // Envio de correo a estudiantes autores
     foreach ($authors_mails as $key => $author_mail) {
@@ -357,19 +411,10 @@ class ProcessController extends ProcessModel
     // Envio de correo a jurados
     foreach ($juries_mails as $key => $jury_mail) {
       $message = "Buenos días. A sido elegido como jurado para la sustentación de un proyecto. La fecha de la sustentación es la siguiente:\n  $fecha_sustentacion\n Por favor, llegar a la hora indicada o minutos antes. En caso de no presentarse, recibirá una sanción.";
-      $stm_mail_jury= MainModel::sendMail($jury_mail, "DELEGACIÓN COMO JURADO", $message, $file);
+      $stm_mail_jury = MainModel::sendMail($jury_mail, "DELEGACIÓN COMO JURADO", $message, $file);
     }
 
-    // data para agenda
-    $data = [
-      "project_id" => $project_id,
-      "jurados" => $jurados,
-      "fecha_sustentacion" => $fecha_sustentacion,
-    ];
-
-    $stm_schedule = ProcessModel::scheduleProjectPresentationModel($data);
-
-    if ($stm_schedule /* && $stm_mail_jury && $stm_mail_student */) {
+    if ($stm_schedule && $stm_mail_jury && $stm_mail_student) {
       $alert = [
         "Alert" => "alert&reload",
         "title" => "Proyecto agendado",
