@@ -103,24 +103,37 @@ else if ($_SESSION['tipo'] == USER_TYPE['student']) {
               <tbody>
                 <?php
                 foreach ($authors as $key => $author) {
-                  echo '
-                      <tr>
-                        <form method="POST" action="' . SERVER_URL . '/fetch/asignGradeFetch.php" class="form__calif formFetch">
-                          <th>' . $author['nombres'] . ' ' . $author['apellidos'] . '</th>
-                          <input type="hidden" name="detalle_id" value="' . $author['detalle_id'] . '" required>
-                          <td><input type="number" name="nota" class="form__calif__input" max="20" min="0" placeholder="--" value="' . (isset($author['nota']) ? $author['nota'] : '') . '" number></td>
-                          <td><button type="submit" title="Calificar" class="form__calif__submit"><i class="ph ph-check"></i></button></td>
-                        </form>
-                      </tr>
-                      ';
+                ?>
+                  <tr>
+                    <form method="POST" action="' . SERVER_URL . '/fetch/asignGradeFetch.php" class="form__calif formFetch">
+                      <th><?php echo $author['nombres'] . ' ' . $author['apellidos']; ?></th>
+                      <input type="hidden" name="detalle_id" value="<?php echo $author['detalle_id']; ?>" required>
+                      <td><input type="number" name="nota" class="form__calif__input" max="20" min="0" placeholder="--" value="<?php echo (isset($author['nota'])) ? $author['nota'] : ''; ?>" <?php echo ($project['estado_id'] == 6) ? 'disabled' : ''; ?> number></td>
+                      <?php
+                      if ($project['estado_id'] !== 6) echo '<td><button type="submit" title="Calificar" class="form__calif__submit"><i class="ph ph-check"></i></button></td>';
+                      ?>
+                    </form>
+                  </tr>
+                <?php
                 }
                 ?>
               </tbody>
             </table>
           <?php
-          }else echo '<div class="da__form__ins"><p>Podrá asignar las calificaciones, después realizada la sustentación</p></div>';
+          } else echo '<div class="da__form__ins"><p>Podrá asignar las calificaciones, después realizada la sustentación</p></div>';
           ?>
         </div>
+        <?php
+        if ($project['estado_id'] == 5) {
+          echo '
+          <form action="' . SERVER_URL . '/fetch/publicProjectFetch.php" method="POST" class="da__form formFetch">
+            <input type="hidden" name="proyecto_id" value="' . $project['proyecto_id'] . '">
+            <button type="submit" class="da__form__submit">Publicar en repositorio</button>
+          </form>
+          ';
+        }
+        ?>
+
       </div>
     </aside>
   <?php

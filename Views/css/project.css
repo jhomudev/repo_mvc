@@ -116,15 +116,11 @@ body {
 }
 .da__form__ins {
   width: 100%;
-  font-size: large;
-  font-family: var(--f-advent);
+  font-size: smaller;
   padding: 5px;
   margin-top: 5px;
   background: var(--c_slate);
   border-radius: 4px;
-}
-.da__form__ins p {
-  font-family: var(--f-advent);
 }
 .da__form__submit {
   background: var(--c_main);
