@@ -311,4 +311,81 @@ class ProcessController extends ProcessModel
     echo json_encode($alert);
     exit();
   }
+
+  // Funcion controlador para agendar sustentación y asignar jurados
+  public function scheduleProjectPresentationController(string $toMail)
+  {
+    $project_id = MainModel::clearString($_POST['proyecto_id']);
+    $jurados = MainModel::clearString($_POST['jurados']);
+    $fecha_sustentacion = MainModel::clearString($_POST['fecha_sustentacion']);
+
+    if (empty($project_id) || empty($fecha_sustentacion) || empty($jurados)) {
+      $alert = [
+        "Alert" => "simple",
+        "title" => "Campos vacios",
+        "text" => "Por favor. complete todos los campos.",
+        "icon" => "error"
+      ];
+
+      echo json_encode($alert);
+      exit();
+    }
+
+    // obtención de archivo de proyecto
+    $file = MainModel::executeQuerySimple("SELECT nombre_archivo FROM proyectos WHERE proyecto_id=$project_id");
+    $file = SERVER_URL . "/uploads/" . $file->fetchColumn();
+
+    // obtenación de corres de estudiantes
+    $authors_mails = MainModel::executeQuerySimple("SELECT correo FROM usuarios u 
+    INNER JOIN tramites t ON u.usuario_id=t.estudiante_id
+    WHERE  t.proyecto_id=$project_id")->fetchAll();
+
+    // Obtencion de correo de jurados
+    $array_ids_juries = explode(",", $jurados);
+
+    $juries_mails = [];
+    foreach ($array_ids_juries as $key => $id_jury) {
+      $mail = MainModel::executeQuerySimple("SELECT correo FROM usuarios WHERE usuario_id=$id_jury");
+      array_push($juries_mails, $mail->fetchColumn());
+    }
+
+    // Envio de correo a estudiantes autores
+    foreach ($authors_mails as $key => $author_mail) {
+      $message = "Buenos días. Su proyecto fue agendado para sustentación en la siguiente fecha: \n $fecha_sustentacion\n Por favor, llegar a la hora indicada o minutos antes.";
+      $stm_mail_student = MainModel::sendMail($author_mail['correo'], "PROYECTO AGENDADO PARA SUSTENTACIÓN", $message);
+    }
+    // Envio de correo a jurados
+    foreach ($juries_mails as $key => $jury_mail) {
+      $message = "Buenos días. A sido elegido como jurado para la sustentación de un proyecto. La fecha de la sustentación es la siguiente:\n  $fecha_sustentacion\n Por favor, llegar a la hora indicada o minutos antes. En caso de no presentarse, recibirá una sanción.";
+      $stm_mail_jury= MainModel::sendMail($jury_mail, "DELEGACIÓN COMO JURADO", $message, $file);
+    }
+
+    // data para agenda
+    $data = [
+      "project_id" => $project_id,
+      "jurados" => $jurados,
+      "fecha_sustentacion" => $fecha_sustentacion,
+    ];
+
+    $stm_schedule = ProcessModel::scheduleProjectPresentationModel($data);
+
+    if ($stm_schedule /* && $stm_mail_jury && $stm_mail_student */) {
+      $alert = [
+        "Alert" => "alert&reload",
+        "title" => "Proyecto agendado",
+        "text" => "El proyecto se agendó. Se enviaron los correos correspódientes a los jurados y a los alumnos.",
+        "icon" => "success"
+      ];
+    } else {
+      $alert = [
+        "Alert" => "simple",
+        "title" => "Opps...Al parece ocurrió un error",
+        "text" => "No se agendó la sustentación.",
+        "icon" => "error"
+      ];
+    }
+
+    echo json_encode($alert);
+    exit();
+  }
 }

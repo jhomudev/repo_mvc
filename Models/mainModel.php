@@ -102,18 +102,18 @@ class MainModel
   }
 
   // Funcion para eenviar correo
-  protected static function sendMail($to, $subject, $message, $filename = null)
+  protected static function sendMail($to, $subject, $message, $file = null)
   {
-    if (isset($filename)) {
-      $file_content = file_get_contents($filename);
+    if (isset($file)) {
+      $file_content = file_get_contents($file);
 
       // Codifica el contenido del archivo PDF en base64
       $file_content_encoded = chunk_split(base64_encode($file_content));
 
       // Crea el encabezado para el archivo adjunto
-      $attachment = "Content-Type: application/pdf; name=\"" . basename($filename) . "\"\r\n";
+      $attachment = "Content-Type: application/pdf; name=\"" . basename($file) . "\"\r\n";
       $attachment .= "Content-Transfer-Encoding: base64\r\n";
-      $attachment .= "Content-Disposition: attachment; filename=\"" . basename($filename) . "\"\r\n\r\n";
+      $attachment .= "Content-Disposition: attachment; filename=\"" . basename($file) . "\"\r\n\r\n";
       $attachment .= $file_content_encoded;
 
       // Agrega el mensaje y el archivo adjunto al cuerpo del correo electrónico

@@ -93,12 +93,14 @@ class ProcessModel extends ProjectModel
     return $stament->execute();
   }
 
-  // //funcion para cancelar tramites
-  // protected static function cancelProcessModel(string $project_id): bool
-  // {
-  //   $stament = MainModel::connect()->prepare('UPDATE detalle_tramite dt INNER JOIN tramites t ON dt.tramite_id=t.tramite_id INNER JOIN proyectos p ON p.proyecto_id=t.proyecto_id SET dt.estado_id = 7 WHERE t.proyecto_id= :project_id');
-  //   $stament->bindParam(':project_id', $project_id);
+  //funcion para agendar sustentación y asignar jurados
+  protected static function scheduleProjectPresentationModel(array $data): bool
+  {
+    $stament = MainModel::connect()->prepare('UPDATE detalle_tramite dt INNER JOIN tramites t ON dt.tramite_id=t.tramite_id INNER JOIN proyectos p ON p.proyecto_id=t.proyecto_id SET dt.estado_id=4, dt.jurados = :jurados, dt.fecha_sutentacion=:fecha_sutentacion WHERE t.proyecto_id= :project_id');
+    $stament->bindParam(':project_id', $data['project_id']);
+    $stament->bindParam(':jurados', $data['jurados']);
+    $stament->bindParam(':fecha_sutentacion', $data['fecha_sutentacion']);
 
-  //   return $stament->execute();
-  // }
+    return $stament->execute();
+  }
 }
