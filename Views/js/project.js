@@ -32,3 +32,19 @@ formsFetch.forEach((form) => {
     sendFormFetch(e);
   });
 });
+
+// Funcionalidad aside de detales de gestión
+const daToggleBtns = document.querySelectorAll(".toggle__da");
+const daBox = document.querySelector(".da__box");
+
+daToggleBtns.forEach((btn) => {
+  btn.addEventListener("click", () => toggleShowElement(daBox));
+});
+
+// toggle de formEdit 
+const formEdit = document.querySelector(".form__edit");
+const toggleFormEdit = document.querySelectorAll(".toggle__formEdit");
+
+toggleFormEdit.forEach(btn => {
+  btn.addEventListener('click', () => toggleShowElement(formEdit))
+});
