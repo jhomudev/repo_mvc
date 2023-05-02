@@ -9,12 +9,12 @@ session_start();
 
 if (isset($_SESSION["token"])) {
   require_once "./../Controllers/ProcessController.php";
-  $process = new ProcessController();
+  require_once "./../Controllers/ProjectController.php";
+  $IP_process = new ProcessController();
+  $IP_project = new ProjectController();
 
-  // echo print_r($_POST);
-  if (isset($_POST["tx_title"]) && isset($_POST["tx_type"]) && isset($_POST["tx_authors"]) && isset($_POST["tx_descri"]) && isset($_FILES["file"])) {
-    echo $process->generateProcessController();
-  }
+  if (empty($_POST['tx_project_id'])) echo $IP_process->generateProcessController();
+  else echo $IP_project->editProjectController();
 } else {
   session_unset();
   session_destroy();
