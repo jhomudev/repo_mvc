@@ -46,11 +46,13 @@ class ProjectController extends ProjectModel
 
     $data = ProjectModel::getInfoProjectModel($project_id);
 
-    if(isset($_SESSION['tipo']) && $_SESSION['tipo'] == USER_TYPE['student']){
-      if ($data['project']['estado_id'] == 5) {
-        $data['project']['estado'] = ($data['project']['nota'] > GRADE_MIN) ? 'APROBADO' : 'DESAPROBADO';
-        $data['project']['color'] = ($data['project']['nota'] > GRADE_MIN) ? '#41b753' : '#ed3847';
-        $data['project']['es_descrip'] = ($data['project']['nota'] > GRADE_MIN) ? 'Aprobaste la sustentación. Los detalles de la sustentación puede verlos en la vista de tu proyecto.' : 'Lastimosamente no pasaste la sustentación. Puedes generar otro proceso.';
+    if (isset($_SESSION['tipo'])) {
+      if ($_SESSION['tipo'] == USER_TYPE['student']) {
+        if ($data['project']['estado_id'] == 5) {
+          $data['project']['estado'] = ($data['project']['nota'] > GRADE_MIN) ? 'APROBADO' : 'DESAPROBADO';
+          $data['project']['color'] = ($data['project']['nota'] > GRADE_MIN) ? '#41b753' : '#ed3847';
+          $data['project']['es_descrip'] = ($data['project']['nota'] > GRADE_MIN) ? 'Aprobaste la sustentación. Los detalles de la sustentación puede verlos en la vista de tu proyecto.' : 'Lastimosamente no pasaste la sustentación. Puedes generar otro proceso.';
+        }
       }
     }
 
