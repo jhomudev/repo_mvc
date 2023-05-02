@@ -102,16 +102,38 @@ class MainModel
   }
 
   // Funcion para eenviar correo
-  protected static function sendMail($to, $subject, $message)
+  protected static function sendMail($to, $subject, $message, $filename = null)
   {
-    $headers = "From: ".HOST_EMAIL.".com\r\n";
-    $headers .= "Reply-To: ".HOST_EMAIL.".com\r\n";
-    $headers .= "Content-type: text/html\r\n";
+    if (isset($filename)) {
+      $file_content = file_get_contents($filename);
+
+      // Codifica el contenido del archivo PDF en base64
+      $file_content_encoded = chunk_split(base64_encode($file_content));
+
+      // Crea el encabezado para el archivo adjunto
+      $attachment = "Content-Type: application/pdf; name=\"" . basename($filename) . "\"\r\n";
+      $attachment .= "Content-Transfer-Encoding: base64\r\n";
+      $attachment .= "Content-Disposition: attachment; filename=\"" . basename($filename) . "\"\r\n\r\n";
+      $attachment .= $file_content_encoded;
+
+      // Agrega el mensaje y el archivo adjunto al cuerpo del correo electrónico
+      $body = "--boundary\r\n";
+      $body .= "Content-Type: text/html; charset=\"UTF-8\"\r\n";
+      $body .= "Content-Transfer-Encoding: 8bit\r\n\r\n";
+      $body .= $message . "\r\n\r\n";
+      $body .= "--boundary\r\n";
+      $body .= $attachment . "\r\n\r\n";
+      $body .= "--boundary--";
+    } else $body = $message;
+
+    $headers = "From: " . HOST_EMAIL . ".com\r\n";
+    $headers .= "Reply-To: " . HOST_EMAIL . ".com\r\n";
+    $headers .= "Content-type: multipart/mixed; boundary=\"boundary\"\r\n";
 
     // Agregar fecha de envío
     $headers .= "Date: " . date("r") . "\r\n";
 
     // Enviar correo electrónico usando la función mail() y retonar booleano
-    return mail($to, $subject, $message, $headers);
+    return mail($to, $subject, $body, $headers);
   }
 }
