@@ -9,10 +9,10 @@
       <nav class="filter">
         <ul>
           <li><button class="filter__item" data-state="">Todos</button></li>
-          <li><button class="filter__item" data-state="1">Por revisar</button></li>
+          <li><button class="filter__item" data-state="2">Por revisar</button></li>
+          <li><button class="filter__item" data-state="3">Derivados</button></li>
           <li><button class="filter__item" data-state="obs">Observados</button></li>
-          <li><button class="filter__item" data-state="6">Aprobados</button></li>
-          <li><button class="filter__item" data-state="5">Desaprobados</button></li>
+          <li><button class="filter__item" data-state="5">Calificados</button></li>
         </ul>
       </nav>
       <div id="projectsBox" class="projectsBox">
