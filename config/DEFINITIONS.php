@@ -12,4 +12,6 @@
     "CREATIVIDAD"=>3,
   ];
 
+  const GRADE_MIN=13;
+
   
