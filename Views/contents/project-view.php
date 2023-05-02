@@ -71,7 +71,7 @@ else if ($_SESSION['tipo'] == USER_TYPE['student']) {
           <form action="<?php echo SERVER_URL; ?>/fetch/schedulePresFetch.php" method="POST" class="da__form formFetch">
             <label class="da__form__label">Detalles de sustentación</label>
             <?php
-            if ($project['estado_id']>=3) {
+            if ($project['estado_id'] >= 3) {
             ?>
               <input type="hidden" name="carrera_id" value="<?php echo $project['carrera_id']; ?>">
               <input type="hidden" name="proyecto_id" value="<?php echo $project['proyecto_id']; ?>">
@@ -85,16 +85,19 @@ else if ($_SESSION['tipo'] == USER_TYPE['student']) {
               if ($project['estado_id'] == 3) echo '<input type="submit" value="Agendar sustentación" class="da__form__submit">';
               ?>
             <?php
-            }else echo '<div class="da__form__ins"><p>No puede agendar la sustentación aún</p></div>';
+            } else echo '<div class="da__form__ins"><p>No puede agendar la sustentación aún</p></div>';
             ?>
           </form>
         </div>
         <div class="da__form__group">
           <?php
+          $f_actual = new DateTime();
+          $fecha_sustentacion =  new DateTime($project['fecha_sustentacion']);
+          $diff_dates = $f_actual->diff($fecha_sustentacion)->days;
           echo '<label for="instructor__name" class="da__form__label">Calificaciones</label>';
           if ($project['estado_id'] < 4) {
-            echo '<div class="da__form__ins"><p>No puede asignar las notas aún</p></div>';
-          } else if ($project['estado_id'] >= 4) {
+            echo '<div class="da__form__ins"><p>No puede asignar las calificaciones aún</p></div>';
+          } else if ($project['estado_id'] >= 4 && $diff_dates <= 0) {
           ?>
             <table class="da__table">
               <tbody>
@@ -115,7 +118,7 @@ else if ($_SESSION['tipo'] == USER_TYPE['student']) {
               </tbody>
             </table>
           <?php
-          }
+          }else echo '<div class="da__form__ins"><p>Podrá asignar las calificaciones, después realizada la sustentación</p></div>';
           ?>
         </div>
       </div>
