@@ -54,33 +54,51 @@ class ProcessModel extends ProjectModel
     return $sql_project;
   }
 
-  //! Funcion para editar el campo estado --ANALIZAR Y CORREGIR
-  protected static function changeStateProcessModel(string $project_id, int $new_state): bool
+  // Funcion para editar el campo estado
+  protected static function changeStateProcessModel(int $new_state,  string $project_id = null, int $dt = null): bool
   {
-    $sql_project = MainModel::connect()->prepare("UPDATE detalle_tramite SET estado_id = :new_state WHERE tramite_id= :process_id");
+
+    if (isset($dt)) {
+      $sql_project = MainModel::connect()->prepare("UPDATE detalle_tramite SET estado_id = :new_state WHERE detalle_id= :dt");
+      $sql_project->bindParam(":new_state", $new_state, PDO::PARAM_INT);
+      $sql_project->bindParam(":dt", $dt, PDO::PARAM_STR);
+
+      return $sql_project->execute();
+    }
+
+    $sql_project = MainModel::connect()->prepare("UPDATE detalle_tramite dt INNER JOIN tramites t ON dt.tramite_id=t.tramite_id SET dt.estado_id = :new_state WHERE t.proyecto_id= :project_id");
     $sql_project->bindParam(":new_state", $new_state, PDO::PARAM_INT);
-    $sql_project->bindParam(":process_id", $project_id, PDO::PARAM_STR);
+    $sql_project->bindParam(":project_id", $project_id, PDO::PARAM_STR);
 
     return $sql_project->execute();
   }
 
-  //! Funcion para asignar un instructor al tramite --ANALIZAR Y CORREGIR 
-  protected static function assignIstructorModel(int $instructor_id, string $project_id): bool
+  // Funcion para asignar un instructor al tramite
+  protected static function assignInstructorModel(int $instructor_id, string $project_id): bool
   {
-    $stament = MainModel::connect()->prepare('UPDATE detalle_tramite SET instructor_id = :instructor_id WHERE process_id=:process_id');
-    $stament->bindParam(':instructor_id', $instructor_id);
-    $stament->bindParam(':process_id', $project_id);
+    $stament = MainModel::connect()->prepare('UPDATE detalle_tramite dt INNER JOIN tramites t ON dt.tramite_id=t.tramite_id INNER JOIN proyectos p ON p.proyecto_id=t.proyecto_id SET dt.instructor_id = :instructor_id WHERE t.proyecto_id= :project_id');
+    $stament->bindParam(':instructor_id', $instructor_id, PDO::PARAM_INT);
+    $stament->bindParam(':project_id', $project_id, PDO::PARAM_STR);
 
     return $stament->execute();
   }
 
   // Funcion para asignar la nota..nota distinta por alumno/tramite
-  protected static function assignProcessGradeModel(int $nota, string $process_id): bool
+  protected static function assignProcessGradeModel(int $nota, string $dt_id): bool
   {
-    $stament = MainModel::connect()->prepare('UPDATE detalle_tramite SET nota = :nota WHERE proccess_id = :process_id');
+    $stament = MainModel::connect()->prepare('UPDATE detalle_tramite SET nota = :nota WHERE detalle_id = :dt_id');
     $stament->bindParam(':nota', $nota);
-    $stament->bindParam(':process_id', $process_id);
+    $stament->bindParam(':dt_id', $dt_id);
 
     return $stament->execute();
   }
+
+  // //funcion para cancelar tramites
+  // protected static function cancelProcessModel(string $project_id): bool
+  // {
+  //   $stament = MainModel::connect()->prepare('UPDATE detalle_tramite dt INNER JOIN tramites t ON dt.tramite_id=t.tramite_id INNER JOIN proyectos p ON p.proyecto_id=t.proyecto_id SET dt.estado_id = 7 WHERE t.proyecto_id= :project_id');
+  //   $stament->bindParam(':project_id', $project_id);
+
+  //   return $stament->execute();
+  // }
 }
