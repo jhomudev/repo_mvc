@@ -23,7 +23,7 @@ class ObservationController extends ObservationModel
         "Alert" => "simple",
         "title" => "Campos vacios",
         "text" => "Por favor. Detalle su observación",
-        "icon" => "error"
+        "icon" => "warning"
       ];
 
       echo json_encode($alert);
@@ -35,8 +35,8 @@ class ObservationController extends ObservationModel
     if ($stm) {
       $alert = [
         "Alert" => "alert&reload",
-        "title" => "Operación realizada",
-        "text" => "El proyecto cambio de estado",
+        "title" => "Observación realizada",
+        "text" => "La observación se realizó exitosamente",
         "icon" => "success"
       ];
 
@@ -45,7 +45,7 @@ class ObservationController extends ObservationModel
       $alert = [
         "Alert" => "simple",
         "title" => "Opps...Al parece ocurrió un error",
-        "text" => "La operación no se realizó.",
+        "text" => "La obsrevación no se registró.",
         "icon" => "error"
       ];
 

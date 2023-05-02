@@ -1,5 +1,5 @@
-<div class="headerMainBox">
-  <header class="headerMain container">
+<div class="headerMainBox container">
+  <header class="headerMain">
     <a href="./" class="headerMain__logo">
       <img class="headerMain__imgLogo" src="<?php echo SERVER_URL; ?>/Views/assets/logo.png" alt="logo" />
     </a>

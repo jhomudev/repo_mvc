@@ -21,7 +21,7 @@
       Swal.fire({
         title: "Estas seguro de abandonar la sesión?",
         text: "La sesión se cerrará y saldrá del sistema",
-        icon: "warning",
+        icon: "question",
         showCancelButton: true,
         confirmButtonColor: "#3085d6",
         cancelButtonColor: "#d33",

@@ -35,7 +35,7 @@ class ProcessController extends ProcessModel
     $hasProcess = false;
     foreach ($arrayAuthors as $author) {
       $sql_verify = "SELECT t.estudiante_id FROM tramites t
-      INNER JOIN detalle_tramite dt ON t.tramite_id=dt.tramite_id WHERE t.estudiante_id=$author AND dt.estado_id<>8 AND dt.estado_id<>5";
+      INNER JOIN detalle_tramite dt ON t.tramite_id=dt.tramite_id WHERE t.estudiante_id=$author AND dt.estado_id<>7 AND dt.nota>" . GRADE_MIN . "";
       $chek_process = MainModel::executeQuerySimple($sql_verify);
       if ($chek_process->rowCount() > 0) $hasProcess = true;
     }
@@ -53,6 +53,7 @@ class ProcessController extends ProcessModel
 
     // Subida de archivo a servidor y obtencion de nombre
     $filename = strtotime("now") . "_" . $file['name'];
+    $filename = str_replace(' ', '_', $filename);
     $file_tmp = $file['tmp_name'];
 
     // Mover el archivo a una ubicación permanente en el servidor
@@ -79,7 +80,7 @@ class ProcessController extends ProcessModel
     // $generateProcess obtiene un booleano 
     if ($generateProcess) {
       $alert = [
-        "Alert" => "clear",
+        "Alert" => "alert&reload",
         "title" => "Trámite generado",
         "text" => "Su trámite se generó exitosamente.",
         "icon" => "success"
@@ -113,7 +114,7 @@ class ProcessController extends ProcessModel
       exit();
     }
 
-    $stm = ProcessModel::changeStateProcessModel($project_id, $new_state);
+    $stm = ProcessModel::changeStateProcessModel($new_state, $project_id);
 
     if ($stm) {
       $alert = [
@@ -122,8 +123,6 @@ class ProcessController extends ProcessModel
         "text" => "El proyecto cambio de estado",
         "icon" => "success"
       ];
-
-      echo json_encode($alert);
     } else {
       $alert = [
         "Alert" => "simple",
@@ -131,13 +130,13 @@ class ProcessController extends ProcessModel
         "text" => "La operación no se realizó.",
         "icon" => "error"
       ];
-
-      echo json_encode($alert);
     }
+
+    echo json_encode($alert);
   }
 
   // Funcion copntrolador asignar instructor a tramite en tabla dt
-  public function assignIstructorController()
+  public function assignInstructorController()
   {
     $instructor_id = $_POST['instructor_id'];
     $project_id = $_POST['project_id'];
@@ -154,17 +153,16 @@ class ProcessController extends ProcessModel
       exit();
     }
 
-    $stm = ProcessModel::assignIstructorModel($instructor_id, $project_id);
+    $stm_ins = ProcessModel::assignInstructorModel($instructor_id, $project_id);
+    $stm_state = ProcessModel::changeStateProcessModel(2, $project_id);
 
-    if ($stm) {
+    if ($stm_ins && $stm_state) {
       $alert = [
-        "Alert" => "simple",
+        "Alert" => "alert&reload",
         "title" => "Asignación realizada",
         "text" => "El instructor se asignó exitosamente.",
         "icon" => "success"
       ];
-
-      echo json_encode($alert);
     } else {
       $alert = [
         "Alert" => "simple",
@@ -172,32 +170,22 @@ class ProcessController extends ProcessModel
         "text" => "No se pudo asignar el instructor.",
         "icon" => "error"
       ];
-
-      echo json_encode($alert);
     }
+    echo json_encode($alert);
+    exit();
   }
 
   // Funcion controlador asignar la nota..nota distinta por alumno/tramite
   public function assignProcessGradeController()
   {
-    $process_array=["12121","144443"];/* id de tramite de cada alumno */
-    $grades_array=[16,20]; /* nota de cada tramite */
+    $grade = intval($_POST['nota']);
+    $dt_id = $_POST['detalle_id'];
 
-    if (empty($process_array) || empty($grades_array)) {
+    if (empty($grade) || empty($dt_id)) {
       $alert = [
         "Alert" => "simple",
         "title" => "Campos vacios",
-        "text" => "Por favor. Complete los datos necesarios.",
-        "icon" => "error"
-      ];
-
-      echo json_encode($alert);
-      exit();
-    }else if(($grades_array)!==($process_array)){/* Corregir con metodo de obtencion de longitud */
-      $alert = [
-        "Alert" => "simple",
-        "title" => "Calificaciones no asignadas",
-        "text" => "Por favor. Asigne las calificaciones a todos los alumnos.",
+        "text" => "Por favor. Asigne la nota correspondiente.",
         "icon" => "error"
       ];
 
@@ -205,15 +193,16 @@ class ProcessController extends ProcessModel
       exit();
     }
 
-    foreach ($process_array as $key => $process) {
-      $stm = ProcessModel::assignProcessGradeModel($grades_array[$key], $process[$key]);
-    }
+    $stm = ProcessModel::assignProcessGradeModel($grade, $dt_id);
 
     if ($stm) {
+
+      ProcessModel::changeStateProcessModel(5, null, $dt_id);
+
       $alert = [
         "Alert" => "simple",
-        "title" => "Calificaciones asignadas",
-        "text" => "Los trámites se calificaron exitosamente.",
+        "title" => "Calificación asignada",
+        "text" => "El trámite se calificó exitosamente.",
         "icon" => "success"
       ];
 
@@ -225,8 +214,101 @@ class ProcessController extends ProcessModel
         "text" => "Las calificaciones no se asignaron.",
         "icon" => "error"
       ];
+    }
+    echo json_encode($alert);
+    exit();
+  }
+
+  // Funcion controlador para cancelar tramite
+  public function cancelProcessController()
+  {
+    $proyecto_id = MainModel::clearString($_POST['proyecto_id']);
+
+    if (empty($proyecto_id)) {
+      $alert = [
+        "Alert" => "simple",
+        "title" => "Proyecto no definido",
+        "text" => "No se realizó la cancelación.",
+        "icon" => "error"
+      ];
 
       echo json_encode($alert);
+      exit();
     }
+
+    $stm = ProcessModel::changeStateProcessModel(7, $proyecto_id);
+
+    if ($stm) {
+      $alert = [
+        "Alert" => "alert&reload",
+        "title" => "Trámite ancelado",
+        "text" => "El trámite se canceló. Puede generar otro si desea.",
+        "icon" => "success"
+      ];
+    } else {
+      $alert = [
+        "Alert" => "simple",
+        "title" => "Opps...Al parece ocurrió un error",
+        "text" => "El trámite no se canceló.",
+        "icon" => "error"
+      ];
+    }
+
+    echo json_encode($alert);
+    exit();
+  }
+
+  // Funcion controlador para pasar tramite a area academica
+  public function passProcessController()
+  {
+    $proyecto_id = MainModel::clearString($_POST['proyecto_id']);
+
+    if (empty($proyecto_id)) {
+      $alert = [
+        "Alert" => "simple",
+        "title" => "Proyecto no definido",
+        "text" => "No se delegó el proyecto.",
+        "icon" => "error"
+      ];
+
+      echo json_encode($alert);
+      exit();
+    }
+
+    $hasObs = ObservationModel::getObservationsModel($proyecto_id);
+    $hasObs = count($hasObs) > 0;
+
+    if ($hasObs) {
+      $alert = [
+        "Alert" => "simple",
+        "title" => "Proyecto con observaciones",
+        "text" => "El proyecto tiene observaciones. Elimine sus observaciones si el alumno ya las solucionó para poder derivar el proyecto.",
+        "icon" => "error"
+      ];
+
+      echo json_encode($alert);
+      exit();
+    }
+
+    $stm = ProcessModel::changeStateProcessModel(3, $proyecto_id);
+
+    if ($stm) {
+      $alert = [
+        "Alert" => "alert&reload",
+        "title" => "Proyecto delegado",
+        "text" => "El proyecto se derivó al área académica.",
+        "icon" => "success"
+      ];
+    } else {
+      $alert = [
+        "Alert" => "simple",
+        "title" => "Opps...Al parece ocurrió un error",
+        "text" => "No se derivó el proyecto.",
+        "icon" => "error"
+      ];
+    }
+
+    echo json_encode($alert);
+    exit();
   }
 }
