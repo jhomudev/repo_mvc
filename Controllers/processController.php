@@ -205,8 +205,6 @@ class ProcessController extends ProcessModel
         "text" => "El trámite se calificó exitosamente.",
         "icon" => "success"
       ];
-
-      echo json_encode($alert);
     } else {
       $alert = [
         "Alert" => "simple",
