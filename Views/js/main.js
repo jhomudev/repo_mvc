@@ -15,6 +15,27 @@ mayus.forEach((input) => {
   );
 });
 
+// Funciones validaciones de inputs decimales
+const inputsDecimal = document.querySelectorAll("input[decimal]");
+
+inputsDecimal.forEach((input) => {
+  input.addEventListener("input", (e) => {
+    let valorAnterior = e.target.value;
+    let valorNuevo = valorAnterior.replace(/[^0-9,]/g, ""); // Solo permitir números y puntos
+    const decimales = valorNuevo.split(",").length - 1;
+
+    if (decimales > 1) {
+      // Si hay más de un punto, eliminar el último
+      const ultimoPunto = valorNuevo.lastIndexOf(",");
+      valorNuevo = valorNuevo.substring(0, ultimoPunto);
+    }
+
+    if (valorAnterior !== valorNuevo) {
+      e.target.value = valorNuevo; // Actualizar el valor del input
+    }
+  });
+});
+
 // Limitar palabras un string de los trámites/proyectos---Ya innecesario
 function limitString(limit) {
   const allDescrips = document.querySelectorAll(".project__descri");
