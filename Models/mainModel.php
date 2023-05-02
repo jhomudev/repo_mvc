@@ -101,10 +101,17 @@ class MainModel
     } else return false;
   }
 
-  // Funcion para paginación de filas/registros
-  protected static function pagerRows($page, $num_pages, $url, $num_buttons)
+  // Funcion para eenviar correo
+  protected static function sendMail($to, $subject, $message)
   {
-    $tabla = "";
-    // Esta funcionalidad no es necesaria para eel funcionamiento, x el moento lo dejamos
+    $headers = "From: ".HOST_EMAIL.".com\r\n";
+    $headers .= "Reply-To: ".HOST_EMAIL.".com\r\n";
+    $headers .= "Content-type: text/html\r\n";
+
+    // Agregar fecha de envío
+    $headers .= "Date: " . date("r") . "\r\n";
+
+    // Enviar correo electrónico usando la función mail() y retonar booleano
+    return mail($to, $subject, $message, $headers);
   }
 }
