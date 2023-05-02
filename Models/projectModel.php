@@ -12,23 +12,24 @@ class ProjectModel extends ObservationModel
     $user_id = $params['user_id'];
     $user_sede = $params['user_sede'];
     $filter_state = $params['filter_state'];
+    $words = $params['words'];
+    if (isset($words)) $query = "SELECT p.proyecto_id,p.titulo,p.tipo,p.descripcion,e.nombre AS estado,e.descripcion AS es_descrip,e.color, MAX(dt.fecha_publicacion) AS fecha_publicacion, GROUP_CONCAT(a.nombres,' ',a.apellidos SEPARATOR ', ')  AS autores FROM proyectos p INNER JOIN tramites t ON t.proyecto_id=p.proyecto_id INNER JOIN usuarios a ON a.usuario_id=t.estudiante_id INNER JOIN detalle_tramite dt ON dt.tramite_id=t.tramite_id INNER JOIN estados e ON e.estado_id=dt.estado_id /* WHERE dt.estado_id=7 */ WHERE p.titulo LIKE '%".$words."%' GROUP BY p.proyecto_id,p.titulo,p.tipo,p.descripcion,e.nombre,e.descripcion,e.color";
     if (empty($filter_state)) {
-      if ($user_type == 3) $query = "SELECT p.proyecto_id,p.titulo,p.tipo,p.descripcion,e.nombre AS estado,e.descripcion AS es_descrip,e.color FROM proyectos p INNER JOIN tramites t ON t.proyecto_id=p.proyecto_id INNER JOIN detalle_tramite dt ON dt.tramite_id=t.tramite_id INNER JOIN estados e ON e.estado_id=dt.estado_id  WHERE t.estudiante_id=$user_id GROUP BY p.proyecto_id,p.titulo,p.tipo,p.descripcion,e.nombre,e.descripcion,e.color";
+      if ($user_type == USER_TYPE['student']) $query = "SELECT p.proyecto_id,p.titulo,p.tipo,p.descripcion,e.nombre AS estado,e.descripcion AS es_descrip,e.color FROM proyectos p INNER JOIN tramites t ON t.proyecto_id=p.proyecto_id INNER JOIN detalle_tramite dt ON dt.tramite_id=t.tramite_id INNER JOIN estados e ON e.estado_id=dt.estado_id  WHERE t.estudiante_id=$user_id GROUP BY p.proyecto_id,p.titulo,p.tipo,p.descripcion,e.nombre,e.descripcion,e.color ORDER BY dt.estado_id";
 
-      if ($user_type == 2) $query = "SELECT p.proyecto_id,p.titulo,p.tipo,p.descripcion,e.nombre AS estado,e.descripcion AS es_descrip,e.color FROM proyectos p INNER JOIN tramites t ON t.proyecto_id=p.proyecto_id INNER JOIN detalle_tramite dt ON dt.tramite_id=t.tramite_id INNER JOIN estados e ON e.estado_id=dt.estado_id  WHERE dt.instructor_id=$user_id GROUP BY p.proyecto_id,p.titulo,p.tipo,p.descripcion,e.nombre,e.descripcion,e.color";
+      if ($user_type == USER_TYPE['instructor']) $query = "SELECT p.proyecto_id,p.titulo,p.tipo,p.descripcion,MAX(e.nombre) AS estado,MAX(e.descripcion) AS es_descrip,MAX(e.color) AS color FROM proyectos p INNER JOIN tramites t ON t.proyecto_id=p.proyecto_id INNER JOIN detalle_tramite dt ON dt.tramite_id=t.tramite_id INNER JOIN estados e ON e.estado_id=dt.estado_id  WHERE dt.instructor_id=$user_id GROUP BY p.proyecto_id,p.titulo,p.tipo,p.descripcion";
 
-      if ($user_type == 1) $query = "SELECT p.proyecto_id,p.titulo,p.tipo,p.descripcion,e.nombre AS estado,e.descripcion AS es_descrip,e.color FROM proyectos p INNER JOIN tramites t ON t.proyecto_id=p.proyecto_id INNER JOIN detalle_tramite dt ON dt.tramite_id=t.tramite_id INNER JOIN estados e ON e.estado_id=dt.estado_id  INNER JOIN usuarios u ON u.sede_id=$user_sede GROUP BY p.proyecto_id,p.titulo,p.tipo,p.descripcion,e.nombre,e.descripcion,e.color";
-
-      if ($user_type == "all") $query = "SELECT p.proyecto_id,p.titulo,p.tipo,p.descripcion,e.nombre,e.descripcion FROM proyectos p INNER JOIN tramites t ON t.proyecto_id=p.proyecto_id INNER JOIN detalle_tramite dt ON dt.tramite_id=t.tramite_id";
+      if ($user_type == USER_TYPE['admin']) $query = "SELECT p.proyecto_id,p.titulo,p.tipo,p.descripcion,MAX(e.nombre) AS estado,MAX(e.descripcion) AS es_descrip,MAX(e.color) AS color FROM proyectos p INNER JOIN tramites t ON t.proyecto_id=p.proyecto_id INNER JOIN detalle_tramite dt ON dt.tramite_id=t.tramite_id INNER JOIN estados e ON e.estado_id=dt.estado_id  INNER JOIN usuarios u ON u.sede_id=$user_sede GROUP BY p.proyecto_id,p.titulo,p.tipo,p.descripcion";
     } else {
+      if ($filter_state == "all") $query = "SELECT p.proyecto_id,p.titulo,p.tipo,p.descripcion,e.nombre AS estado,e.descripcion AS es_descrip,e.color, MAX(dt.fecha_publicacion) AS fecha_publicacion, GROUP_CONCAT(a.nombres,' ',a.apellidos SEPARATOR ', ')  AS autores FROM proyectos p INNER JOIN tramites t ON t.proyecto_id=p.proyecto_id INNER JOIN usuarios a ON a.usuario_id=t.estudiante_id INNER JOIN detalle_tramite dt ON dt.tramite_id=t.tramite_id INNER JOIN estados e ON e.estado_id=dt.estado_id /* WHERE dt.estado_id=7 */ GROUP BY p.proyecto_id,p.titulo,p.tipo,p.descripcion,e.nombre,e.descripcion,e.color";
       if ($filter_state == 'obs') {
-        if ($user_type == 2) $query = "SELECT p.proyecto_id,p.titulo,p.tipo,p.descripcion,e.nombre AS estado,e.descripcion AS es_descrip,e.color FROM proyectos p INNER JOIN tramites t ON t.proyecto_id=p.proyecto_id INNER JOIN detalle_tramite dt ON dt.tramite_id=t.tramite_id INNER JOIN estados e ON e.estado_id=dt.estado_id INNER JOIN observaciones o ON o.proyecto_id=t.proyecto_id WHERE dt.instructor_id=$user_id GROUP BY p.proyecto_id,p.titulo,p.tipo,p.descripcion,e.nombre,e.descripcion,e.color";
+        if ($user_type == USER_TYPE['instructor']) $query = "SELECT p.proyecto_id,p.titulo,p.tipo,p.descripcion,MAX(e.nombre) AS estado,MAX(e.descripcion) AS es_descrip,MAX(e.color) AS color FROM proyectos p INNER JOIN tramites t ON t.proyecto_id=p.proyecto_id INNER JOIN detalle_tramite dt ON dt.tramite_id=t.tramite_id INNER JOIN estados e ON e.estado_id=dt.estado_id INNER JOIN observaciones o ON o.proyecto_id=t.proyecto_id WHERE dt.instructor_id=$user_id GROUP BY p.proyecto_id,p.titulo,p.tipo,p.descripcion";
 
-        if ($user_type == 1) $query = "SELECT p.proyecto_id,p.titulo,p.tipo,p.descripcion,e.nombre AS estado,e.descripcion AS es_descrip,e.color FROM proyectos p INNER JOIN tramites t ON t.proyecto_id=p.proyecto_id INNER JOIN detalle_tramite dt ON dt.tramite_id=t.tramite_id INNER JOIN estados e ON e.estado_id=dt.estado_id INNER JOIN observaciones o ON o.proyecto_id=t.proyecto_id INNER JOIN usuarios u ON u.sede_id=$user_sede WHERE GROUP BY p.proyecto_id,p.titulo,p.tipo,p.descripcion,e.nombre,e.descripcion,e.color";
+        if ($user_type == USER_TYPE['admin']) $query = "SELECT p.proyecto_id,p.titulo,p.tipo,p.descripcion,MAX(e.nombre) AS estado,MAX(e.descripcion) AS es_descrip,MAX(e.color) AS color FROM proyectos p INNER JOIN tramites t ON t.proyecto_id=p.proyecto_id INNER JOIN detalle_tramite dt ON dt.tramite_id=t.tramite_id INNER JOIN estados e ON e.estado_id=dt.estado_id INNER JOIN observaciones o ON o.proyecto_id=t.proyecto_id INNER JOIN usuarios u ON u.sede_id=$user_sede WHERE GROUP BY p.proyecto_id,p.titulo,p.tipo,p.descripcion";
       } else {
-        if ($user_type == 2) $query = "SELECT p.proyecto_id,p.titulo,p.tipo,p.descripcion,e.nombre AS estado,e.descripcion AS es_descrip,e.color FROM proyectos p INNER JOIN tramites t ON t.proyecto_id=p.proyecto_id INNER JOIN detalle_tramite dt ON dt.tramite_id=t.tramite_id INNER JOIN estados e ON e.estado_id=dt.estado_id  WHERE dt.instructor_id=$user_id  AND dt.estado_id=$filter_state GROUP BY p.proyecto_id,p.titulo,p.tipo,p.descripcion,e.nombre,e.descripcion,e.color";
+        if ($user_type == USER_TYPE['instructor']) $query = "SELECT p.proyecto_id,p.titulo,p.tipo,p.descripcion,MAX(e.nombre) AS estado,MAX(e.descripcion) AS es_descrip,MAX(e.color) AS color FROM proyectos p INNER JOIN tramites t ON t.proyecto_id=p.proyecto_id INNER JOIN detalle_tramite dt ON dt.tramite_id=t.tramite_id INNER JOIN estados e ON e.estado_id=dt.estado_id  WHERE dt.instructor_id=$user_id  AND dt.estado_id=$filter_state GROUP BY p.proyecto_id,p.titulo,p.tipo,p.descripcion";
 
-        if ($user_type == 1) $query = "SELECT p.proyecto_id,p.titulo,p.tipo,p.descripcion,e.nombre AS estado,e.descripcion AS es_descrip,e.color FROM proyectos p INNER JOIN tramites t ON t.proyecto_id=p.proyecto_id INNER JOIN detalle_tramite dt ON dt.tramite_id=t.tramite_id INNER JOIN estados e ON e.estado_id=dt.estado_id  INNER JOIN usuarios u ON u.sede_id=$user_sede WHERE dt.estado_id=$filter_state GROUP BY p.proyecto_id,p.titulo,p.tipo,p.descripcion,e.nombre,e.descripcion,e.color";
+        if ($user_type == USER_TYPE['admin']) $query = "SELECT p.proyecto_id,p.titulo,p.tipo,p.descripcion,MAX(e.nombre) AS estado,MAX(e.descripcion) AS es_descrip,MAX(e.color) AS color FROM proyectos p INNER JOIN tramites t ON t.proyecto_id=p.proyecto_id INNER JOIN detalle_tramite dt ON dt.tramite_id=t.tramite_id INNER JOIN estados e ON e.estado_id=dt.estado_id  INNER JOIN usuarios u ON u.sede_id=$user_sede WHERE dt.estado_id=$filter_state GROUP BY p.proyecto_id,p.titulo,p.tipo,p.descripcion";
       }
     }
 
@@ -41,19 +42,37 @@ class ProjectModel extends ObservationModel
   protected static function getInfoProjectModel($project_id): array
   {
     // obtencion de datos de proyecto
-    $query_project = "SELECT p.proyecto_id, p.nombre_archivo, p.titulo, p.tipo, p.descripcion,t.fecha_gen, dt.estado_id, dt.nota, e.nombre AS estado, e.color,e.descripcion AS es_descrip 
-    FROM proyectos p 
-    INNER JOIN tramites t ON t.proyecto_id = p.proyecto_id 
-    INNER JOIN detalle_tramite dt ON dt.tramite_id = t.tramite_id 
-    INNER JOIN estados e ON e.estado_id = dt.estado_id 
-    WHERE p.proyecto_id = '$project_id' 
-    GROUP BY p.proyecto_id, p.titulo, p.tipo, p.descripcion, t.fecha_gen, dt.estado_id, dt.nota, e.nombre,e.color,e.descripcion";
-    $project = MainModel::executeQuerySimple($query_project)->fetch();
+    if(isset($_SESSION['tipo']) && $_SESSION['tipo']==USER_TYPE['student']){
+      $query_project = "SELECT p.proyecto_id, p.nombre_archivo, p.titulo, p.tipo, p.descripcion,t.estudiante_generador,t.fecha_gen,dt.detalle_id,dt.instructor_id, (SELECT CONCAT(nombres,' ',apellidos) FROM usuarios WHERE usuario_id=dt.instructor_id) AS instructor , dt.estado_id, dt.jurados,dt.fecha_revision,dt.fecha_sustentacion,dt.fecha_publicacion, dt.nota, e.nombre AS estado, e.color,e.descripcion AS es_descrip, esc.nombre AS escuela, c.nombre AS carrera,c.carrera_id
+      FROM proyectos p 
+      INNER JOIN tramites t ON t.proyecto_id = p.proyecto_id 
+      INNER JOIN detalle_tramite dt ON dt.tramite_id = t.tramite_id 
+      INNER JOIN estados e ON e.estado_id = dt.estado_id 
+      INNER JOIN usuarios u ON u.usuario_id = t.estudiante_id 
+      INNER JOIN carreras c ON c.carrera_id = u.carrera_id 
+      INNER JOIN escuelas esc ON esc.escuela_id = c.escuela_id 
+      WHERE p.proyecto_id = '$project_id' AND t.estudiante_id = ".$_SESSION['usuario_id']."
+      GROUP BY p.proyecto_id, p.titulo, p.tipo, p.descripcion,t.estudiante_generador, t.fecha_gen,dt.detalle_id, dt.instructor_id, dt.estado_id, dt.jurados,dt.fecha_revision,dt.fecha_sustentacion,dt.fecha_publicacion, dt.nota, e.nombre,e.color,e.descripcion, esc.nombre, c.nombre,c.carrera_id, u.nombres, u.apellidos";
+      $project = MainModel::executeQuerySimple($query_project)->fetch();
+    }else{
+      $query_project = "SELECT p.proyecto_id, p.nombre_archivo, p.titulo, p.tipo, p.descripcion,t.estudiante_generador,t.fecha_gen,dt.instructor_id, (SELECT CONCAT(nombres,' ',apellidos) FROM usuarios WHERE usuario_id=dt.instructor_id) AS instructor , dt.estado_id, dt.jurados,dt.fecha_revision,dt.fecha_sustentacion,dt.fecha_publicacion, dt.nota, e.nombre AS estado, e.color,e.descripcion AS es_descrip, esc.nombre AS escuela, c.nombre AS carrera,c.carrera_id
+      FROM proyectos p 
+      INNER JOIN tramites t ON t.proyecto_id = p.proyecto_id 
+      INNER JOIN detalle_tramite dt ON dt.tramite_id = t.tramite_id 
+      INNER JOIN estados e ON e.estado_id = dt.estado_id 
+      INNER JOIN usuarios u ON u.usuario_id = t.estudiante_id 
+      INNER JOIN carreras c ON c.carrera_id = u.carrera_id 
+      INNER JOIN escuelas esc ON esc.escuela_id = c.escuela_id 
+      WHERE p.proyecto_id = '$project_id'
+      GROUP BY p.proyecto_id, p.titulo, p.tipo, p.descripcion,t.estudiante_generador, t.fecha_gen, dt.instructor_id, dt.estado_id, dt.jurados,dt.fecha_revision,dt.fecha_sustentacion,dt.fecha_publicacion, dt.nota, e.nombre,e.color,e.descripcion, esc.nombre, c.nombre,c.carrera_id, u.nombres, u.apellidos";
+      $project = MainModel::executeQuerySimple($query_project)->fetch();
+    }
 
     // obtención de los datos de los autores
-    $queryAuthors = "SELECT u.nombres,u.apellidos 
+    $queryAuthors = "SELECT u.usuario_id,u.nombres,u.apellidos,u.sede_id,u.carrera_id,dt.detalle_id,dt.nota
     FROM usuarios u 
-    INNER JOIN tramites t ON u.usuario_id=t.estudiante_id 
+    INNER JOIN tramites t ON u.usuario_id=t.estudiante_id
+    INNER JOIN detalle_tramite dt ON dt.tramite_id=t.tramite_id
     INNER JOIN proyectos p ON p.proyecto_id=t.proyecto_id WHERE p.proyecto_id='$project_id'";
     $authors = MainModel::executeQuerySimple($queryAuthors)->fetchAll();
 
@@ -93,7 +112,7 @@ class ProjectModel extends ObservationModel
     $sql->bindParam(':type', $new_data['type'], PDO::PARAM_INT);
     $sql->bindParam(':description', $new_data['description'], PDO::PARAM_STR);
     $sql->bindParam(':filename', $new_data['filename'], PDO::PARAM_STR);
-    $sql->bindParam(':project_id', $new_data['project_id'], PDO::PARAM_INT);
+    $sql->bindParam(':project_id', $new_data['project_id'], PDO::PARAM_STR);
 
     return $sql->execute();
   }
