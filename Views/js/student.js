@@ -1,24 +1,11 @@
 // toggle de formulario
 const box = document.querySelector(".formBackground");
-const closeForm = document.getElementById("closeForm");
 
-closeForm.addEventListener("click", () => toggleShowElement(box));
-
-function habilityFuncDOM() {
-  const btnUpload = document.getElementById("upload");
-
-  btnUpload.addEventListener("click", () => toggleShowElement(box));
-
-  formsFetch.forEach((form) => {
-    form.addEventListener("submit", (e) => {
-      sendFormFetch(e, () => {
-        toggleShowElement(box);
-        form.reset();
-        getProjects();
-      });
-    });
+formsFetch.forEach((form) => {
+  form.addEventListener("submit", (e) => {
+    sendFormFetch(e, () => toggleShowElement(box));
   });
-}
+});
 
 //PETICIONES FECTH
 async function getProjects() {
@@ -41,12 +28,16 @@ async function getProjects() {
         `;
     });
     boxProject.innerHTML += `
-      <article id="upload" class="project project__upload">
+      <article id="upload" class="project project__upload toggle__form">
         <i class="ph-upload-simple"></i>
         <span>Subir proyecto</span>
       </article>
       `;
-    habilityFuncDOM();
+
+    const toggleForm = document.querySelectorAll(".toggle__form");
+    toggleForm.forEach((btn) => {
+      btn.addEventListener("click", () => toggleShowElement(box));
+    });
   } catch (error) {
     console.log(error);
   }
