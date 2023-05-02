@@ -52,7 +52,7 @@ else if ($_SESSION['tipo'] == USER_TYPE['student']) {
             <label for="instructor__name" class="da__form__label">Asesor de proyecto</label>
             <input type="hidden" name="project_id" value="<?php echo $project['proyecto_id']; ?>">
             <input id="instructor__name" type="text" name="instructor_id" class="da__form__input" list="list__instructors" value="<?php echo (isset($project['instructor_id']) ? $project['instructor_id'] : ''); ?>" placeholder="Escriba el id o nombre del instructor" <?php echo ($project['estado_id'] > 2) ? 'disabled' : ''; ?>>
-            <?php if ($project['estado_id'] > 2) echo '<div class="da__form__ins"><p>' . $project['instructor'] . '</p></div>'; ?>
+            <?php if ($project['estado_id'] > 2 && $project['estado_id'] != 7) echo '<div class="da__form__ins"><p>' . $project['instructor'] . '</p></div>'; ?>
             <datalist id="list__instructors">
               <?php
               $ins = MainModel::executeQuerySimple("SELECT * FROM usuarios WHERE tipo=" . USER_TYPE['instructor'] . " AND sede_id=" . $authors[0]['sede_id'] . " AND carrera_id=" . $authors[0]['carrera_id'] . "");
@@ -76,7 +76,7 @@ else if ($_SESSION['tipo'] == USER_TYPE['student']) {
               <input type="hidden" name="carrera_id" value="<?php echo $project['carrera_id']; ?>">
               <input type="hidden" name="proyecto_id" value="<?php echo $project['proyecto_id']; ?>">
               <label class="da__form__label_sub">Jurados</label>
-              <input type="text" name="jurados" class="da__form__input" value="<?php echo (isset($juries)) ? implode(', ', $juries) : ''; ?>" decimal <?php echo ($project['estado_id'] > 3) ? 'disabled' : ''; ?>>
+              <input type="text" name="jurados" class="da__form__input" value="<?php echo (isset($juries)) ? implode(', ', $juries) : ''; ?>" decimal <?php echo ($project['estado_id'] > 3) ? 'disabled' : ''; ?> placeholder="Escriba los ids de los jurados">
               <label class="da__form__label_sub">Fecha</label>
               <input type="date" name="fecha" class="da__form__input" value="<?php echo (isset($project['fecha_sustentacion'])) ? date('Y-m-d', strtotime($project['fecha_sustentacion'])) : ''; ?>" <?php echo ($project['estado_id'] > 3) ? 'disabled' : ''; ?>>
               <label class="da__form__label_sub">Hora</label>
@@ -91,36 +91,38 @@ else if ($_SESSION['tipo'] == USER_TYPE['student']) {
         </div>
         <div class="da__form__group">
           <?php
-          $f_actual = new DateTime();
-          $fecha_sustentacion =  new DateTime($project['fecha_sustentacion']);
-          $diff_dates = $f_actual->diff($fecha_sustentacion)->days;
           echo '<label for="instructor__name" class="da__form__label">Calificaciones</label>';
-          if ($project['estado_id'] < 4) {
-            echo '<div class="da__form__ins"><p>No puede asignar las calificaciones aún</p></div>';
-          } else if ($project['estado_id'] >= 4 && $diff_dates <= 0) {
+          if ($project['estado_id'] < 4 || $project['estado_id'] == 7) {
+            echo '<div class="da__form__ins"><p>No puede asignar las calificaciones.</p></div>';
+          } else if ($project['estado_id'] >=4 && $project['estado_id'] !== 7) {
+            $f_actual = new DateTime();
+            $fecha_sustentacion =  new DateTime($project['fecha_sustentacion']);
+            $diff_dates = $f_actual->diff($fecha_sustentacion)->days;
+            if ($diff_dates <= 0) {
           ?>
-            <table class="da__table">
-              <tbody>
-                <?php
-                foreach ($authors as $key => $author) {
-                ?>
-                  <tr>
-                    <form method="POST" action="' . SERVER_URL . '/fetch/asignGradeFetch.php" class="form__calif formFetch">
-                      <th><?php echo $author['nombres'] . ' ' . $author['apellidos']; ?></th>
-                      <input type="hidden" name="detalle_id" value="<?php echo $author['detalle_id']; ?>" required>
-                      <td><input type="number" name="nota" class="form__calif__input" max="20" min="0" placeholder="--" value="<?php echo (isset($author['nota'])) ? $author['nota'] : ''; ?>" <?php echo ($project['estado_id'] == 6) ? 'disabled' : ''; ?> number></td>
-                      <?php
-                      if ($project['estado_id'] !== 6) echo '<td><button type="submit" title="Calificar" class="form__calif__submit"><i class="ph ph-check"></i></button></td>';
-                      ?>
-                    </form>
-                  </tr>
-                <?php
-                }
-                ?>
-              </tbody>
-            </table>
+              <table class="da__table">
+                <tbody>
+                  <?php
+                  foreach ($authors as $key => $author) {
+                  ?>
+                    <tr>
+                      <form method="POST" action="<?php echo SERVER_URL; ?>/fetch/asignGradeFetch.php" class="form__calif formFetch">
+                        <th><?php echo $author['nombres'] . ' ' . $author['apellidos']; ?></th>
+                        <input type="hidden" name="detalle_id" value="<?php echo $author['detalle_id']; ?>" required>
+                        <td><input type="number" name="nota" class="form__calif__input" max="20" min="0" placeholder="--" value="<?php echo (isset($author['nota'])) ? $author['nota'] : ''; ?>" <?php echo ($project['estado_id'] !== 4) ? 'disabled' : ''; ?> number></td>
+                        <?php
+                        if ($project['estado_id'] == 4) echo '<td><button type="submit" title="Calificar" class="form__calif__submit"><i class="ph ph-check"></i></button></td>';
+                        ?>
+                      </form>
+                    </tr>
+                  <?php
+                  }
+                  ?>
+                </tbody>
+              </table>
           <?php
-          } else echo '<div class="da__form__ins"><p>Podrá asignar las calificaciones, después realizada la sustentación</p></div>';
+            } else echo '<div class="da__form__ins"><p>Podrá asignar las calificaciones, después realizada la sustentación</p></div>';
+          }
           ?>
         </div>
         <?php
@@ -133,7 +135,6 @@ else if ($_SESSION['tipo'] == USER_TYPE['student']) {
           ';
         }
         ?>
-
       </div>
     </aside>
   <?php
@@ -155,6 +156,55 @@ else if ($_SESSION['tipo'] == USER_TYPE['student']) {
   </div>
   <div class="proyect__allContent">
     <section class="proyect">
+      <?php
+      if (isset($project['instructor']) && $_SESSION['tipo'] == USER_TYPE['student']) {
+      ?>
+        <details class="proyect__info details">
+          <summary class="proyect__btnShowContent">
+            <span class="proyect__subtitles">Información adicional</span>
+            <i class="ph ph-caret-down"></i>
+          </summary>
+          <div class="proyect__content">
+            <h4 class="proyect__part">Asesor de proyecto</h4>
+            <p class="proyect__description"> <?php echo $project['instructor'] ?></p>
+            <?php
+            if (isset($project['jurados'])) {
+            ?>
+              <h4 class="proyect__part">Jurados para sustentación</h4>
+              <ul class="proyect__authors">
+                <?php
+                $juries = explode(',', $project['jurados']);
+                foreach ($juries as $key => $id_jury) {
+                  $jury = MainModel::executeQuerySimple("SELECT nombres, apellidos FROM usuarios WHERE usuario_id=$id_jury")->fetch();
+                  echo '<li class="proyect__author">' . $jury['nombres'] . ' ' . $jury['apellidos'] . '';
+                }
+                ?>
+              </ul>
+              <h4 class="proyect__part">Fecha de sustentación</h4>
+              <table style="font-size: small;">
+                <?php
+                $timestamp = strtotime($project['fecha_sustentacion']);
+                $fecha_formateada = new DateTime();
+                $fecha_formateada->setTimestamp($timestamp);
+                echo '<tr><td style="width: 4em;">Día</td><td>: ' . $fecha_formateada->format('d \d\e F \d\e Y'), '</td></tr>';
+                echo '<tr><td style="width: 4em;">Horas</td><td>: ' . $fecha_formateada->format('H:i') . '</td></tr>';
+                ?>
+              </table>
+            <?php
+            }
+            if (isset($project['fecha_publicacion'])) {
+              $timestamp = strtotime($project['fecha_publicacion']);
+              $fecha_formateada = new DateTime();
+              $fecha_formateada->setTimestamp($timestamp);
+              echo '<h4 class="proyect__part">Fecha de publicación</h4>';
+              echo '<p class="proyect__description">'.$fecha_formateada->format('d \d\e F \d\e Y').'</p> ';
+            }
+            ?>
+          </div>
+        </details>
+      <?php
+      }
+      ?>
       <details open class="proyect__info details">
         <summary class="proyect__btnShowContent">
           <span class="proyect__subtitles">Detalles del proyecto</span>

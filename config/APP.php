@@ -1,12 +1,12 @@
 <?php
-  const SERVER_URL="http://localhost/repo_mvc";
+const SERVER_URL = "http://localhost/repo_mvc";
 
-  const COMPANY="Upload Sen";
+const COMPANY = "Upload Sen";
 
-  const NAMESESSION="Upload_Sen_session";
- 
-  const HOST_EMAIL="Upload_Sen_session";
+const NAMESESSION = "Upload_Sen_session";
 
-  date_default_timezone_set("America/Lima");
+const HOST_EMAIL = "Upload_Sen_session";
 
-  require_once "DEFINITIONS.php";
+date_default_timezone_set("America/Lima");
+
+require_once "DEFINITIONS.php";

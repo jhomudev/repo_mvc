@@ -93,6 +93,17 @@ class ProcessModel extends ProjectModel
     return $stament->execute();
   }
 
+  // Funcion para pasar proyecto a area academica
+  protected static function passProcessModel(string $project_id, string $fecha_revision)
+  {
+    $stament = MainModel::connect()->prepare('UPDATE detalle_tramite dt INNER JOIN tramites t ON dt.tramite_id=t.tramite_id INNER JOIN proyectos p ON p.proyecto_id=t.proyecto_id SET dt.estado_id = 3, dt.fecha_revision=:fecha_revision WHERE t.proyecto_id= :project_id');
+    $stament->bindParam(':fecha_revision', $fecha_revision, PDO::PARAM_STR);
+    $stament->bindParam(':project_id', $project_id, PDO::PARAM_STR);
+
+    return $stament->execute();
+  }
+
+
   //funcion para agendar sustentación y asignar jurados
   protected static function scheduleProjectPresentationModel(array $data): bool
   {
@@ -100,6 +111,15 @@ class ProcessModel extends ProjectModel
     $stament->bindParam(':project_id', $data['project_id']);
     $stament->bindParam(':jurados', $data['jurados']);
     $stament->bindParam(':fecha_sustentacion', $data['fecha_sustentacion']);
+
+    return $stament->execute();
+  }
+  //funcion para agendar sustentación y asignar jurados
+  protected static function uploadProjectModel($fecha_publicacion, $project_id): bool
+  {
+    $stament = MainModel::connect()->prepare('UPDATE detalle_tramite dt INNER JOIN tramites t ON dt.tramite_id=t.tramite_id INNER JOIN proyectos p ON p.proyecto_id=t.proyecto_id SET dt.estado_id=6, dt.fecha_publicacion=:fecha_publicacion WHERE t.proyecto_id= :project_id');
+    $stament->bindParam(':project_id', $project_id);
+    $stament->bindParam(':fecha_publicacion', $fecha_publicacion);
 
     return $stament->execute();
   }

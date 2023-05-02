@@ -28,6 +28,7 @@
 .careers {
   position: sticky;
   top: 10px;
+  width: min(100%,300px);
   height: max-content;
   padding: 1rem;
   background: var(--c_slate);
@@ -49,8 +50,8 @@
 .careers__nav__item {
   display: block;
   padding: 10px;
-  background: var(--c_gold);
-  color: var(--c_darkBlue);
+  background: var(--c_darkBlue);
+  color: white;
   font-size: small;
   text-decoration: none;
   cursor: pointer;

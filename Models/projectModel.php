@@ -55,14 +55,17 @@ class ProjectModel extends ObservationModel
     $project = MainModel::executeQuerySimple($query_project)->fetch();
 
     // obtención de los datos de los autores
-    $array_ids_juries = explode(",", $project['jurados']);
     $juries_names = [];
-    foreach ($array_ids_juries as $key => $id_jury) {
-      $jury = MainModel::executeQuerySimple("SELECT CONCAT(nombres,' ', apellidos) AS fullname FROM usuarios WHERE usuario_id=$id_jury");
-      array_push($juries_names, $jury->fetchColumn());
+    if(isset($project['jurados'])){
+      $array_ids_juries = explode(",", $project['jurados']);
+
+      foreach ($array_ids_juries as $key => $id_jury) {
+        $jury = MainModel::executeQuerySimple("SELECT CONCAT(nombres,' ', apellidos) AS fullname FROM usuarios WHERE usuario_id=$id_jury");
+        array_push($juries_names, $jury->fetchColumn());
+      }
     }
 
-    // obtención de los datos de los jurados
+    // obtención de los datos de los autores
     $queryAuthors = "SELECT u.usuario_id,u.nombres,u.apellidos,u.sede_id,u.carrera_id,dt.detalle_id,dt.nota
     FROM usuarios u 
     INNER JOIN tramites t ON u.usuario_id=t.estudiante_id

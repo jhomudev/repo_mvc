@@ -260,6 +260,7 @@ class ProcessController extends ProcessModel
   public function passProcessController()
   {
     $proyecto_id = MainModel::clearString($_POST['proyecto_id']);
+    $fecha_revision = date('Y-m-d H:i:s');
 
     if (empty($proyecto_id)) {
       $alert = [
@@ -288,7 +289,7 @@ class ProcessController extends ProcessModel
       exit();
     }
 
-    $stm = ProcessModel::changeStateProcessModel(3, $proyecto_id);
+    $stm = ProcessModel::passProcessModel($proyecto_id, $fecha_revision);
 
     if ($stm) {
       $alert = [
@@ -435,7 +436,7 @@ class ProcessController extends ProcessModel
   public function uploadProjectController()
   {
     $project_id = MainModel::clearString($_POST['proyecto_id']);
-    $new_state = 6;
+    $fecha_publicacion = date('Y-m-d H:i:s');
 
     if (empty($project_id)) {
       $alert = [
@@ -450,7 +451,7 @@ class ProcessController extends ProcessModel
     }
 
     // cambio de estado a publicado
-    $stm = ProcessModel::changeStateProcessModel($new_state,$project_id);
+    $stm = ProcessModel::uploadProjectModel($fecha_publicacion, $project_id);
 
     if ($stm) {
       $alert = [
