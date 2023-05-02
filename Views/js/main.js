@@ -1,9 +1,19 @@
 // Variables globales
 const serverURL = "http://localhost/repo_mvc";
 
+// funcion mostrar un elemento
 function toggleShowElement(element) {
   element.classList.toggle("show");
 }
+
+// funcion de convettir a mayuculas
+const mayus = document.querySelectorAll("[mayus]");
+mayus.forEach((input) => {
+  input.addEventListener(
+    "input",
+    () => (input.value = input.value.toUpperCase())
+  );
+});
 
 // Limitar palabras un string de los trámites/proyectos---Ya innecesario
 function limitString(limit) {
@@ -27,14 +37,7 @@ function alertFetch(alert = {}) {
       text: alert.text,
       confirmButtonText: "Aceptar",
     });
-  } else if (alert.Alert === "clear") {
-    Swal.fire({
-      icon: alert.icon,
-      title: alert.title,
-      text: alert.text,
-      confirmButtonText: "Aceptar",
-    });
-  } else if (alert.Alert === "reload") {
+  }  else if (alert.Alert === "reload") {
     window.location.reload();
   } else if (alert.Alert === "alert&reload") {
     Swal.fire({
@@ -62,8 +65,8 @@ function sendFormFetch(e, functionToExec = e) {
 
   Swal.fire({
     title: "Estas seguro de realizar la operación?",
-    text: "Esta acción es irreversible",
-    icon: "warning",
+    text: "Esta acción podría ser irreversible.",
+    icon: "question",
     showCancelButton: true,
     confirmButtonColor: "#3085d6",
     cancelButtonColor: "#d33",
