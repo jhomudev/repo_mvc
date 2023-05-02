@@ -6,7 +6,7 @@
     </div>
     <hr />
     <div id="projectsBox" class="projectsBox">
-      <article id="upload" class="project project__upload">
+      <article class="project project__upload toggle__form">
         <i class="ph-upload-simple"></i>
         <span>Subir proyecto</span>
       </article>
@@ -15,13 +15,13 @@
 </section>
 <div class="formBackground">
   <form action="<?php echo SERVER_URL; ?>/fetch/processFetch.php" method="POST" id="formUpload" class="form formFetch">
-    <div id="closeForm" class="form__close">
+    <div id="closeForm" class="form__close toggle__form">
       <i class="ph-x"></i>
     </div>
     <h1 class="form__title">Subir proyecto</h1>
     <fieldset class="form__group">
       <legend>Título</legend>
-      <input type="text" class="form__input" name="tx_title" placeholder="Escriba el título del proyecto" required />
+      <input type="text" class="form__input" name="tx_title" placeholder="Escriba el título del proyecto" mayus required />
     </fieldset>
     <fieldset class="form__group">
       <legend>Tipo</legend>
