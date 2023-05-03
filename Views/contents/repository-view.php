@@ -1,7 +1,7 @@
 <div class="container__all">
   <div class="headerBox container">
     <header class="header">
-      <a href="<?php echo SERVER_URL; ?>/repository" class="header__logo"><img src="http://localhost/repo_mvc/Views/assets/logo.png" alt="logo uploadSen" class="header__imgLogo"></a>
+      <a href="<?php echo SERVER_URL; ?>/repository" class="header__logo"><img src="<?php echo SERVER_URL; ?>/Views/assets/logo.png" alt="logo uploadSen" class="header__imgLogo"></a>
       <a class="header__btnRedirect" href="<?php echo SERVER_URL; ?>/login">¿Eres estudiante?</a>
     </header>
   </div>

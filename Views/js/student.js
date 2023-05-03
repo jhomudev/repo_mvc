@@ -45,7 +45,7 @@ async function getProjects() {
 
 getProjects();
 
-// funcion show autores
+// funcion show list estudiantes
 const authorsBox = document.querySelector(".form__authorsBox");
 const authorsList = document.querySelector(".list__users");
 const inputShow = document.querySelector(".inputShow");
