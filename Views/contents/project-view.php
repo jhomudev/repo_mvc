@@ -75,15 +75,27 @@ else if ($_SESSION['tipo'] == USER_TYPE['student']) {
             ?>
               <input type="hidden" name="carrera_id" value="<?php echo $project['carrera_id']; ?>">
               <input type="hidden" name="proyecto_id" value="<?php echo $project['proyecto_id']; ?>">
-              <label class="da__form__label_sub">Jurados</label>
-              <input type="text" name="jurados" class="da__form__input" value="<?php echo (isset($juries)) ? implode(', ', $juries) : ''; ?>" decimal <?php echo ($project['estado_id'] > 3) ? 'disabled' : ''; ?> placeholder="Escriba los ids de los jurados">
-              <label class="da__form__label_sub">Fecha</label>
-              <input type="date" name="fecha" class="da__form__input" value="<?php echo (isset($project['fecha_sustentacion'])) ? date('Y-m-d', strtotime($project['fecha_sustentacion'])) : ''; ?>" <?php echo ($project['estado_id'] > 3) ? 'disabled' : ''; ?>>
-              <label class="da__form__label_sub">Hora</label>
-              <input type="time" name="hora" class="da__form__input" value="<?php echo (isset($project['fecha_sustentacion'])) ? date('H:i', strtotime($project['fecha_sustentacion'])) : ''; ?>" <?php echo ($project['estado_id'] > 3) ? 'disabled' : ''; ?>>
-              <?php
-              if ($project['estado_id'] == 3) echo '<input type="submit" value="Agendar sustentación" class="da__form__submit">';
-              ?>
+              <div class="da__form__groupy">
+                <label class="da__form__label_sub">Jurados</label>
+                <input type="hidden" name="jurados">
+                <input type="text" class="da__form__input inputShow" placeholder="Escriba el nombre del jurado" />
+                <div class="da__form__juriesBox">
+                  <!-- autores -->
+                </div>
+                <ul class="list__ins">
+                  <!-- peticion -->
+                </ul>
+              </div>
+              <div class="da__form__groupy">
+                <label class="da__form__label_sub">Fecha</label>
+                <input type="date" name="fecha" class="da__form__input" value="<?php echo (isset($project['fecha_sustentacion'])) ? date('Y-m-d', strtotime($project['fecha_sustentacion'])) : ''; ?>" <?php echo ($project['estado_id'] > 3) ? 'disabled' : ''; ?>>
+                <div class="da__form__groupy">
+                </div><label class="da__form__label_sub">Hora</label>
+                <input type="time" name="hora" class="da__form__input" value="<?php echo (isset($project['fecha_sustentacion'])) ? date('H:i', strtotime($project['fecha_sustentacion'])) : ''; ?>" <?php echo ($project['estado_id'] > 3) ? 'disabled' : ''; ?>>
+
+              </div><?php
+                    if ($project['estado_id'] == 3) echo '<input type="submit" value="Agendar sustentación" class="da__form__submit">';
+                    ?>
             <?php
             } else echo '<div class="da__form__ins"><p>No puede agendar la sustentación aún</p></div>';
             ?>
@@ -94,7 +106,7 @@ else if ($_SESSION['tipo'] == USER_TYPE['student']) {
           echo '<label for="instructor__name" class="da__form__label">Calificaciones</label>';
           if ($project['estado_id'] < 4 || $project['estado_id'] == 7) {
             echo '<div class="da__form__ins"><p>No puede asignar las calificaciones.</p></div>';
-          } else if ($project['estado_id'] >=4 && $project['estado_id'] !== 7) {
+          } else if ($project['estado_id'] >= 4 && $project['estado_id'] !== 7) {
             $f_actual = new DateTime();
             $fecha_sustentacion =  new DateTime($project['fecha_sustentacion']);
             $diff_dates = $f_actual->diff($fecha_sustentacion)->days;
@@ -197,7 +209,7 @@ else if ($_SESSION['tipo'] == USER_TYPE['student']) {
               $fecha_formateada = new DateTime();
               $fecha_formateada->setTimestamp($timestamp);
               echo '<h4 class="proyect__part">Fecha de publicación</h4>';
-              echo '<p class="proyect__description">'.$fecha_formateada->format('d \d\e F \d\e Y').'</p> ';
+              echo '<p class="proyect__description">' . $fecha_formateada->format('d \d\e F \d\e Y') . '</p> ';
             }
             ?>
           </div>

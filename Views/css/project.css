@@ -95,6 +95,10 @@ body {
 .da__form__group {
   width: 100%;
 }
+.da__form__groupy{
+  position: relative;
+  width: 100%;
+}
 .da__form__label {
   display: block;
   font-size: medium;
@@ -113,6 +117,57 @@ body {
   border: none;
   border-bottom: 1px solid var(--c_gray);
   outline: none;
+}
+.da__form__juriesBox{
+  width: 100%;
+  display: none;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 5px;
+  padding: 7px;
+  background-color: #fff;
+}
+.da__form__juriesBox.show{
+  display: flex;
+}
+.list__ins{
+  display: none;
+  width: 100%;
+  list-style: none;
+}
+.list__ins.show{
+  display: block;
+}
+.list__ins__item{
+  width: 100%;
+  padding: 5px 10px;
+  display: flex;
+  flex-direction: column;
+  background-color: #fff;
+  cursor: pointer;
+}
+.list__ins__item :where(h1,p){
+  font-size: small;
+}
+.list__ins__item:hover{
+  filter: brightness(90%);
+}
+.instructor{
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 10px;
+  background-color: #cee5f3;
+  border-radius: 20px;
+  font-size: smaller;
+  color: var(--c_darkBlue);
+}
+.instructor i{
+  font-size: large;
+  cursor: pointer;
+}
+.instructor i:hover{
+  color: var(--c_red);
 }
 .da__form__ins {
   width: 100%;
