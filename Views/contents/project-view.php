@@ -9,11 +9,6 @@ $authors = $data['authors'];
 $obs = $data['observations'];
 $juries = $data['juries'];
 
-echo '
-  <script>
-    console.log(' . json_encode($juries) . ')
-  </script>
-';
 // validación de que el proyecto este asignado al instructor
 if ($_SESSION['tipo'] == USER_TYPE['instructor'] && $project['instructor_id'] !== $_SESSION['usuario_id']) {
   echo 'Acceso denegado. Usted no tiene acceso a este proyecto, porque no está designado a él.';

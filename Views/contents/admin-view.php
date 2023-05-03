@@ -34,16 +34,6 @@
             <li><button class="filter__item" data-state="4">En sustentación</button></li>
             <li><button class="filter__item" data-state="5">Calificados</button></li>
             <li><button class="filter__item" data-state="6">Publicados</button></li>
-            <?php
-            // $sql = MainModel::connect()->prepare("SELECT estado_id,nombre FROM estados ORDER BY estado_id");
-            // $sql->execute();
-            // $states = $sql->fetchAll();
-            // foreach ($states as $state) {
-            //   echo '
-            //       <li><button class="filter__item" data-state="' . $state["estado_id"] . '">' . $state["nombre"] . '</button></li>
-            //       ';
-            // }
-            ?>
           </ul>
         </nav>
         <div id="projectsBox" class="projectsBox">

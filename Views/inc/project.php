@@ -5,11 +5,7 @@ $data = $IP->getInfoProjectController();
 
 $project = $data['project'];
 $authors = $data['authors'];
-echo '
-  <script>
-    console.log(' . json_encode($project) . ')
-  </script>
-';
+
 ?>
 <section class="flex container" container>
   <main class="projectBox">
