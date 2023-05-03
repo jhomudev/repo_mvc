@@ -34,7 +34,14 @@
     </fieldset>
     <fieldset class="form__group">
       <legend>Autores</legend>
-      <input type="text" class="form__input" name="tx_authors" placeholder="Ejem: 1341793, 1341799" required />
+      <input type="hidden" name="tx_authors" />
+      <input type="text" class="form__input inputShow" placeholder="Escriba el nombre de los autores" />
+      <div class="form__authorsBox">
+        <!-- autores -->
+      </div>
+      <ul class="list__users">
+        <!-- peticion -->
+      </ul>
     </fieldset>
     <fieldset class="form__group">
       <legend>Descripción</legend>
