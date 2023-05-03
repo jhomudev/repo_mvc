@@ -11,7 +11,7 @@ $juries = $data['juries'];
 
 echo '
   <script>
-    console.log(' . json_encode($project) . ')
+    console.log(' . json_encode($juries) . ')
   </script>
 ';
 // validación de que el proyecto este asignado al instructor
@@ -78,7 +78,7 @@ else if ($_SESSION['tipo'] == USER_TYPE['student']) {
               <div class="da__form__groupy">
                 <label class="da__form__label_sub">Jurados</label>
                 <input type="hidden" name="jurados">
-                <input type="text" class="da__form__input inputShow" placeholder="Escriba el nombre del jurado" />
+                <input type="text" class="da__form__input inputShow" value="<?php echo (isset($juries) ? implode(", ", $juries) : ''); ?>" placeholder="Escriba el nombre del jurado" <?php echo ($project['estado_id'] > 3) ? 'disabled' : ''; ?> />
                 <div class="da__form__juriesBox">
                   <!-- autores -->
                 </div>
