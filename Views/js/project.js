@@ -56,11 +56,13 @@ const inputShow = document.querySelector(".inputShow");
 const juriesInput = document.getElementsByName("jurados")[0];
 let arrayIns = [];
 
-inputShow.addEventListener("input", () => {
-  getIns(inputShow.value);
-  if (inputShow.value !== "") juriesList.classList.add("show");
-  else juriesList.classList.remove("show");
-});
+if (inputShow) {
+  inputShow.addEventListener("input", () => {
+    getIns(inputShow.value);
+    if (inputShow.value !== "") juriesList.classList.add("show");
+    else juriesList.classList.remove("show");
+  });
+}
 
 async function getIns(nameOrId, carrerId = null) {
   try {
