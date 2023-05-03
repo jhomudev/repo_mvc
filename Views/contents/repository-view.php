@@ -41,8 +41,8 @@
     $project_id = $params['id'];
   }
 
-  if (isset($project_id)) include_once "./views/inc/project.php";
-  else include_once "./views/inc/projects.php";
+  if (isset($project_id)) include_once "./Views/inc/project.php";
+  else include_once "./Views/inc/projects.php";
 
   ?>
 </div>

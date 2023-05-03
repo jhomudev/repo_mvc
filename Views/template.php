@@ -41,7 +41,7 @@ $vista = $IV->getViewController();
   ?>
     <div class="container_main">
       <?php
-      include "./views/inc/header.php";
+      include "./Views/inc/header.php";
       include  "./Views/contents/" . $vista . "-view.php";
       ?>
 
