@@ -13,7 +13,6 @@ async function getProjects() {
     // peticion
     const req = await fetch(`${serverURL}/fetch/getProjectsFetch.php`);
     const res = await req.json();
-    console.log(res);
     const boxProject = document.getElementById("projectsBox");
     boxProject.innerHTML = "";
     res.forEach((project) => {

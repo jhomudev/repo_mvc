@@ -33,22 +33,22 @@ class ProcessController extends ProcessModel
     $arrayAuthors = explode(",", $authors);
     $hasProcess = false;
     foreach ($arrayAuthors as $author) {
-    // Comprobar que el usuario generador se haya puesto como autor
-    if($author!=$_SESSION['usuario_id']){
-      $alert = [
-        "Alert" => "simple",
-        "title" => "Oops. Inclúyete...",
-        "text" => "Usted debe que incluirse como autor",
-        "icon" => "error"
-      ];
+      // Comprobar que el usuario generador se haya puesto como autor
+      if ($author != $_SESSION['usuario_id']) {
+        $alert = [
+          "Alert" => "simple",
+          "title" => "Oops. Inclúyete...",
+          "text" => "Usted debe que incluirse como autor",
+          "icon" => "error"
+        ];
 
-      echo json_encode($alert);
-      exit();
-    }
+        echo json_encode($alert);
+        exit();
+      }
 
-    // Comprobar que los autores no tengan tramites generados
+      // Comprobar que los autores no tengan tramites generados
       $sql_verify = "SELECT t.estudiante_id FROM tramites t
-      INNER JOIN detalle_tramite dt ON t.tramite_id=dt.tramite_id WHERE t.estudiante_id=$author AND dt.estado_id<>7 AND dt.nota>" . GRADE_MIN . "";
+      INNER JOIN detalle_tramite dt ON t.tramite_id=dt.tramite_id WHERE t.estudiante_id=$author AND dt.estado_id<>7 OR dt.nota>" . GRADE_MIN . "";
       $chek_process = MainModel::executeQuerySimple($sql_verify);
       if ($chek_process->rowCount() > 0) $hasProcess = true;
     }
@@ -252,7 +252,7 @@ class ProcessController extends ProcessModel
     if ($stm) {
       $alert = [
         "Alert" => "alert&reload",
-        "title" => "Trámite ancelado",
+        "title" => "Trámite cancelado",
         "text" => "El trámite se canceló. Puede generar otro si desea.",
         "icon" => "success"
       ];

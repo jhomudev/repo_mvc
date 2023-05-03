@@ -17,7 +17,6 @@ async function getProjects(filter = "") {
       body: new URLSearchParams(`filter=${filter}`),
     });
     const res = await req.json();
-    console.log(res);
     const boxProject = document.getElementById("projectsBox");
     if (res.length > 0) {
       boxProject.innerHTML = "";

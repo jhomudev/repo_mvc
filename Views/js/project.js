@@ -71,7 +71,6 @@ async function getIns(nameOrId) {
       body: new URLSearchParams(`words=${nameOrId}`),
     });
     const res = await req.json();
-    console.log(res);
     juriesList.innerHTML = "";
 
     res.forEach((instructor) => {
