@@ -64,11 +64,11 @@ if (inputShow) {
   });
 }
 
-async function getIns(nameOrId, carrerId = null) {
+async function getIns(nameOrId) {
   try {
     const req = await fetch(`${serverURL}/fetch/getInsFetch.php`, {
       method: "POST",
-      body: new URLSearchParams(`words=${nameOrId}&carrera=${carrerId}`),
+      body: new URLSearchParams(`words=${nameOrId}`),
     });
     const res = await req.json();
     console.log(res);
