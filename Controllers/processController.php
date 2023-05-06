@@ -383,7 +383,7 @@ class ProcessController extends ProcessModel
     // obtenación de correos de estudiantes
     $authors_mails = MainModel::executeQuerySimple("SELECT correo FROM usuarios u 
     INNER JOIN tramites t ON u.usuario_id=t.estudiante_id
-    WHERE  t.proyecto_id='$project_id'")->fetchAll();
+    WHERE t.proyecto_id='$project_id'")->fetchAll();
 
     // Obtencion de correo de jurados
     $array_ids_juries = explode(",", $jurados);
