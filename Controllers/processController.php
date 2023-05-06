@@ -31,26 +31,28 @@ class ProcessController extends ProcessModel
     }
 
     $arrayAuthors = explode(",", $authors);
-    $hasProcess = false;
+    $isHere = false;
     foreach ($arrayAuthors as $author) {
       // Comprobar que el usuario generador se haya puesto como autor
-      if ($author != $_SESSION['usuario_id']) {
-        $alert = [
-          "Alert" => "simple",
-          "title" => "Oops. Inclúyete...",
-          "text" => "Usted debe que incluirse como autor",
-          "icon" => "error"
-        ];
-
-        echo json_encode($alert);
-        exit();
-      }
+      if ($author == $_SESSION['usuario_id'])  $isHere = true;
 
       // Comprobar que los autores no tengan tramites generados
+      $hasProcess = false;
       $sql_verify = "SELECT t.estudiante_id FROM tramites t
       INNER JOIN detalle_tramite dt ON t.tramite_id=dt.tramite_id WHERE t.estudiante_id=$author AND dt.estado_id<>7 OR dt.nota>" . GRADE_MIN . "";
       $chek_process = MainModel::executeQuerySimple($sql_verify);
       if ($chek_process->rowCount() > 0) $hasProcess = true;
+    }
+    if (!$isHere) {
+      $alert = [
+        "Alert" => "simple",
+        "title" => "Oops. Inclúyete...",
+        "text" => "Usted debe que incluirse como autor",
+        "icon" => "error"
+      ];
+
+      echo json_encode($alert);
+      exit();
     }
     if ($hasProcess) {
       $alert = [
