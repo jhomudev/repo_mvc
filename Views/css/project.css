@@ -3,7 +3,6 @@
 
 body {
   background-color: var(--c_slate);
-  overflow-x: hidden;
 }
 .header {
   display: flex;
