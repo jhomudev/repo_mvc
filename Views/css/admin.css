@@ -132,13 +132,19 @@
 }
 .project__title {
   font-family: var(--f-advent);
-  font-size: x-large;
+  font-size: large;
   font-weight: bold;
   text-transform: uppercase;
   color: var(--cl);
+  /* estilos para limitar lineas de texto */
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  -webkit-line-clamp: 2; /* aquí se especifica el número de líneas */
 }
 .project__type {
-  font-size: medium;
+  font-size: small;
   font-weight: 500;
   color: var(--main);
 }

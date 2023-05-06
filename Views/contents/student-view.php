@@ -49,7 +49,7 @@
     </fieldset>
     <div class="form__fileBox">
       <label for="file" class="fileBox__labelBtn">Subir archivo</label>
-      <input type="file" name="file" id="file" class="inputFile" accept=".pdf,.doc,.docx" />
+      <input type="file" name="file" id="file" class="inputFile" accept=".pdf" />
     </div>
     <button type="submit" value="Subir" class="form__submit">
       Subir

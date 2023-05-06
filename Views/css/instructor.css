@@ -25,25 +25,25 @@
   flex-direction: column;
   margin-top: 1rem;
 }
-.filter{
+.filter {
   position: sticky;
   top: 10px;
 }
 .filter ul {
   display: flex;
-	flex-wrap: wrap;
+  flex-wrap: wrap;
   list-style: none;
-	overflow: hidden;
+  overflow: hidden;
 }
 .filter__item {
-	position: relative;
+  position: relative;
   padding: 5px 10px;
   border: 1px solid var(--c_slate);
   text-decoration: none;
   font-size: small;
   text-transform: lowercase;
   display: inline-block;
-	white-space: nowrap;;
+  white-space: nowrap;
 }
 .filter__item::first-letter {
   text-transform: uppercase;
@@ -67,7 +67,7 @@
 .project {
   position: relative;
   width: 100%;
-  height:100%;
+  height: 100%;
   padding: 1rem;
   display: flex;
   gap: 5px;
@@ -95,13 +95,19 @@
 }
 .project__title {
   font-family: var(--f-advent);
-  font-size: x-large;
+  font-size: large;
   font-weight: bold;
   text-transform: uppercase;
   color: var(--cl);
+  /* estilos para limitar lineas de texto */
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  -webkit-line-clamp: 2; /* aquí se especifica el número de líneas */
 }
 .project__type {
-  font-size: medium;
+  font-size: small;
   font-weight: 500;
   color: var(--main);
 }
@@ -109,12 +115,12 @@
   font-size: small;
   margin-top: 5px;
   color: var(--c_gray);
-   /* estilos para limitar lineas de texto */
-   display: -webkit-box;
-   -webkit-box-orient: vertical;
-   overflow: hidden;
-   text-overflow: ellipsis;
-   -webkit-line-clamp: 3; /* aquí se especifica el número de líneas */
+  /* estilos para limitar lineas de texto */
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  -webkit-line-clamp: 3; /* aquí se especifica el número de líneas */
 }
 .project__state {
   padding: 7px;
