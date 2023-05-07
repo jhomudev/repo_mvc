@@ -265,10 +265,10 @@ else if ($_SESSION['tipo'] == USER_TYPE['student']) {
               foreach ($obs as $key => $ob) {
             ?>
                 <article class="observation">
+                  <span class="observation__date"><?php echo date('d-m-Y H:i', strtotime($ob['fecha_gen'])); ?></span>
                   <div class="observation__flex">
                     <div class="observation__data">
                       <h3 class="observation__author"><?php echo $ob['nombres'] . ' ' . $ob['apellidos']; ?></h3>
-                      <span class="observation__date"><?php echo date('d-m-Y H:i', strtotime($ob['fecha_gen'])); ?></span>
                     </div>
                     <div class="obsevation_actions">
                       <?php
