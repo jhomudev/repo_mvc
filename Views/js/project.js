@@ -28,9 +28,7 @@ if (btnNewObs && formNewObs) {
 
 // Funcionalidad de envio de forms con fetch
 formsFetch.forEach((form) => {
-  form.addEventListener("submit", (e) => {
-    sendFormFetch(e);
-  });
+  form.addEventListener("submit", (e) => sendFormFetch(e));
 });
 
 // Funcionalidad aside de detales de gestión

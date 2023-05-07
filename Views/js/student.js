@@ -2,9 +2,7 @@
 const box = document.querySelector(".formBackground");
 
 formsFetch.forEach((form) => {
-  form.addEventListener("submit", (e) => {
-    sendFormFetch(e, () => toggleShowElement(box));
-  });
+  form.addEventListener("submit", (e) => sendFormFetch(e));
 });
 
 //PETICIONES FECTH
