@@ -4,6 +4,9 @@
 body {
   background-color: var(--c_slate);
 }
+.container_main{
+  height: 100vh;
+}
 .header {
   display: flex;
   flex-direction: column;
@@ -398,6 +401,11 @@ body {
   align-items: center;
   gap: 6px;
 }
+.obsevation_actions{
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
 .observation__form__submit {
   color: var(--c_gray);
   background-color: transparent;
@@ -405,7 +413,7 @@ body {
   border: none;
 }
 .observation__form__submit:hover {
-  color: var(--c_red);
+  color: var(--cl-hover);
 }
 .observation__form__submit i {
   display: grid;
@@ -422,8 +430,17 @@ body {
 .observation__date {
   font-size: small;
 }
-.observation__descri {
+.observation__state{
+  display: inline-block;
   font-size: small;
+  color: var(--cl);
+  border: 1px solid var(--cl);
+  padding: 3px 5px;
+  border-radius: 4px;
+  margin-bottom: 2px;
+}
+.observation__descri {
+  font-size: smaller;
   color: var(--c_gray);
 }
 .newObs {

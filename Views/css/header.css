@@ -1,6 +1,6 @@
 .headerMainBox {
   width: 100%;
-  height: 85px;
+  min-height: 85px;
   background: var(--c_slate);
   display: flex;
 }
