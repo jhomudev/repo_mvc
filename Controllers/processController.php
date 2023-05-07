@@ -37,11 +37,11 @@ class ProcessController extends ProcessModel
       if ($author == $_SESSION['usuario_id'])  $isHere = true;
 
       // Comprobar que los autores no tengan tramites generados
-      $hasProcess = false;
+      // $hasProcess = false;
       $sql_verify = "SELECT t.estudiante_id FROM tramites t
-      INNER JOIN detalle_tramite dt ON t.tramite_id=dt.tramite_id WHERE t.estudiante_id=$author AND dt.estado_id<>7 OR dt.nota>" . GRADE_MIN . "";
+      INNER JOIN detalle_tramite dt ON t.tramite_id=dt.tramite_id WHERE t.estudiante_id=$author AND (dt.estado_id<>7 OR dt.nota>" . GRADE_MIN . ")";
       $chek_process = MainModel::executeQuerySimple($sql_verify);
-      if ($chek_process->rowCount() > 0) $hasProcess = true;
+      $hasProcess = $chek_process->rowCount() > 0;
     }
     if (!$isHere) {
       $alert = [
@@ -54,6 +54,7 @@ class ProcessController extends ProcessModel
       echo json_encode($alert);
       exit();
     }
+
     if ($hasProcess) {
       $alert = [
         "Alert" => "simple",
@@ -289,14 +290,15 @@ class ProcessController extends ProcessModel
       exit();
     }
 
-    $hasObs = ObservationModel::getObservationsModel($proyecto_id);
-    $hasObs = count($hasObs) > 0;
+    $Obs = ObservationModel::getObservationsModel($proyecto_id);
+    $Obs = MainModel::executeQuerySimple("SELECT * FROM observaciones WHERE proyecto_id='$proyecto_id' AND estado<>" . OB_STATE['Verificada'] . "")->fetchAll();
+    $hasObs = count($Obs) > 0;
 
     if ($hasObs) {
       $alert = [
         "Alert" => "simple",
         "title" => "Proyecto con observaciones",
-        "text" => "El proyecto tiene observaciones. Elimine sus observaciones si el alumno ya las solucionó para poder derivar el proyecto.",
+        "text" => "El proyecto tiene observaciones por corregir aún. Para pasarlas tiene que verificarlas antes.",
         "icon" => "error"
       ];
 

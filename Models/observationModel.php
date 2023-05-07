@@ -22,7 +22,7 @@ class ObservationModel extends MainModel
     $project_id = $data['project_id'];
     $descryption = $data['descryption'];
     $author_id = $data['author_id'];
-    $state = 0;
+    $state = 1;
     $date = $data['date'];
 
     // Inserción de registro en la tabla proyectos
@@ -43,6 +43,16 @@ class ObservationModel extends MainModel
   protected static function deleteObservationModel(int $observation_id): bool
   {
     $sql_project = MainModel::connect()->prepare("DELETE FROM observaciones WHERE observacion_id = :observation_id");
+    $sql_project->bindParam(":observation_id", $observation_id, PDO::PARAM_INT);
+
+    return $sql_project->execute();
+  }
+
+  //Funcion de eliminar observacion
+  protected static function changeStateObservationModel(int $observation_id, int $new_state): bool
+  {
+    $sql_project = MainModel::connect()->prepare("UPDATE observaciones SET estado=:new_state WHERE observacion_id = :observation_id");
+    $sql_project->bindParam(":new_state", $new_state, PDO::PARAM_INT);
     $sql_project->bindParam(":observation_id", $observation_id, PDO::PARAM_INT);
 
     return $sql_project->execute();

@@ -12,8 +12,8 @@ session_start();
 if (isset($_SESSION["token"])) {
   require_once "./../Controllers/ObservationController.php";
   $process = new ObservationController();
-
-  if (isset($_POST['observacion_id'])) echo $process->deleteObservationController();
+  if(isset($_POST['observacion_new_state'])) echo $process->changeStateObservationController();
+  else if (isset($_POST['observacion_id'])) echo $process->deleteObservationController();
   else echo $process->doObservationController();
 } else {
   session_unset();

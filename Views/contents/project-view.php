@@ -270,17 +270,45 @@ else if ($_SESSION['tipo'] == USER_TYPE['student']) {
                       <h3 class="observation__author"><?php echo $ob['nombres'] . ' ' . $ob['apellidos']; ?></h3>
                       <span class="observation__date"><?php echo date('d-m-Y H:i', strtotime($ob['fecha_gen'])); ?></span>
                     </div>
-                    <?php
-                    if ($_SESSION['usuario_id'] == $ob['autor_id']) {
-                    ?>
-                      <form action="<?php echo SERVER_URL; ?>/fetch/observationFetch.php" method="POST" class="observation__form formFetch">
-                        <input type="hidden" name="observacion_id" value="<?php echo $ob['observacion_id']; ?>">
-                        <button type="submit" title="Eliminar observación" class="observation__form__submit"><i class="ph ph-trash"></i></button>
-                      </form>
-                    <?php
-                    }
-                    ?>
+                    <div class="obsevation_actions">
+                      <?php
+                      if ($_SESSION['tipo'] == USER_TYPE['student'] && $ob['estado'] == OB_STATE['Por corregir']) {
+                      ?>
+                        <form action="<?php echo SERVER_URL; ?>/fetch/observationFetch.php" method="POST" class="observation__form formFetch">
+                          <input type="hidden" name="observacion_id" value="<?php echo $ob['observacion_id']; ?>">
+                          <input type="hidden" name="observacion_new_state" value="<?php echo OB_STATE['Corregida'] ?>">
+                          <button type="submit" title="Marcar como corregida" class="observation__form__submit" style="--cl-hover:var(--c_main)"><i class="ph ph-check-square-offset"></i></button>
+                        </form>
+                      <?php
+                      }
+                      ?>
+                      <?php
+                      if ($_SESSION['usuario_id'] == $ob['autor_id']) {
+                        if ($ob['estado'] !== OB_STATE['Verificada']) {
+                      ?>
+                          <form action="<?php echo SERVER_URL; ?>/fetch/observationFetch.php" method="POST" class="observation__form formFetch">
+                            <input type="hidden" name="observacion_id" value="<?php echo $ob['observacion_id']; ?>">
+                            <input type="hidden" name="observacion_new_state" value="<?php echo OB_STATE['Verificada'] ?>">
+                            <button type="submit" title="Marcar como verificada" class="observation__form__submit" style="--cl-hover:green"><i class="ph ph-check-square"></i></button>
+                          </form>
+                        <?php
+                        }
+                        ?>
+                        <form action="<?php echo SERVER_URL; ?>/fetch/observationFetch.php" method="POST" class="observation__form formFetch">
+                          <input type="hidden" name="observacion_id" value="<?php echo $ob['observacion_id']; ?>">
+                          <button type="submit" title="Eliminar observación" class="observation__form__submit" style="--cl-hover:red"><i class="ph ph-trash"></i></button>
+                        </form>
+                      <?php
+                      }
+                      ?>
+                    </div>
                   </div>
+                  <?php
+                  if ($ob['estado'] == OB_STATE['Por corregir']) $color = "red";
+                  if ($ob['estado'] == OB_STATE['Corregida']) $color = "var(--c_main)";
+                  if ($ob['estado'] == OB_STATE['Verificada']) $color = "green";
+                  ?>
+                  <span class="observation__state" style="--cl:<?php echo $color; ?>"><?php echo array_search($ob['estado'], OB_STATE); ?></span>
                   <p class="observation__descri"><?php echo $ob['descripcion']; ?></p>
                 </article>
             <?php

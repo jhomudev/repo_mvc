@@ -92,4 +92,46 @@ class ObservationController extends ObservationModel
       echo json_encode($alert);
     }
   }
+
+  // Funcion controlador para cambiar esdtado de la observación
+  public function changeStateObservationController()
+  {
+    $observation_id = intval(MainModel::clearString($_POST["observacion_id"]));
+    $new_state = intval(MainModel::clearString($_POST["observacion_new_state"]));
+
+    if (empty($observation_id)) {
+      $alert = [
+        "Alert" => "simple",
+        "title" => "Observación indefinida",
+        "text" => "El id de la observación no esta definida",
+        "icon" => "error"
+      ];
+
+      echo json_encode($alert);
+      exit();
+    }
+
+    $stm = ObservationModel::changeStateObservationModel($observation_id, $new_state);
+
+    if ($stm) {
+      $word = ($new_state == OB_STATE['Corregida']) ? 'corregida' : ((($new_state == OB_STATE['Verificada'])) ? 'verificada' : '');
+      $alert = [
+        "Alert" => "alert&reload",
+        "title" => "Observación " . $word,
+        "text" => "La observación cambió de estado",
+        "icon" => "success"
+      ];
+
+      echo json_encode($alert);
+    } else {
+      $alert = [
+        "Alert" => "simple",
+        "title" => "Opps...Al parece ocurrió un error",
+        "text" => "La observación no cambió de estado.",
+        "icon" => "error"
+      ];
+
+      echo json_encode($alert);
+    }
+  }
 }

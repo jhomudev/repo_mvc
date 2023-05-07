@@ -12,6 +12,12 @@
     "CREATIVIDAD"=>3,
   ];
 
+  const OB_STATE=[
+    "Por corregir"=>1,
+    "Corregida"=>2,
+    "Verificada"=>3,
+  ];
+
   const GRADE_MIN=13;
 
   
