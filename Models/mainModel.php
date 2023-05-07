@@ -124,14 +124,23 @@ class MainModel
       $body .= "--boundary\r\n";
       $body .= $attachment . "\r\n\r\n";
       $body .= "--boundary--";
-    } else $body = $message;
 
-    $headers = "From: " . HOST_EMAIL . ".com\r\n";
-    $headers .= "Reply-To: " . HOST_EMAIL . ".com\r\n";
-    $headers .= "Content-type: multipart/mixed; boundary=\"boundary\"\r\n";
+      $headers = "From: " . HOST_EMAIL . ".com\r\n";
+      $headers .= "Reply-To: " . HOST_EMAIL . ".com\r\n";
+      $headers .= "Content-type: multipart/mixed; boundary=\"boundary\"\r\n";
+      // Agregar fecha de envío
+      $headers .= "Date: " . date("r") . "\r\n";
+    } else {
+      // $body = $message;
+      $body = $message . "\r\n\r\n";
 
-    // Agregar fecha de envío
-    $headers .= "Date: " . date("r") . "\r\n";
+      $headers = "From: " . HOST_EMAIL . ".com\r\n";
+      $headers .= "Reply-To: " . HOST_EMAIL . ".com\r\n";
+      $headers .= "Content-Type: text/html; charset=utf-8\r\n";
+
+      // Agregar fecha de envío
+      $headers .= "Date: " . date("r") . "\r\n";
+    }
 
     // Enviar correo electrónico usando la función mail() y retonar booleano
     return mail($to, $subject, $body, $headers);

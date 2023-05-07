@@ -415,18 +415,22 @@ class ProcessController extends ProcessModel
       "jurados" => $jurados,
       "fecha_sustentacion" => $fecha_sustentacion,
     ];
+    
+    // Comversión de fecha a texto
+    $fecha_sustentacion = date("d \d\\e M \d\\e Y", strtotime($fecha_sustentacion));
 
     $stm_schedule = ProcessModel::scheduleProjectPresentationModel($data);
 
     // Envio de correo a estudiantes autores
+    $title_project = MainModel::executeQuerySimple("SELECT titulo FROM proyectos WHERE proyecto_id='$project_id'")->fetchColumn();
     foreach ($authors_mails as $key => $author_mail) {
-      $message = "Buenos días. Su proyecto fue agendado para sustentación en la siguiente fecha: \n $fecha_sustentacion\n Por favor, llegar a la hora indicada o minutos antes.";
+      $message = "Buenos días. Su proyecto '$title_project' fue agendado para sustentación en la siguiente fecha: \r\n $fecha_sustentacion.\r\n Por favor, llegar a la hora indicada o minutos antes.";
       $stm_mail_student = MainModel::sendMail($author_mail['correo'], "PROYECTO AGENDADO PARA SUSTENTACIÓN", $message);
     }
     // Envio de correo a jurados
     foreach ($juries_mails as $key => $jury_mail) {
-      $message = "Buenos días. A sido elegido como jurado para la sustentación de un proyecto. La fecha de la sustentación es la siguiente:\n  $fecha_sustentacion\n Por favor, llegar a la hora indicada o minutos antes. En caso de no presentarse, recibirá una sanción.";
-      $stm_mail_jury = MainModel::sendMail($jury_mail, "DELEGACIÓN COMO JURADO", $message, $file);
+      $message = "Buenos días. A sido elegido como jurado para la sustentación de un proyecto. La fecha de la sustentación es la siguiente:\r\n $fecha_sustentacion.\r\n Por favor, llegar a la hora indicada o minutos antes. En caso de no presentarse, recibirá una sanción.";
+      $stm_mail_jury = MainModel::sendMail($jury_mail, "DELEGACIÓN COMO JURADO DE SUTENTACIÓN", $message, $file);
     }
 
     if ($stm_schedule && $stm_mail_jury && $stm_mail_student) {

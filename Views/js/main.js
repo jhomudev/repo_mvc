@@ -58,7 +58,7 @@ function alertFetch(alert = {}) {
       text: alert.text,
       confirmButtonText: "Aceptar",
     });
-  }  else if (alert.Alert === "reload") {
+  } else if (alert.Alert === "reload") {
     window.location.reload();
   } else if (alert.Alert === "alert&reload") {
     Swal.fire({
@@ -98,7 +98,7 @@ function sendFormFetch(e) {
       if (result.isConfirmed) {
         const req = await fetch(action, config);
         const res = await req.json();
-        console.log(res)
+        console.log(res);
         alertFetch(res);
       }
     } catch (error) {
