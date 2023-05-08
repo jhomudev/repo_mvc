@@ -195,6 +195,7 @@
   }
   .careers{
     position: relative;
+    display: none;
   }
   .projectsBox {
     display: flex;

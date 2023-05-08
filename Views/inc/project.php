@@ -20,8 +20,14 @@ $authors = $data['authors'];
             <th class="table__th">Autores: </th>
             <td>
               <?php
-              foreach ($authors as $key => $author) {
+              $tot_authors = count($authors);
+              $i = 0;
+
+              foreach ($authors as $author) {
                 echo $author['nombres'] . ' ' . $author['apellidos'];
+                if (++$i !== $tot_authors) {
+                  echo ', ';
+                }
               }
               ?>
             </td>

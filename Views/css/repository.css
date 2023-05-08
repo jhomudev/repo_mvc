@@ -242,13 +242,13 @@
   flex: 1;
   font-size: small;
 }
-/* .project__description p{
+.project__description p{
   display: -webkit-box;
   -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;
-  -webkit-line-clamp: 3;
-} */
+  -webkit-line-clamp: 10;
+}
 
 @media screen and (max-width: 890px) {
   .filter {

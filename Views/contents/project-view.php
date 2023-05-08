@@ -283,7 +283,7 @@ else if ($_SESSION['tipo'] == USER_TYPE['student']) {
                       }
                       ?>
                       <?php
-                      if ($_SESSION['usuario_id'] == $ob['autor_id']) {
+                      if ($_SESSION['usuario_id'] == $ob['autor_id'] && $project['estado_id'] < 3) {
                         if ($ob['estado'] !== OB_STATE['Verificada']) {
                       ?>
                           <form action="<?php echo SERVER_URL; ?>/fetch/observationFetch.php" method="POST" class="observation__form formFetch">

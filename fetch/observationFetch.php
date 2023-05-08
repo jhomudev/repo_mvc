@@ -1,7 +1,5 @@
 <?php
 
-use function PHPSTORM_META\type;
-
 $requestFetch = true;
 
 require_once "../config/APP.php";
