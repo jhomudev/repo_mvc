@@ -104,8 +104,7 @@ else if ($_SESSION['tipo'] == USER_TYPE['student']) {
           } else if ($project['estado_id'] >= 4 && $project['estado_id'] !== 7) {
             $f_actual = new DateTime();
             $fecha_sustentacion =  new DateTime($project['fecha_sustentacion']);
-            $diff_dates = $f_actual->diff($fecha_sustentacion)->days;
-            if ($diff_dates <= 0) {
+            if ($f_actual > $fecha_sustentacion) {
           ?>
               <table class="da__table">
                 <tbody>

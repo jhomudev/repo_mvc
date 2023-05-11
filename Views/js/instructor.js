@@ -19,8 +19,8 @@ async function getProjects(filter = "") {
     const res = await req.json();
     const boxProject = document.getElementById("projectsBox");
     if (res.length > 0) {
+      boxProject.innerHTML = "";
       res.forEach((project) => {
-        boxProject.innerHTML = '';
         boxProject.innerHTML += `
         <article class="project" style="--cl:${project.color}">
           <a href="${serverURL}/project?id=${project.proyecto_id}" class="project__link"></a>
