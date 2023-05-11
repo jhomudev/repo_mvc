@@ -12,11 +12,11 @@ class ProjectController extends ProjectModel
   public function getProjectsController()
   {
     $params = [
-      "user_type" => (isset($_SESSION['tipo']) ? $_SESSION['tipo'] : ''),
-      "user_id" => (isset($_SESSION['usuario_id']) ? $_SESSION['usuario_id'] : ''),
-      "user_sede" => (isset($_SESSION['sede_id']) ? $_SESSION['sede_id'] : ''),
-      "filter_state" => (isset($_POST['filter']) ? $_POST['filter'] : ''),
-      "words" => (isset($_POST['words']) ? $_POST['words'] : ''),
+      "user_type" => isset($_SESSION['tipo']) ? $_SESSION['tipo'] : '',
+      "user_id" => isset($_SESSION['usuario_id']) ? $_SESSION['usuario_id'] : '',
+      "user_sede" => isset($_SESSION['sede_id']) ? $_SESSION['sede_id'] : '',
+      "filter_state" => isset($_POST['filter']) ? $_POST['filter'] : '',
+      "words" => isset($_POST['words']) ? $_POST['words'] : '',
     ];
 
     $projects = ProjectModel::getProjectsModel($params);
