@@ -2,9 +2,11 @@
 const filters = document.querySelectorAll(".filter__item");
 
 filters.forEach((filter) => {
-  filter.addEventListener("click", () => {
+  filter.addEventListener("click", async () => {
     const fil = filter.dataset.state;
-    getProjects(fil);
+    await getProjects(fil);
+    await filters.forEach((item) => item.classList.remove("selected"));
+    await filter.classList.add("selected");
   });
 });
 

@@ -27,7 +27,7 @@
       <div class="container__projects">
         <nav class="filter">
           <ul>
-            <li><button class="filter__item" data-state="">Todos</button></li>
+            <li><button class="filter__item selected" data-state="">Todos</button></li>
             <li><button class="filter__item" data-state="1">Enviados</button></li>
             <li><button class="filter__item" data-state="2">Asignados</button></li>
             <li><button class="filter__item" data-state="obs">Observados</button></li>
