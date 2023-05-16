@@ -15,6 +15,7 @@ body {
   background-color: #fff;
 }
 .header__btnBack {
+  width: 30px;
   font-size: x-large;
   color: var(--c_slate);
   font-weight: 600;
