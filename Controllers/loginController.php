@@ -44,9 +44,9 @@ class LoginController extends LoginModel
       session_name(NAMESESSION);
       session_start();
       $_SESSION = $data_user;
-      if ($_SESSION['tipo'] == 1) header("Location: " . SERVER_URL . "/admin");
-      if ($_SESSION['tipo'] == 2) header("Location: " . SERVER_URL . "/instructor");
-      if ($_SESSION['tipo'] == 3) header("Location: " . SERVER_URL . "/student");
+      if ($_SESSION['tipo'] == USER_TYPE['admin']) header("Location: " . SERVER_URL . "/admin");
+      if ($_SESSION['tipo'] == USER_TYPE['instructor']) header("Location: " . SERVER_URL . "/instructor");
+      if ($_SESSION['tipo'] == USER_TYPE['student']) header("Location: " . SERVER_URL . "/student");
     } else {
       echo '
       <script>
