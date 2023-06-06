@@ -31,17 +31,18 @@ class ProcessController extends ProcessModel
     }
 
     $arrayAuthors = explode(",", $authors);
-    $isHere = false;
+    $isHere = 0;/* acumulador , si mayor a 0; está*/
+    $hasProcessAuthors = []; /* arrau de autores q ya tienen tramites */
     foreach ($arrayAuthors as $author) {
       // Comprobar que el usuario generador se haya puesto como autor
-      if ($author == $_SESSION['usuario_id'])  $isHere = true;
+      if ($author == $_SESSION['usuario_id'])  $isHere++;
 
       // Comprobar que los autores no tengan tramites generados
-      // $hasProcess = false;
       $sql_verify = "SELECT t.estudiante_id FROM tramites t
       INNER JOIN detalle_tramite dt ON t.tramite_id=dt.tramite_id WHERE t.estudiante_id=$author AND (dt.estado_id<>7 OR dt.nota>" . GRADE_MIN . ")";
       $chek_process = MainModel::executeQuerySimple($sql_verify);
-      $hasProcess = $chek_process->rowCount() > 0;
+      $author = $chek_process->fetchColumn();
+      if ($author) array_push($hasProcessAuthors, $author);
     }
     if (!$isHere) {
       $alert = [
@@ -55,7 +56,7 @@ class ProcessController extends ProcessModel
       exit();
     }
 
-    if ($hasProcess) {
+    if (count($hasProcessAuthors) > 0) {
       $alert = [
         "Alert" => "simple",
         "title" => "Oops...",
@@ -415,7 +416,7 @@ class ProcessController extends ProcessModel
       "jurados" => $jurados,
       "fecha_sustentacion" => $fecha_sustentacion,
     ];
-    
+
     // Comversión de fecha a texto
     $fecha_sustentacion = date("d \d\\e M \d\\e Y", strtotime($fecha_sustentacion));
 
