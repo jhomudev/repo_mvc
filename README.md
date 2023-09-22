@@ -1,41 +1,46 @@
-# README - Sistema de Ventas con Inventario Web
+# Repositorio Académico Institucional Web y sistema de gestion de proyectos
 
-Este proyecto es un Sistema de Ventas con Inventario Web diseñado para gestionar eficientemente las ventas y el inventario de una empresa. Utiliza una combinación de tecnologías, incluyendo PHP, MySQL y JavaScript, para ofrecer una solución completa y versátil.
+## Descripción del Proyecto
+
+Este proyecto es un Repositorio Académico Institucional Web diseñado, ademas presenta un sistema de gestión de dichos proyectos, donde los usurios interactuan desde la presentación de los proyectos hasta la publicación de estos en el repositorio acdémico. Utiliza una variedad de tecnologías, incluyendo PHP, JavaScript, HTML, CSS y MySQL para ofrecer una solución full-stack.
 
 ## Características Principales
 
-- **Tecnologías Utilizadas**: PHP, MySQL, JavaScript, HTML, CSS, MySql.
-- **Gestión de Ventas**: Registra y gestiona las ventas de la empresa de manera efectiva.
-- **Control de Inventario**: Lleva un registro detallado de los productos en stock y su disponibilidad.
-- **Interfaz Intuitiva**: Ofrece una interfaz de usuario amigable y fácil de usar.
-- **Reportes Personalizados**: Genera informes y estadísticas para tomar decisiones informadas.
-- **Seguridad**: Implementa medidas de seguridad para proteger los datos de la empresa.
+- **Tecnologías Utilizadas**: PHP, JavaScript, HTML, CSS, MySQL.
+- **Funcionalidades**: Gestión de proyectos académicos, base de datos para almacenamiento, interfaz de usuario amigable.
 
 ## Instalación
 
-1. Clona el repositorio a tu servidor web local o de producción.
+1. Clona el repositorio a tu máquina local.
    ```
-   git clone https://github.com/jhonancaleb/repo_mvc
+   git clone https://github.com/tu-usuario/tu-repositorio.git
    ```
 
 2. Configura la base de datos MySQL.
-   - Crea una base de datos para el sistema.
-   - Importa el archivo de base de datos proporcionado en la carpeta "database".
-
-3. Configura la conexión a la base de datos en el archivo `repo_db.php`.
-
-4. Abre el sistema en tu navegador y comienza a gestionar las ventas e inventario de tu empresa.
+   - Crea una base de datos.
+   - Importa el archivo `database.sql` en la base de datos.
+   
+3. Abre el proyecto en tu servidor local.
 
 ## Contribución
 
-¡Agradecemos las contribuciones! Si deseas contribuir a este proyecto, por favor sigue estos pasos:
+¡Estamos abiertos a contribuciones! Si deseas contribuir a este proyecto, por favor sigue estos pasos:
 
 1. Haz un fork del repositorio.
 2. Crea una rama para tu contribución.
-3. Realiza tus cambios y asegúrate de seguir las pautas de contribución.
+3. Realiza tus cambios y asegúrate de que todo funciona correctamente.
 4. Envía un pull request.
+
+## Contacto
+
+Si tienes preguntas o sugerencias, no dudes en ponerte en contacto con nosotros en [insertar/correo/electrónico].
 
 ## Atribuciones
 
-Este proyecto se basa en tecnologías y conceptos aprendidos en la carrera de Ingeniería de Software en SENATI.
+Este proyecto se basa en tecnologías y conceptos aprendidos en el curso de [nombre del curso] en [nombre de la institución]. 
+
+## Fuentes
+1. [GitHub - Ejemplo PHP](https://github.com/taw-desarrollo-plataformas-web/ejemplo-php-002/blob/main/README.md)
+2. [Cómo crear un buen README.md y sintaxis de markdown](https://platzi.com/clases/1650-prework-2019/21969-como-crear-un-buen-readmemd-y-sintaxis-de-markdown/)
+3. [Proyecto de HTML, CSS, Bootstrap, PHP y MySQL para página web con e-commerce](https://github.com/juliandalfonso/PaginaWebCarolinaAlfonso)
 
