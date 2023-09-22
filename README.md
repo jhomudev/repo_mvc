@@ -13,7 +13,7 @@ Este proyecto es un Repositorio Académico Institucional Web diseñado, ademas p
 
 1. Clona el repositorio a tu máquina local.
    ```
-   git clone https://github.com/jhonancaleb/repo_mvc
+   git clone https://github.com/jhonancaleb/repo_mvc.git
    ```
 
 2. Configura la base de datos MySQL.
